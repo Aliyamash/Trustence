@@ -2,26 +2,97 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-}
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
 }
+
+@font-face {
+  font-family: "Aboreto";
+  src: url("../../public/fonts/Aboreto-Regular.ttf");
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "Istok";
+  src: url("../../public/fonts/IstokWeb-Regular.ttf"),
+    url("../../public/fonts/IstokWeb-Bold.ttf");
+  font-style: normal;
+  font-weight: normal;
+}
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: "Istok", Arial, Helvetica, sans-serif;
+  background-color: #245336;
+}
+
+.container {
+  max-width: 90%;
+  margin: 0 auto;
+}
+@media (width >= 40rem) {
+  .container {
+    max-width: 92%;
+  }
+}
+@media (width >= 48rem) {
+  .container {
+    max-width: 95%;
+  }
+}
+
+@media (width >= 80rem) {
+  .container {
+    max-width: 1200px;
+  }
+}
+@media (width >= 1536px) {
+  .container {
+    max-width: 1400px;
+  }
+}
+.bg-btn {
+  background: rgba(136, 136, 136, 0.19);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(11px);
+  -webkit-backdrop-filter: blur(11px);
+}
+.bg-btn:hover {
+  background: rgba(255, 248, 238, 0.55);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(6.9px);
+  -webkit-backdrop-filter: blur(6.9px);
+  color: gray;
+}
+
+
+.title {
+  display: block;
+  font-family: "Aboreto", Arial, Helvetica, sans-serif;
+}
+.lightColor{
+  color: #fff8ee;
+}
+.icon-title-size{
+  stroke-width: 1.75px;
+  color: #658672;
+  width: 40px;
+  height: 40px;
+}
+.icon-btn-size{
+  stroke-width: 1.5px;
+  width: 25px;
+  height: 25px;
+}
+.service-container:hover .btn-service{
+  padding-right: 10px;
+}
+
