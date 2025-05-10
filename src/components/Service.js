@@ -8,7 +8,7 @@ import Link from "next/link";
 
 export default function Service() {
   return (
-    <div className="bg-[#D3DCD6]">
+    <div className="bg-[#D3DCD6]" id="service">
       <div className="container py-20 md:pt-40 md:pb-25">
         <div>
           <h1 className="title text-4xl mb-20 md:mb-32 text-black md:text-center">
@@ -19,7 +19,7 @@ export default function Service() {
         <div className="grid  grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 md:gap-12 justify-center gap-8">
           <div className="my-4 h-fit">
             <Handshake className="icon-title-size mb-4" />
-            <h1 className="title text-2xl text-black">
+            <h1 className="title text-2xl font-black text-black">
               Cutting-Edge Technology with Unmatched Reliability. Your Success,
               Our Priority
             </h1>
@@ -31,7 +31,7 @@ export default function Service() {
             <div className="flex transition duration-500 service-container bg-btn w-fit px-2 py-3 rounded-xl items-center my-8">
               <Link
                 className="btn-service pr-1 ml-2 text-lg transition-all duration-500 "
-                href={"#"}
+                href={"/service"}
               >
                 Explore
               </Link>
@@ -41,7 +41,7 @@ export default function Service() {
 
           <div className="my-4">
             <ChartNoAxesCombined className="icon-title-size mb-4" />
-            <h1 className="title text-2xl text-black">
+            <h1 className="title text-2xl font-bold text-black">
               Our expert web design services are crafted to enhance user
               experience and drive measurable results.
             </h1>
@@ -53,7 +53,7 @@ export default function Service() {
             <div className="flex transition duration-500 service-container bg-btn w-fit px-2 py-3 rounded-xl items-center my-8">
               <Link
                 className="btn-service pr-1 ml-2 text-lg transition-all duration-500 "
-                href={"#"}
+                href={"/service"}
               >
                 Discover
               </Link>
@@ -80,7 +80,7 @@ export default function Service() {
             <div className="flex transition duration-500 delay-0 service-container bg-btn w-fit px-2 py-3 rounded-xl items-center my-8">
               <Link
                 className="btn-service pr-1 ml-2 text-lg transition-all duration-500 "
-                href={"#"}
+                href={"/service"}
               >
                 Learn
               </Link>

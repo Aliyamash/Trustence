@@ -8,9 +8,10 @@ const NavLinks = () => {
     <>
  
           <Link href="/">Home</Link>
-          <Link  href="/about">About Us</Link>
-          <Link  href="/service">Service</Link>
+          <Link  href="#about">About Us</Link>
+          <Link  href="#service">Service</Link>
           <Link  href="/contact">Contact Us</Link>
+          <Link  href="#service">FAQs</Link>
           <BtnDiscover />
     </>
   );
@@ -24,11 +25,11 @@ const Nav = () => {
   return (
     <>
       <nav className=" flex justify-end">
-        <div className="animLinks hidden text-white w-full md:flex justify-between items-center gap-16">
+        <div className="animLinks hidden text-zinc-200  text-shadow w-full md:flex justify-between items-center md:gap-10 lg:gap-16">
           <NavLinks />
         </div>
         <div className="md:hidden">
-          <button onClick={toggleNavbar}>{isOpen ? <X /> : <Menu />}</button>
+          <button onClick={toggleNavbar}>{isOpen ? <X className="text-[#658672]" /> : <Menu className="text-[#658672]" />}</button>
         </div>
       </nav>
       {isOpen && (

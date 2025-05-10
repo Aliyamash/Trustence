@@ -1,9 +1,11 @@
 import { ChevronRight } from "lucide-react";
+import aboutImg from "@/public/images/trustencpic.jpg"
 import Link from "next/link";
+import Image from "next/image";
 
 export default function AboutUs() {
   return (
-    <div className="bg-[#658672] block">
+    <div className="bg-[#658672] block"  id="about">
       <div className="container py-12 flex flex-col md:flex-row gap-12 items-center justify-center">
         <div className="text-white md:w-2/3">
           <p className="font-semibold mb-4">Design</p>
@@ -38,7 +40,7 @@ export default function AboutUs() {
           <div className="flex items-center">
             <Link
               className="transition-all duration-500 mr-4 px-6 py-4 bg-btn rounded-xl"
-              href={"#"}
+              href={"/aboutus"}
             >
               Learn
             </Link>
@@ -54,8 +56,8 @@ export default function AboutUs() {
           </div>
         </div>
         <div className="w-full h-full">
-          <img
-            src="/images/trustencpic.jpg"
+          <Image
+            src={aboutImg}
             className="w-full h-full aspect-[5/4] rounded-xl shadow-xl"
             alt="service picture"
           />

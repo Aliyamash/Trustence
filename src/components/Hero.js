@@ -1,10 +1,11 @@
 import Link from "next/link";
-
+import heroImg from "@/public/images/trustencepic2.jpg"
+import Image from "next/image";
 export default function Hero() {
   return (
     <>
-      <div className="bg-[#245336] h-auto">
-        <div className="container pb-24">
+      <div className="gradiant-bg py-24 h-auto">
+        <div className="container">
           {/* hero title (nich) */}
           <div className="md:w-4/5">
            
@@ -33,7 +34,7 @@ export default function Hero() {
             </Link>
           </div>
             <div className="rounded-xl overflow-hidden aspect-[16/9]">
-              <img src={'/images/trustencepic2.jpg'} className="w-full h-full shadow object-cover rounded-xl" alt="customers picture" />
+              <Image src={heroImg} className="w-full h-full shadow object-cover rounded-xl" alt="customers picture" />
             </div>
         </div>
       </div>
