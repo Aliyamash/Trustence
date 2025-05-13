@@ -7,7 +7,7 @@ import { useState } from "react";
 
 export default function QuestionFaq() {
   const [item, setItem] = useState(faqs);
-  const [activeCategory ,  setActiveCategory] = useState("Services")
+  const [activeCategory ,  setActiveCategory] = useState("")
   const filterItems = (category) => {
     const newItems = faqs.filter((newval) => newval.category === category);
     setItem(newItems);
