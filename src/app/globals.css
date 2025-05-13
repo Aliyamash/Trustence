@@ -105,11 +105,8 @@ body {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#005C2E", endColorstr="#080D08", GradientType=0);
 }
 .bg-gradiant-discover {
-  background: #ffffff;
-  background: -webkit-linear-gradient(334deg, rgba(255, 255, 255, 1) 0%, rgba(36, 83, 54, 1) 79%);
-  background: -moz-linear-gradient(334deg, rgba(255, 255, 255, 1) 0%, rgba(36, 83, 54, 1) 79%);
-  background: linear-gradient(334deg, rgba(255, 255, 255, 1) 0%, rgba(36, 83, 54, 1) 79%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#FFFFFF", endColorstr="#245336", GradientType=0);
+background: #132e1a;
+background: radial-gradient(circle, rgba(19, 46, 26, 1) 0%, rgba(10, 10, 10, 1) 69%);
 }
 .title {
   display: block;
@@ -134,7 +131,7 @@ body {
   width: 22px;
   height: 22px;
 }
-.icon-check-size{
+.icon-check-size {
   stroke-width: 2.5px;
   width: 32.5px;
   height: 32.5px;
@@ -302,4 +299,25 @@ body {
   background-image: url("../public/images/whyus.jpg");
   width: 100%;
   background-size: cover;
+}
+.bg-fqa {
+background: #132e1a;
+background: radial-gradient(circle, rgba(19, 46, 26, 1) 0%, rgba(10, 10, 10, 1) 69%);
+}
+.shadow-text{
+  text-shadow: #ddddddad 1px 0.5px 4px;
+}
+.shadow-faq{
+  box-shadow: 0px 10px 50px -3px rgba(255,255,255,0.4);
+}
+.faq-answer {
+  overflow: hidden;
+  height: 0;
+  opacity: 0;
+  transition: height 0.5s ease, opacity 0.5s ease; 
+}
+
+.faq-answer.open {
+  height: auto; 
+  opacity: 1;
 }

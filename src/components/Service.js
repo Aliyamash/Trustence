@@ -16,7 +16,7 @@ export default function Service() {
           </h1>
         </div>
 
-        <div className="grid  grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 md:gap-12 justify-center gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 md:gap-12 justify-center gap-8">
           <div className="my-4 h-fit">
             <Handshake className="icon-title-size mb-4" />
             <h1 className="title text-2xl font-black text-black">

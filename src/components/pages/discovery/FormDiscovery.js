@@ -1,13 +1,13 @@
 export default function FormDiscovery() {
     return (
-      <div className="relative max-w-5xl mx-auto pb-44 space-y-16">
+      <div className="relative container pb-44 space-y-16" id="formDiscover">
   
        
         <div className="absolute inset-0 -z-10 bg-gradient-to-b from-[#fff8ee] via-white to-[#fff8ee] opacity-60"></div>
   
    
         <section className="space-y-8">
-          <h2 className="text-4xl font-bold text-center text-[#1C422B]">Discovery Session Steps</h2>
+          <h2 className="text-4xl font-bold text-center text-green-500">Discovery Session Steps</h2>
           <div className="grid md:grid-cols-3 gap-6">
   
             <div className="rounded-2xl shadow-md p-6 hover:scale-105 transition-transform border border-[#1C422B] bg-white space-y-2">
@@ -41,7 +41,7 @@ export default function FormDiscovery() {
   
        
         <section className="space-y-6">
-          <h2 className="text-4xl font-bold text-center text-[#1C422B]">Book Your Free Discovery Session</h2>
+          <h2 className="text-4xl font-bold text-center text-green-500">Book Your Free Discovery Session</h2>
           <form className="space-y-4 max-w-xl mx-auto bg-[#fff8ee] p-8 rounded-2xl shadow-md">
             <input type="text" placeholder="Your Full Name" required className="w-full p-3 rounded-md border border-gray-300" />
             <input type="email" placeholder="Email Address" required className="w-full p-3 rounded-md border border-gray-300" />

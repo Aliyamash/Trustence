@@ -16,11 +16,11 @@ export default function CoreService() {
 
   return (
     <>
-      <div className="bg-[#060e09] -mt-1 py-44">
+      <div className="bg-[#060e09] -mt-1 py-44" id="proservice">
         <div className="container">
           <div>
             <div>
-              <h1 className="text-white relative font-bold text-4xl md:text-6xl text-center tracking-widest">
+              <h1 className="text-white relative font-bold text-4xl md:text-6xl text-center tracking-widest" >
                 Service Position
                 <span className="absolute text-black font-extrabold shadow-green-950 shadow-xl text-sm -top-9 right-0 sm:right-12 md:right-16 lg:right-1/4 lg:-top-9 rotate-12 border-red py-2 px-4 rounded-xl bg-green-400">Essential</span>
               </h1>

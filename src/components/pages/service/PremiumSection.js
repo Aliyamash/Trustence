@@ -39,7 +39,7 @@ export default function PremiumService() {
                 </div>
 
                 <Link
-                  href={"/discovery"}
+                  href={"#formDiscovery"}
                   className="w-full transition duration-700 btn-premium block font-bold tracking-wider shadow-2xl shadow-black hover:shadow-zinc-400 hover:text-white text-white  bg-[#888] rounded-2xl py-4 px-5 mx-auto text-center"
                 >
                   Get CoreService
@@ -70,7 +70,7 @@ export default function PremiumService() {
                 </div>
 
                 <Link
-                  href={"/discovery"}
+                  href={"#formDiscovery"}
                   className="w-full transition duration-700 btn-premium block font-bold tracking-wider  bg-[#245336] text-white rounded-2xl shadow-2xl shadow-black py-4 px-5 mx-auto text-center"
                 >
                   Get Premium

@@ -22,7 +22,7 @@ export default function DiscoveryForm() {
   };
 
   return (
-    <section className="bg-[#fff8ee]  p-12 rounded-2xl shadow-lg max-w-3xl mx-auto my-12">
+    <section className="bg-[#fff8ee]  p-12 rounded-2xl shadow-lg max-w-3xl mx-auto my-12" id="formDiscovery">
       <h2 className="text-3xl font-bold text-[#1C422B] mb-2">Request a Discovery Session</h2>
       <p className="text-zinc-600 mb-6">Get a free consultation and a tailored plan for your business 🚀</p>
       
@@ -77,9 +77,8 @@ export default function DiscoveryForm() {
             required
           >
             <option value="">Choose...</option>
-            <option value="Website Design">Website Design</option>
-            <option value="SEO Optimization">SEO Optimization</option>
-            <option value="Brand Strategy">Brand Strategy</option>
+            <option value="Normal Website Design">Normal Website Design</option>
+            <option value="Professional Website Design">Professional Website Design</option>
             <option value="Other">Other</option>
           </select>
         </div>

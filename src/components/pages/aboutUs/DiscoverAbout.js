@@ -24,7 +24,7 @@ export default function DiscoverAbout() {
                 <div className="transition-all absolute duration-700  top-1.5/3 right-4  z-0 dot bg-[#205033] h-1.5 w-1.5 rounded-full"></div>
                 <Link
                   className="z-10 text-lg transition-all duration-700"
-                  href={"/discover"}
+                  href={"/service"}
                 >
                   Learn
                 </Link>
@@ -35,7 +35,7 @@ export default function DiscoverAbout() {
                
                 <Link
                   className="z-10 text-lg transition-all duration-700"
-                  href={"/discover"}
+                  href={"/discovery"}
                 >
                   Discover
                 </Link>

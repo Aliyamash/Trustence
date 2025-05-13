@@ -31,8 +31,7 @@ export default function AboutUs() {
             <div className="my-4">
               <h1 className="title lightColor mb-2">From Sketch to Launch</h1>
               <p>
-                Trust isn’t just a word. it’s the foundation we code into every
-                project
+                With you every step of the way, from concept to final implementation.
               </p>
             </div>
           </div>

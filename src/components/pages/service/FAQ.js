@@ -17,7 +17,7 @@ export default function FAQ() {
               <div className="transition-all absolute duration-700  bottom-3 right-4  z-0 dot2 bg-[#205033] h-1.5 lg:h-3 w-1.5 lg:w-3 rounded-full"></div>
               <Link
                 className="z-10 text-xl transition-all duration-700"
-                href={"/discover"}
+                href={"/faqs"}
               >
                 Your Answer
               </Link>

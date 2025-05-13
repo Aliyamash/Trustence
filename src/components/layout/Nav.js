@@ -8,10 +8,10 @@ const NavLinks = () => {
     <>
  
           <Link href="/">Home</Link>
-          <Link  href="#about">About Us</Link>
-          <Link  href="#service">Service</Link>
+          <Link  href="/aboutus">About Us</Link>
+          <Link  href="/service">Service</Link>
           <Link  href="/contact">Contact Us</Link>
-          <Link  href="#service">FAQs</Link>
+          <Link  href="/faqs">Help</Link>
           <BtnDiscover />
     </>
   );
