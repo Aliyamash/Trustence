@@ -105,8 +105,12 @@ body {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#005C2E", endColorstr="#080D08", GradientType=0);
 }
 .bg-gradiant-discover {
-background: #132e1a;
-background: radial-gradient(circle, rgba(19, 46, 26, 1) 0%, rgba(10, 10, 10, 1) 69%);
+  background: #132e1a;
+  background: radial-gradient(
+    circle,
+    rgba(19, 46, 26, 1) 0%,
+    rgba(10, 10, 10, 1) 69%
+  );
 }
 .title {
   display: block;
@@ -301,27 +305,45 @@ background: radial-gradient(circle, rgba(19, 46, 26, 1) 0%, rgba(10, 10, 10, 1) 
   background-size: cover;
 }
 .bg-fqa {
-background: #132e1a;
-background: radial-gradient(circle, rgba(19, 46, 26, 1) 0%, rgba(10, 10, 10, 1) 69%);
+  background: #132e1a;
+  background: radial-gradient(
+    circle,
+    rgba(19, 46, 26, 1) 0%,
+    rgba(10, 10, 10, 1) 69%
+  );
 }
-.shadow-text{
+.shadow-text {
   text-shadow: #ddddddad 1px 0.5px 4px;
 }
-.shadow-faq{
-  box-shadow: 0px 10px 50px -3px rgba(255,255,255,0.4);
+.shadow-faq {
+  box-shadow: 0px 10px 50px -3px rgba(255, 255, 255, 0.4);
 }
 .faq-answer {
   overflow: hidden;
   height: 0;
   opacity: 0;
-  transition: height 0.5s ease, opacity 0.5s ease; 
+  transition: height 0.5s ease, opacity 0.5s ease;
 }
 
 .faq-answer.open {
-  height: auto; 
+  height: auto;
   opacity: 1;
 }
-.icon-faq{
-   stroke-width: 2.5px;
-   transition: 0.7ms ease;
+.icon-faq {
+  stroke-width: 2.5px;
+  transition: 0.7ms ease;
 }
+.icon-question-faq-up {
+  stroke-width: 2px;
+  color: #545455;
+  width: 50px;
+  height: 50px;
+}
+
+.icon-question-faq-down {
+  stroke-width: 2px;
+  color: #204921;
+  width: 50px;
+  height: 50px;
+}
+

@@ -1,29 +1,38 @@
 "use client"
+import { CircleChevronDown, CircleChevronUp } from "lucide-react";
 import { useState } from "react";
 
 export default function QuestionFAQ({ faqs }) {
-  const [openId, setOpenId] = useState(null); // برای ذخیره کردن ID سوال باز شده
+  const [openId, setOpenId] = useState(null); 
 
+
+ 
   const handleClick = (id) => {
-    setOpenId(openId === id ? null : id); // اگر همون سوال کلیک شد، اون رو ببند، وگرنه باز کن
+ setOpenId(openId === id ? null : id);
   };
 
   return (
     <>
       {faqs.map((faq) =>{
          if (!faq.id) return null;
+        const isOpen = openId === faq.id;
        return(
         
-        <div className="p-5 text-left" key={faq.id}>
-          <h1
-            className="text-xl mb-1 cursor-pointer select-none"
-            onClick={() => handleClick(faq.id)} // وقتی کلیک شد، سوال رو باز یا بسته می‌کنیم
+        <div className=" my-4 text-left bg-zinc-50 py-8 px-6 rounded-3xl shadow-lg" key={faq.id}>
+          <div className="flex items-center justify-between ">
+            <h1
+            className="text-xl font-bold cursor-pointer select-none"
+            onClick={() => handleClick(faq.id)} 
           >
             {faq.question}
           </h1>
-          {/* فقط وقتی openId برابر با faq.id بود، جواب رو نشون می‌دهیم */}
+          <div className="cursor-pointer" onClick={() => handleClick(faq.id)}>
+            {isOpen ? (<CircleChevronUp className="icon-question-faq-up" />) : (<CircleChevronDown className="icon-question-faq-down"/>)}
+          </div>
+          </div>
+          
           {openId === faq.id && (
-            <p>{faq.answer}</p>
+            <p className="text-zinc-500 select-none mt-4 font-bold pl-2">{faq.answer}</p>
           )}
         </div>
       )}

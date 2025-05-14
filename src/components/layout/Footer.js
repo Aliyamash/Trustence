@@ -53,9 +53,7 @@ export default function Footer() {
         </div>
 
         <div className="flex flex-col flex-wrap justify-between md:flex-row items-baseline">
-          <div className="flex">
-            <p className="text-3xl">Logo</p>
-          </div>
+    
 
           <div>
             <p className="font-bold mb-4 mt-12 text-lg">Quick Links</p>

@@ -15,9 +15,10 @@ export default function QuestionFaq() {
   };
 
   return (
-    <div className="bg-transparent pb-44">
+    <div className=" bg-transparent pb-24">
       <div className="container">
-        <div className="mb-24">
+        
+          <div className=" mb-24">
           <FilterFaq
           activeCategory={activeCategory}
             faqItems={categories}
@@ -25,8 +26,9 @@ export default function QuestionFaq() {
             setItem={setItem}
           />
         </div>
+        
 
-        <div className="w-4/5 shadow-faq bg-zinc-200 mx-auto rounded-2xl p-4">
+        <div className=" shadow-faq bg-white mx-auto rounded-2xl p-4">
           <QuestionFAQ faqs={item} />
         </div>
 
