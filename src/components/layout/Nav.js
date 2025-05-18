@@ -25,7 +25,7 @@ const Nav = () => {
   return (
     <>
       <nav className=" flex justify-end">
-        <div className="animLinks hidden text-zinc-200  text-shadow w-full md:flex justify-between items-center md:gap-10 lg:gap-16">
+        <div className="animLinks hidden text-zinc-200  text-shadow w-full md:flex justify-between items-center md:gap-8 lg:gap-16">
           <NavLinks />
         </div>
         <div className="md:hidden">

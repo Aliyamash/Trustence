@@ -7,6 +7,9 @@ import {
   Twitter,
   Youtube,
 } from "lucide-react";
+import telegram from "@/public/images/telegram.svg";
+import WhatsApp from "@/public/images/whatsapp.svg";
+import logo from "@/public/images/logo.webp";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -17,7 +20,9 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row  lg:items-center lg:justify-between md:gap-8 mb-20">
           {/* about footer */}
           <div>
-            <h2 className="font-bold title text-shadow shadow-green-500 w-fit bg-none text-2xl mb-2">Trustence</h2>
+            <h2 className="font-bold title text-shadow shadow-green-500 w-fit bg-none text-2xl mb-2">
+              Trustence
+            </h2>
             <p>Where trust meets innovation</p>
             <p className="text-pretty">
               Our agency is founded on trust, with your confidence as our top
@@ -52,77 +57,86 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="flex flex-col flex-wrap justify-between md:flex-row items-baseline">
-    
+        <div className="flex flex-col flex-wrap justify-between md:flex-row items-stretch">
+          <div className="overflow-hidden w-[9rem] h-[9rem] md:mt-8 ">
+            <Image
+              className="object-fit rounded-xl scale-150 "
+              priority
+              width="auto"
+              height="auto"
+              src={logo}
+              alt="trustence-logo"
+            />
+          </div>
 
           <div>
             <p className="font-bold mb-4 mt-12 text-lg">Quick Links</p>
             <div className="flex flex-col gap-2">
-            <Link href={"#"}>Home page</Link>
-            <Link href={"/aboutus"}>About Us</Link>
-            <Link href={"/service"}>Our Service</Link>
-            <Link href={"/contactus"}>Contact Us</Link>
-            <Link href={"/blog"}>Blog Posts</Link>
+              <Link href={"#"}>Home page</Link>
+              <Link href={"/aboutus"}>About Us</Link>
+              <Link href={"/service"}>Our Service</Link>
+              <Link href={"/contactus"}>Contact Us</Link>
+              <Link href={"/blog"}>Blog Posts</Link>
             </div>
           </div>
 
           <div>
             <p className="font-bold mb-4 mt-12 text-lg">Resources</p>
             <div className="flex flex-col gap-2">
-            <Link href={"/portfolio"}>Portfilio</Link>
-            <Link href={"email:ali2763.mar@gmail.com"}>Support</Link>
-            <Link href={"/aboutus"}>Careers</Link>
+              <Link href={"/portfolio"}>Portfilio</Link>
+              <Link href={"email:ali2763.mar@gmail.com"}>Support</Link>
+              <Link href={"/aboutus"}>Careers</Link>
             </div>
           </div>
 
           <div>
             <p className="font-bold mb-4 mt-12 text-lg">Follow Us</p>
             <div className="flex flex-col gap-2">
-            <Link href={"https://www.twitter.com"}>Twitter Feed</Link>
-            <Link href={"https://www.Github.com"}>GitHub Page</Link>
-            <Link href={"https://www.linkedin.com"}>LinkedIn Profile</Link>
-            <Link href={"https://www.instagram.com"}>Instagram Gallery</Link>
-            <Link href={"https://www.youtube.com"}>YouTube Channel</Link>
+              <Link href={"https://www.twitter.com"}>Twitter Feed</Link>
+              <Link href={""}>Telegram Account</Link>
+              <Link href={"https://www.linkedin.com"}>LinkedIn Profile</Link>
+              <Link href={"https://www.instagram.com"}>Instagram Gallery</Link>
+              <Link href={"https://wa.me/989217332763"}>WhatsApp Account</Link>
             </div>
           </div>
 
           <div>
             <p className="font-bold mb-4 mt-12 text-lg">Contact Info</p>
             <div className="flex flex-col gap-2">
-            <Link href={"#"}>Privacy Policy</Link>
-            <Link href={"#"}>Term of Use</Link>
-            <Link href={"#"}>Copyright Notice</Link>
+              <Link href={"#"}>Privacy Policy</Link>
+              <Link href={"#"}>Term of Use</Link>
+              <Link href={"#"}>Copyright Notice</Link>
             </div>
           </div>
         </div>
 
         <hr className="border-zinc-600 mt-20 md:mb-10 mb-6" />
         <div className="flex justify-between  flex-col-reverse md:flex-row px-2 ">
-
           <div className="flex flex-col-reverse md:flex-row gap-3 md:gap-12 ">
-            <p className="text-sm pt-12 md:pt-0">© 2024 Trustence. All rights reserved.</p>
+            <p className="text-sm pt-12 md:pt-0">
+              © 2024 Trustence. All rights reserved.
+            </p>
             <Link href={"#"}>Privacy Policy</Link>
             <Link href={"#"}>Term of Use</Link>
           </div>
 
           <div className="flex gap-4 mb-8 md:mb-0">
-            <Link  href={"https://www.youtube.com"}>
-              <Github className="icon-btn-size2" />
-            </Link>
-            <Link  href={"https://www.youtube.com"}>
-              <Twitter className="icon-btn-size2"/>
+            <Link href={"https://www.youtube.com"}>
+              <Twitter className="icon-btn-size2" />
             </Link>
             <Link href={"https://www.youtube.com"}>
-              <Instagram className="icon-btn-size2"/>
+              <Instagram className="icon-btn-size2" />
             </Link>
-            <Link  href={"https://www.youtube.com"}>
-              <Linkedin className="icon-btn-size2"/>
+            <Link href={"https://wa.me/989217332763"}>
+              <Image src={WhatsApp} className="icon-btn-size2" />
             </Link>
-            <Link  href={"https://www.youtube.com"}>
-              <Youtube className="icon-btn-size2"/>
+            <Link href={"https://www.youtube.com"}>
+              <Linkedin className="icon-btn-size2" />
+            </Link>
+            <Link href={"https://www.youtube.com"}>
+              <Image src={telegram} className="icon-btn-size2" />
             </Link>
           </div>
-
         </div>
       </div>
     </div>

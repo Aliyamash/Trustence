@@ -17,7 +17,7 @@ export default function ContactUs() {
           <div className="mt-12">
           <div className="flex gap-8 my-6">
                 <Mail />
-                <p>ali2763.mar@gmail.com</p>
+                <p>TrustenceAgency@gmail.com</p>
               </div>
 
               <div className="flex gap-8 my-6">
