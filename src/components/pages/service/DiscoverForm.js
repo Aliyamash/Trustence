@@ -1,43 +1,40 @@
 "use client"
-import { Headset, PhoneCall } from "lucide-react";
-import { useState } from "react";
+import { serviceCreate } from "@/actions/service";
+import { Headset } from "lucide-react";
+import { useEffect, useRef } from "react";
+import { useFormState } from "react-dom";
+import { toast } from "react-toastify";
+
 
 export default function DiscoveryForm() {
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    service: "",
-    budget: "",
-    message: "",
-  });
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+const[state , formServiceAction] = useFormState(serviceCreate)
+const formRef = useRef(null)
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-  };
-
+ useEffect(() => {
+    if (!state) return; 
+    if(state?.status === 'error'){
+      toast.error(state.message)
+    }else{
+      toast.success(state.message);
+      formRef.current?.reset();
+    }
+  },[state])
   return (
     <section className="bg-[#fff8ee]  p-12 rounded-2xl shadow-lg max-w-3xl mx-auto my-12" id="formDiscovery">
       <h2 className="text-3xl font-bold text-[#1C422B] mb-2">Request a Discovery Session</h2>
       <p className="text-zinc-600 mb-6">Get a free consultation and a tailored plan for your business 🚀</p>
       
-      <form onSubmit={handleSubmit} className="space-y-5">
+      <form ref={formRef} action={formServiceAction} className="space-y-5">
         
         <div>
           <label className="block text-sm font-medium text-zinc-700">Full Name</label>
           <input
             type="text"
-            name="name"
-            value={form.name}
-            onChange={handleChange}
+            name="Full_Name"
             className="mt-1 w-full p-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1C422B]"
             placeholder="John Doe"
-            required
+            
           />
         </div>
 
@@ -45,12 +42,10 @@ export default function DiscoveryForm() {
           <label className="block text-sm font-medium text-zinc-700">Email Address</label>
           <input
             type="email"
-            name="email"
-            value={form.email}
-            onChange={handleChange}
+            name="Email"
             className="mt-1 w-full p-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1C422B]"
             placeholder="john@example.com"
-            required
+            
           />
         </div>
 
@@ -58,23 +53,19 @@ export default function DiscoveryForm() {
           <label className="block text-sm font-medium text-zinc-700">Phone Number</label>
           <input
             type="tel"
-            name="phone"
-            value={form.phone}
-            onChange={handleChange}
+            name="Phone_Number"
             className="mt-1 w-full p-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1C422B]"
             placeholder="+1 234 567 890"
-            required
+            
           />
         </div>
 
         <div>
           <label className="block text-sm font-medium text-zinc-700">Select Service</label>
           <select
-            name="service"
-            value={form.service}
-            onChange={handleChange}
+            name="Select_Service"
             className="mt-1 w-full p-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1C422B]"
-            required
+            
           >
             <option value="">Choose...</option>
             <option value="Normal Website Design">Normal Website Design</option>
@@ -86,11 +77,9 @@ export default function DiscoveryForm() {
         <div>
           <label className="block text-sm font-medium text-zinc-700">Budget Range</label>
           <select
-            name="budget"
-            value={form.budget}
-            onChange={handleChange}
+            name="Budget_Range"
             className="mt-1 w-full p-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1C422B]"
-            required
+            
           >
             <option value="">Select Budget</option>
             <option value="$1000 - $3000">$1000 - $3000</option>
@@ -102,9 +91,7 @@ export default function DiscoveryForm() {
         <div>
           <label className="block text-sm font-medium text-zinc-700">Project Brief</label>
           <textarea
-            name="message"
-            value={form.message}
-            onChange={handleChange}
+            name="Inquiry"
             rows="4"
             className="mt-1 w-full p-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1C422B]"
             placeholder="Tell us a bit about your project..."

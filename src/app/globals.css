@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import "react-toastify/dist/ReactToastify.css";
 
 @layer utilities {
   .text-balance {
@@ -112,6 +113,31 @@ body {
     rgba(10, 10, 10, 1) 69%
   );
 }
+
+.bg-project:hover .bg-gray-project {
+  opacity: 1;
+}
+.bg-gray-project {
+  opacity: 0;
+  background: #ffffff;
+  background: -webkit-linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.14) 0%,
+    rgba(0, 0, 0, 0.5) 58%
+  );
+  background: -moz-linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.14) 0%,
+    rgba(0, 0, 0, 0.5) 58%
+  );
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.14) 0%,
+    rgba(0, 0, 0, 0.5) 58%
+  );
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#FFFFFF", endColorstr="#000000", GradientType=0);
+}
+
 .title {
   display: block;
   font-family: "Aboreto", Arial, Helvetica, sans-serif;
@@ -345,4 +371,22 @@ body {
   color: #204921;
   width: 50px;
   height: 50px;
+}
+.Toastify__toast {
+  border-radius: 12px;
+  font-family: 'work-sans', sans-serif;
+  font-weight: 500;
+  background: #3b7250;
+  color: #fff;
+}
+
+.Toastify__toast--success {
+  background-color: #1C422B;
+}
+.Toastify__toast--error {
+  background-color: #631c1c;
+}
+
+.Toastify__progress-bar {
+  background-color: rgb(146, 146, 146);
 }

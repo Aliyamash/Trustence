@@ -46,7 +46,7 @@ export default function AboutUs() {
             <div className="flex items-center hover:text-gray-800">
               <Link
                 className="pr-1 hover:pr-3 transition-all duration-500 "
-                href={"#"}
+                href={"/discovery"}
               >
                 Discover
               </Link>

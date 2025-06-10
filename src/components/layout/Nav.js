@@ -11,7 +11,7 @@ const NavLinks = () => {
           <Link  href="/aboutus">About Us</Link>
           <Link  href="/service">Service</Link>
           <Link  href="/contact">Contact Us</Link>
-          <Link  href="/faqs">Help</Link>
+          <Link  href="/projects">Work</Link>
           <BtnDiscover />
     </>
   );

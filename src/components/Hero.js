@@ -21,17 +21,12 @@ export default function Hero() {
           {/* btns */}
           <div className="my-12">
             <Link
-              href={"#"}
-              className="bg-[#FFF8EE] rounded-lg mr-2 py-3 px-8 border-none"
+              href={"/discovery"}
+              className="bg-[#FFF8EE] rounded-xl mr-2 py-3 px-8 border-none hover:text-[#FFF8EE] hover:bg-[#114422] transition duration-300"
             >
-              Discover
+             Free Discover Call
             </Link>
-            <Link
-              href={"#"}
-              className="bg-black text-white rounded-lg  py-3 px-8 border-none"
-            >
-              Book
-            </Link>
+           
           </div>
             <div className="rounded-xl overflow-hidden aspect-[16/9]">
               <Image src={heroImg} className="w-full h-full shadow object-cover rounded-xl" alt="customers picture" />

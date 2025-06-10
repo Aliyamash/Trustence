@@ -1,19 +1,35 @@
+"use client";
+
 import {
-  Github,
   Heart,
   Instagram,
-  InstagramIcon,
   Linkedin,
   Twitter,
-  Youtube,
 } from "lucide-react";
 import telegram from "@/public/images/telegram.svg";
 import WhatsApp from "@/public/images/whatsapp.svg";
 import logo from "@/public/images/logo.webp";
 import Image from "next/image";
 import Link from "next/link";
+import { useFormState } from "react-dom";
+import { create } from "@/actions/footer";
+import SubmitButton from "../SubmitButton";
+import { useEffect, useRef } from "react";
+import { toast } from "react-toastify";
 
 export default function Footer() {
+  const [state, formAction] = useFormState(create);
+  const formRef = useRef(null)
+
+  useEffect(() => {
+    if (!state) return; 
+    if(state?.status === 'error'){
+      toast.error(state.message)
+    }else{
+      toast.success(state.message);
+      formRef.current?.reset();
+    }
+  },[state])
   return (
     <div className="bg-[#060e09] text-white -mt-2 py-24">
       <div className="container">
@@ -31,20 +47,18 @@ export default function Footer() {
           </div>
           {/* input footer */}
           <div className="mt-8">
-            <form action="">
+            <form ref={formRef} action={formAction}>
               <div className="flex flex-col sm:flex-row gap-4 p-1">
                 <input
                   className="px-4 lg:w-[20rem] w-full py-2 text-lg rounded-lg bg-[#54524C]"
                   type="email"
-                  name="email"
+                  name="Email"
                   placeholder="Your email here"
                 />
-                <button
-                  className="px-6 py-2 text-lg rounded-lg bg-[#54524C]"
-                  type="sumbit"
-                >
-                  Join
-                </button>
+                <SubmitButton
+                  title="join"
+                  style="px-6 py-2 text-lg rounded-lg bg-[#54524C]"
+                />
               </div>
 
               <div className="flex gap-2 mt-1">

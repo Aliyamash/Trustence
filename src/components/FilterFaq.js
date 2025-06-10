@@ -13,12 +13,12 @@ export default function FilterFaq({ faqItems, filterItems , activeCategory }) {
           <div
             key={cat.name}
             onClick={() => filterItems(cat.name)}
-            className={`flex relative flex-col cursor-pointer justify-between py-4 px-2 sm:py-6 sm:px-8 md:py-12 md:px-20  items-center gap-2 rounded-3xl transition duration-750
-              ${isActive ? "text-black bg-white shadow-2xl shadow-[#0c1d13]" : "text-zinc-400 bg-zinc-200 shadow-2xl shadow-[#0d140eb7]"}
+            className={`flex relative flex-col cursor-pointer justify-between py-4 px-2 sm:py-6 sm:px-8 md:py-12 md:px-20  items-center gap-2 rounded-3xl transition duration-500
+              ${isActive ? "text-black bg-white shadow-2xl shadow-[#0c1d13]" : "text-zinc-400 bg-zinc-200 shadow-2xl"}
             `}
             
             >
-              <div className={`absolute h-8 w-8  md:w-10 md:h-10 transition-colors duration-700 bg-white rounded-md rotate-45 -bottom-3 lg:-bottom-4 
+              <div className={`absolute h-8 w-8  md:w-10 md:h-10 transition-colors duration-500 bg-white rounded-md rotate-45 -bottom-3 lg:-bottom-4 
                 ${isActive ? "block" : "hidden"}
                 `}></div>
             <Icon className={`w-8 h-8 md:w-12 lg:h-12

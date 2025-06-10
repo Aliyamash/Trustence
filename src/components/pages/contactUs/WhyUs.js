@@ -16,7 +16,7 @@ export default function WhyUS() {
             we'd like to briefly share the core values that define our team.
           </p>
           <div className="flex lg:flex-row flex-col justify-between lg:items-center gap-8">
-          <p className="text-xl md:text-2xl text-left text-pretty lg:w-2/3 font-medium mb-6  ">
+          <p className="text-xl text-left text-pretty lg:w-2/3 font-medium mb-6  ">
             At the heart of our agency lies the essence of trust, the
             cornerstone of our team. We are committed first to honoring our
             clients with deep respect, and second, to building powerful
@@ -24,7 +24,7 @@ export default function WhyUS() {
             <HeartHandshake className="inline icon-btn-size2 ml-2 text-green-700" />
           </p>
          
-          <p className="text-lg text-green-950 md:text-lg text-left text-pretty lg:w-7/12 font-medium mb-6">
+          <p className="text-xl text-green-950 text-left text-pretty lg:w-7/12 font-medium mb-6">
             In a world where distrust has become the norm, we choose to be
             different, by creating genuine connections built on trust.
           <Heart className="inline icon-btn-size2 ml-2 text-green-700 "/>
