@@ -3,7 +3,7 @@ export default function HeadAbout() {
     <div className="bg-[#060e09] pb-44 pt-80">
       <div className="container">
         <div className="flex flex-col items-center justify-between">
-          <div className="text-white leading-[1.5] lg:leading-[1.2] md:text-5xl lg:text-7xl title font-bold text-3xl mb-24">
+          <div className="text-white leading-[1.5] lg:leading-[1.2] text-center md:text-5xl lg:text-7xl title font-bold text-3xl mb-24">
             <h1>Our objectives are crucial</h1>
           </div>
           <div className="text-white text-center font-medium text-pretty sm:w-3/5">

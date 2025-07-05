@@ -12,7 +12,7 @@ export default function WhatYouGet(){
                         <h2 className="text-2xl font-bold mb-2 text-zinc-100">{benefit.title}</h2>
                         <div className="flex gap-2 items-center">
                         <p className="text-zinc-300 font-bold text-lg">{benefit.subtitle}</p>
-                        <Check className="inline text-green-400 font-bold icon-check-size "/>
+                        <Check className="inline-block text-green-400 font-bold icon-check-size "/>
                         </div>
                     </div>
                     ))}

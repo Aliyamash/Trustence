@@ -4,7 +4,22 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default async function soloProjectPage({params}){
-    const project = await getFetch(`/projects/${params.id}`)
+      let project = null;
+
+  try {
+    project = await getFetch(`/projects/${params.id}`);
+  } catch (error) {
+    console.error("Difficulty receiving information", error);
+
+  }
+
+  if (!project) {
+    return (
+      <div className="min-h-screen bg-[#060e09] text-white flex items-center justify-center">
+        <p className="text-xl">Difficulty receiving information</p>
+      </div>
+    );
+  }
     
     return(
 <div className="bg-[#060e09] text-white pt-64">
