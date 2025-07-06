@@ -43,6 +43,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <Header />
+        {/* hi */}
         {children}
         <Toastify />
         <Footer />
