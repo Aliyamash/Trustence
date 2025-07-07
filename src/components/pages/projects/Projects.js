@@ -4,30 +4,22 @@ import { ArrowRight, Link } from "lucide-react";
 import Image from "next/image";
 
 export default async function Projects() {
-  let projects = [];
-
-  try {
-    projects = await getFetch("/projects");
-  } catch (error) {
-    console.error("❌ خطا در دریافت پروژه‌ها:", error);
-  }
+ 
 
   return (
     <>
       <section className="mx-16 pb-64">
         <h2 className="text-3xl font-bold text-white mb-6">Our Projects</h2>
 
-        {projects.length === 0 ? (
-          <p className="text-red-400 text-center text-xl">There was a problem loading projects.</p>
-        ) : (
+      
           <div className="grid md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 justify-items-center gap-12">
-            {projects.map((project) => (
+           
               <div
                 key={project.id}
                 className="group relative bg-zinc-300 w-full max-w-[26rem] h-[18rem] md:h-[20rem] rounded-3xl overflow-hidden shadow-zinc-600 shadow-xl bg-project transition duration-500"
               >
                 <Image
-                  src={`http://127.0.0.1:8000/${project.banner}`}
+                  src={''}
                   alt={project.title}
                   width="500"
                   height="650"
@@ -54,9 +46,9 @@ export default async function Projects() {
                   </div>
                 </div>
               </div>
-            ))}
+            
           </div>
-        )}
+       
       </section>
     </>
   );
