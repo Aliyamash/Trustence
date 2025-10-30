@@ -1,6 +1,6 @@
 export default function HeadAbout() {
   return (
-    <div className="bg-[#060e09] pb-44 pt-80">
+    <div className="bg-[#060e09] pb-32 pt-80">
       <div className="container">
         <div className="flex flex-col items-center justify-between">
           <div className="text-white leading-[1.5] lg:leading-[1.2] text-center md:text-5xl lg:text-7xl title font-bold text-3xl mb-24">

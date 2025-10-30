@@ -1,3 +1,4 @@
+
 const getFetch = async (url) => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}${url}`, {
     headers: {
@@ -7,13 +8,20 @@ const getFetch = async (url) => {
     cache: "no-store",
   });
 
+  const json = await res.json(); 
+
   if (res.ok) {
-    const data = await res.json();
-    return data.data;
+    return {
+      status: res.status,
+      data: json.data,  
+      message: json.message || "Success",
+    };
   } else {
-    throw new Error(`Difficulty receiving information : ${res.status}`);
+    throw new Error(`خطا در دریافت اطلاعات: ${res.status} - ${json.message || "Unknown error"}`);
   }
 };
+
+
 
 const postFetch = async (url, body) => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}${url}`, {

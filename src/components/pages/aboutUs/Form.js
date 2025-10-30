@@ -14,8 +14,8 @@ export default function Form() {
   useEffect(() => {
     const fetchFields = async () => {
       try {
-        const data = await getFetch("/project-request-form/get_in_touch");     
-        setFormField(data);
+        const data = await getFetch("/project-request-form/get_in_touch");    
+        setFormField(data.data || []);
       } catch (err) {
         console.error("Error fetching fields:", err);
       }

@@ -13,17 +13,22 @@ export default function FormDiscovery() {
   const formRef = useRef(null);
 
   useEffect(() => {
-    const fetchFields = async () => {
-      try {
-        const data = await getFetch("/project-request-form/discovery_section");
-        setFormField(data);
-      } catch (err) {
-        console.error("Error fetching fields:", err);
-      }
-    };
+  const fetchFields = async () => {
+    try {
+      const response = await getFetch("/project-request-form/discovery_section");
+      console.log("API Response:", response); // برای دیباگ
 
-    fetchFields();
-  }, []);
+      // فقط آرایه data.data رو بگیر
+      const fields = Array.isArray(response?.data) ? response.data : [];
+      setFormField(fields);
+    } catch (err) {
+      console.error("Error fetching fields:", err);
+      setFormField([]); // در صورت خطا، آرایه خالی
+    }
+  };
+
+  fetchFields();
+}, []);
 
   useEffect(() => {
     if (!state) return;

@@ -6,8 +6,9 @@ import { getFetch } from "@/utils/fetch";
 export default async function Portfilio() {
   let projects = [];
 
-  try {
-    projects = await getFetch('/last-projects/2');
+ try {
+    const response = await getFetch('/last-projects/2');
+    projects = Array.isArray(response.data) ? response.data : [];
   } catch (error) {
     console.error("خطا در دریافت پروژه‌ها:", error);
   }
@@ -32,7 +33,7 @@ export default async function Portfilio() {
               >
                 <div className="relative aspect-[3/1] rounded-xl overflow-hidden shadow-2xl mb-6">
                   <Image
-                    src={`http://127.0.0.1:8000/${project.banner}`}
+                    src={`http://86.106.158.93:8000/media/${project.banner}`}
                     alt={project.title}
                     fill
                     className="object-cover"

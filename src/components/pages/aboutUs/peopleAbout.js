@@ -4,7 +4,7 @@ import picAbout from '@/public/images/pic-about2.webp';
 
 export default function PeopleAbout() {
   return (
-    <div className="bg-[#fff] py-24 lg:py-44">
+    <div className="bg-[#fff] py-24 lg:py-32">
       <div className="container">
         <div className="flex flex-col lg:flex-row gap-8 justify-between lg:items-center">
           {/* icons , title , description */}
