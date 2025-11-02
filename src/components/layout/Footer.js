@@ -64,7 +64,7 @@ export default function Footer() {
               <div className="flex gap-2 mt-1">
                 <Heart />
                 <p>
-                  Please feel free to enter your email so we can contact you.
+                  We’d love to hear from you! Type in your email and let’s start the conversation.
                 </p>
               </div>
             </form>
@@ -89,7 +89,7 @@ export default function Footer() {
               <Link href={"#"}>Home page</Link>
               <Link href={"/aboutus"}>About Us</Link>
               <Link href={"/service"}>Our Service</Link>
-              <Link href={"/contactus"}>Contact Us</Link>
+              <Link href={"/contact"}>Contact Us</Link>
               <Link href={"/blog"}>Blog Posts</Link>
             </div>
           </div>

@@ -1,43 +1,63 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import BtnDiscover from "../BtnDiscover";
-const { default: Link } = require("next/link");
+import Link from "next/link";
 
-const NavLinks = () => {
+const NavLinks = ({ onLinkClick }) => {
+  const handleClick = () => {
+    if (onLinkClick) onLinkClick();
+  };
+
   return (
     <>
- 
-          <Link href="/">Home</Link>
-          <Link  href="/aboutus">About Us</Link>
-          <Link  href="/service">Service</Link>
-          <Link  href="/contact">Contact Us</Link>
-          <Link  href="/projects">Work</Link>
-          <BtnDiscover />
+      <Link href="/" onClick={handleClick}>Home</Link>
+      <Link href="/aboutus" onClick={handleClick}>About Us</Link>
+      <Link href="/service" onClick={handleClick}>Service</Link>
+      <Link href="/contact" onClick={handleClick}>Contact Us</Link>
+      <Link href="/projects" onClick={handleClick}>Work</Link>
+      <div onClick={handleClick}>
+        <BtnDiscover />
+      </div>
     </>
   );
 };
+
 const Nav = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleNavbar = () => {
     setIsOpen(!isOpen);
   };
+
+  const closeMenu = () => {
+    setIsOpen(false);
+  };
+
   return (
     <>
-      <nav className=" flex justify-end">
-        <div className="animLinks hidden text-zinc-200  text-shadow w-full md:flex justify-between items-center md:gap-8 lg:gap-16">
+ 
+      <nav className="fixed top-4 left-4 right-4 bg-black/30 backdrop-blur-md rounded-2xl shadow-2xl z-50 p-2 flex justify-between items-center">
+        {/* دسکتاپ */}
+        <div className="hidden md:flex w-full justify-between items-center text-zinc-200 text-shadow md:gap-6 lg:gap-12">
           <NavLinks />
         </div>
+
+        {/* موبایل - دکمه همبرگر */}
         <div className="md:hidden">
-          <button onClick={toggleNavbar}>{isOpen ? <X className="text-[#658672]" /> : <Menu className="text-[#658672]" />}</button>
+          <button onClick={toggleNavbar} className="text-[#b8e2c9] z-50">
+            {isOpen ? <X size={28} /> : <Menu size={28} />}
+          </button>
         </div>
       </nav>
+
+      {/* منوی موبایل - زیر هدر، با فاصله */}
       {isOpen && (
-        <div className="mt-6 flex flex-col bg-white text-black p-6 rounded-xl gap-6 items-center basis-full">
-          <NavLinks />
+        <div className="md:hidden fixed top-20 left-4 right-4 bg-white text-black p-4 rounded-xl shadow-2xl z-40 flex flex-col gap-6 items-center">
+          <NavLinks onLinkClick={closeMenu} />
         </div>
       )}
     </>
   );
 };
+
 export default Nav;

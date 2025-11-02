@@ -166,6 +166,12 @@ body {
   width: 32.5px;
   height: 32.5px;
 }
+.icon-hero-size{
+  stroke-width: 1.5px;
+  width: 50.5px;
+  height: 50.5px;
+  color: white;
+}
 
 .service-container:hover .btn-service {
   padding-right: 10px;
