@@ -4,7 +4,7 @@
 import { useState, useEffect } from 'react';
 import { getFetch } from "@/utils/fetch";
 import { getBlurDataUrl } from "@/utils/helper";
-import { ArrowRight, Filter } from "lucide-react";
+import { ArrowRight, Filter, ArrowUpRight, Lock, Sparkles } from "lucide-react";
 import Image from "next/image";
 
 export default function Projects() {
@@ -14,89 +14,87 @@ export default function Projects() {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [hoveredId, setHoveredId] = useState(null);
+  const [selectedProject, setSelectedProject] = useState(null);
 
-  // دریافت داده‌ها
+  // گرادیان سبز سه‌گانه (تیره → متوسط → روشن)
+  const greenGrad = 'from-[#114422] via-[#245336] to-[#22c55e]';
+
+  const colorMap = {
+    'Online Store': greenGrad,
+    'SaaS': greenGrad,
+    'Mobile': greenGrad,
+    'Analytics': greenGrad,
+    'Branding': greenGrad,
+    'Marketing': greenGrad,
+  };
+
   useEffect(() => {
     const fetchProjects = async () => {
       try {
         setLoading(true);
-        setError(null);
-
         const response = await getFetch("/projects");
-
-        // پشتیبانی از ساختارهای مختلف API
-        let data = [];
-        if (Array.isArray(response)) {
-          data = response;
-        } else if (response && Array.isArray(response.data)) {
-          data = response.data;
-        } else if (response && Array.isArray(response.projects)) {
-          data = response.projects;
-        } else {
-          console.warn("ساختار داده پروژه‌ها نامعتبر است:", response);
-          data = [];
-        }
-
+        let data = Array.isArray(response) ? response : response?.data || response?.projects || [];
         setProjects(data);
 
-        // استخراج دسته‌بندی‌ها
-        const uniqueCategories = Array.from(
-          new Set(data.map(p => p.category).filter(Boolean))
-        );
-        setCategories(['All', ...uniqueCategories]);
-
+        const unique = Array.from(new Set(data.map(p => p.category_name).filter(Boolean)));
+        setCategories(['All', ...unique]);
         setFilteredProjects(data);
       } catch (err) {
-        console.error("Error fetching projects:", err);
         setError("Failed to load projects");
-        setProjects([]);
-        setFilteredProjects([]);
       } finally {
         setLoading(false);
       }
     };
-
     fetchProjects();
   }, []);
 
-  // فیلتر بر اساس دسته‌بندی
   useEffect(() => {
     if (selectedCategory === 'All') {
       setFilteredProjects(projects);
     } else {
-      setFilteredProjects(
-        projects.filter(p => p.category === selectedCategory)
-      );
+      setFilteredProjects(projects.filter(p => p.category_name === selectedCategory));
     }
   }, [selectedCategory, projects]);
 
   return (
-    <section className="mx-4 sm:mx-8 lg:mx-16 py-16 lg:py-24">
+    <section className="mx-4 sm:mx-8 lg:mx-16 py-16 lg:py-24 bg-white">
       <div className="max-w-7xl mx-auto">
+
         {/* عنوان */}
         <div className="text-center mb-16">
-          <h2 className="text-5xl sm:text-6xl font-bold text-white mb-4">
+          <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-[#22c55e]/10 to-[#245336]/5 rounded-full mb-4 border border-[#22c55e]/40">
+            <Sparkles className="w-5 h-5 text-[#114422] mr-2" />
+            <span className="font-medium text-[#114422]">Featured Work</span>
+          </div>
+          <h2 className="text-5xl sm:text-6xl font-bold text-slate-900 mb-4">
             Our Projects
           </h2>
-          <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+          <p className="text-xl text-slate-600 max-w-3xl mx-auto">
             {filteredProjects.length} Projects in {selectedCategory}
           </p>
         </div>
 
-        {/* فیلتر دسته‌بندی */}
-        <div className="flex flex-wrap justify-center gap-3 mb-12">
-          <div className="flex items-center gap-2 px-3 py-2 bg-[#245336]/10 border border-[#245336]/30 rounded-lg">
-            <Filter className="w-4 h-4 text-gray-400" />
-            <span className="text-sm text-gray-400 font-medium">Filter:</span>
-          </div>
-          {categories.map((cat) => (
+        {/* فیلترها */}
+        <div className="flex flex-wrap justify-center gap-3 mb-16">
+          <button
+            onClick={() => setSelectedCategory('All')}
+            className={`px-6 py-2 rounded-full font-medium transition-all ${
+              selectedCategory === 'All'
+                ? `bg-gradient-to-r ${greenGrad} text-white shadow-lg shadow-[#114422]/30`
+                : 'bg-white text-slate-700 border-2 border-[#245336]/30 hover:border-[#114422]'
+            }`}
+          >
+            All Projects
+          </button>
+          {categories.filter(c => c !== 'All').map(cat => (
             <button
               key={cat}
-              onClick={() => setError(null) || setSelectedCategory(cat)}
-              className={`px-5 py-2.5 rounded-lg font-medium text-sm transition-all duration-300 ${
+              onClick={() => setSelectedCategory(cat)}
+              className={`px-6 py-2 rounded-full font-medium transition-all ${
                 selectedCategory === cat
-                  ? 'bg-gradient-to-r from-[#114422] to-[#245336] text-white shadow-lg shadow-[#245336]/40'
-                  : 'bg-[#245336]/10 text-gray-300 hover:bg-[#245336]/20 border border-[#245336]/30 hover:border-[#245336]/50'
+                  ? `bg-gradient-to-r ${greenGrad} text-white shadow-lg shadow-[#114422]/30`
+                  : 'bg-white text-slate-700 border-2 border-[#245336]/30 hover:border-[#114422]'
               }`}
             >
               {cat}
@@ -104,97 +102,170 @@ export default function Projects() {
           ))}
         </div>
 
-        {/* خطا */}
-        {error && (
-          <div className="text-center py-20">
-            <p className="text-red-400 text-xl">{error}</p>
-          </div>
-        )}
+        {/* وضعیت‌ها */}
+        {error && <div className="text-center py-20 text-red-400 text-xl">{error}</div>}
+        {loading && <div className="flex justify-center py-32"><div className="w-16 h-16 border-4 border-[#245336]/20 border-t-[#22c55e] rounded-full animate-spin"></div></div>}
+        {!loading && !error && filteredProjects.length === 0 && <div className="text-center py-20 text-slate-600 text-xl">No projects found.</div>}
 
-        {/* لودینگ */}
-        {loading && (
-          <div className="flex justify-center py-32">
-            <div className="w-16 h-16 border-4 border-[#245336]/20 border-t-[#245336] rounded-full animate-spin"></div>
-          </div>
-        )}
-
-        {/* بدون پروژه */}
-        {!loading && !error && Array.isArray(filteredProjects) && filteredProjects.length === 0 && (
-          <div className="text-center py-20">
-            <p className="text-gray-400 text-xl">No projects found in this category.</p>
-          </div>
-        )}
-
-        {/* گالری پروژه‌ها */}
-        {!loading && !error && Array.isArray(filteredProjects) && filteredProjects.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 justify-items-center">
+        {/* کارت‌ها — قفل‌شده هم هاور داره! */}
+        {!loading && !error && filteredProjects.length > 0 && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredProjects.map((project, index) => {
-              const isFeatured = project.is_active === 1 || project.is_active === true;
+              const isClient = project.link && project.link !== "#";
+              const isLocked = !isClient;
+              const gradientColor = colorMap[project.category_name] || greenGrad;
+              const tags = project.tags ? project.tags.split(',').map(t => t.trim()) : [];
 
               return (
                 <div
                   key={project.id}
-                  className="group relative bg-[#0f1512] w-full max-w-[26rem] h-[18rem] md:h-[20rem] rounded-3xl overflow-hidden shadow-xl shadow-[#114422]/20 transition-all duration-500 hover:shadow-[#245336]/40 hover:shadow-2xl cursor-pointer"
-                  style={{
-                    animation: `fadeInUp 0.6s ease-out ${index * 0.08}s both`,
-                  }}
+                  className={`group relative h-96 rounded-2xl overflow-hidden transition-all duration-500 ${
+                    isLocked ? 'cursor-normal' : 'cursor-pointer'
+                  }`}
+                  style={{ animation: `fadeInUp 0.6s ease-out ${index * 0.08}s both` }}
+                  onMouseEnter={() => setHoveredId(project.id)}
+                  onMouseLeave={() => setHoveredId(null)}
+                  onClick={() => isClient && setSelectedProject(project)}
                 >
-                  {/* تصویر */}
-                  <Image
-                    src={project.banner?.startsWith('http') ? project.banner : `http://86.106.158.93:8000/${project.banner}`}
-                    alt={project.title}
-                    fill
-                    sizes="(max-width: 768px) 90vw, (max-width: 1200px) 40vw, 26rem"
-                    className="object-contain transition-transform duration-700 group-hover:scale-110"
-                    placeholder="blur"
-                    blurDataURL={getBlurDataUrl()}
-                  />
+                  {/* تصویر + گرادیان */}
+              
+<div className={`absolute inset-0 ${isLocked ? 'blur-[2px]' : ''}`}>
+  <Image
+    src={project.banner?.startsWith('http') ? project.banner : `http://86.106.158.93:8000/${project.banner}`}
+    alt={project.title}
+    fill
+    sizes="(max-width: 768px) 90vw, 26rem"
+    className={`object-cover transition-transform duration-700 ${
+      hoveredId === project.id && !isLocked ? 'scale-110' : 'scale-100'
+    }`}
+    placeholder="blur"
+    blurDataURL={getBlurDataUrl()}
+  />
+  <div className={`absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/20 to-transparent transition-opacity duration-300 ${
+    hoveredId === project.id ? 'opacity-70' : 'opacity-60'
+  }`} />
+</div>
 
-                  {/* گرادیان پس‌زمینه */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f0d] via-[#0a0f0d]/50 to-transparent opacity-70 group-hover:opacity-90 transition-opacity duration-500" />
-
-                  {/* نشان Featured */}
-                  {isFeatured && (
-                    <div className="absolute top-4 left-4 flex items-center gap-1.5 px-2.5 py-1 bg-[#245336]/20 border border-[#245336]/50 rounded-full backdrop-blur-sm">
-                      <div className="w-1.5 h-1.5 bg-[#245336] rounded-full"></div>
-                      <span className="text-xs font-semibold text-[#245336]">Featured</span>
+                  {/* لایه قفل — وسط کارت */}
+                  {isLocked && (
+                    <div className="absolute inset-0 flex items-center justify-center z-30 pointer-events-none">
+                      <div className="text-center">
+                        <div className="w-16 h-16 bg-white/30 backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-2xl ">
+                          <Lock className="w-9 h-9 text-white" />
+                        </div>
+                        <p className="text-white/70 text-sm mt-1 tracking-wider">Private Project</p>
+                      </div>
                     </div>
                   )}
 
-                  {/* محتوای هاور */}
-                  <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center opacity-0 group-hover:opacity-100 transition-all duration-500 backdrop-blur-sm">
-                    <h3 className="text-2xl font-bold text-white mb-3 bg-gradient-to-r from-[#114422] to-[#245336] bg-clip-text text-transparent">
-                      {project.title}
-                    </h3>
-                    <p className="text-gray-300 text-sm leading-relaxed max-w-xs mx-auto mb-6 opacity-90">
-                      {project.intro}
-                    </p>
-                    <a
-                      href={`/projects/${project.id}`}
-                      className="inline-flex items-center gap-2 bg-white text-[#114422] px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-[#245336] hover:text-white transition-all duration-300 shadow-lg hover:shadow-[#245336]/50 transform hover:scale-105"
-                    >
-                      View Project
-                      <ArrowRight className="w-4 h-4" />
-                    </a>
+                  {/* آیکون بالا راست */}
+                  {isClient && (
+                    <div className={`absolute top-6 right-6 w-12 h-12 bg-gradient-to-br ${gradientColor} rounded-xl flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 z-20 scale-90 group-hover:scale-100 shadow-xl`}>
+                      <ArrowUpRight className="w-6 h-6 text-white" />
+                    </div>
+                  )}
+
+                  {/* محتوا */}
+                  <div className="absolute inset-0 p-8 flex flex-col justify-between z-20">
+                    <div />
+
+                    <div className="space-y-4">
+                      <div className="space-y-2">
+                        <div className={`inline-block px-3 py-1 rounded-full text-sm font-medium backdrop-blur-md ${
+                          isLocked ? 'bg-white/10 text-white/80' : 'bg-white/20 text-white'
+                        }`}>
+                          {project.category_name}
+                          {isLocked && ' • Coming Soon'}
+                        </div>
+                        <h3 className={`text-2xl font-bold leading-tight ${isLocked ? 'text-white/90' : 'text-white'} drop-shadow-md`}>
+                          {project.title}
+                        </h3>
+
+                        <p className={`text-sm leading-relaxed text-slate-100 transition-all duration-500 ${
+                          hoveredId === project.id 
+                            ? 'max-h-24 opacity-100 translate-y-0' 
+                            : 'max-h-0 opacity-0 translate-y-2'
+                        } overflow-hidden`}>
+                          {project.intro || 'No description available.'}
+                        </p>
+                      </div>
+
+                      {tags.length > 0 && (
+                        <div className={`flex flex-wrap gap-2 transition-all duration-500 delay-75 ${
+                          hoveredId === project.id 
+                            ? 'max-h-12 opacity-100 translate-y-0' 
+                            : 'max-h-0 opacity-0 translate-y-4'
+                        } overflow-hidden`}>
+                          {tags.slice(0, 3).map((tag, idx) => (
+                            <span key={idx} className="px-2.5 py-1 bg-white/15 backdrop-blur-sm rounded-full text-xs text-white font-medium border border-white/20">
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   </div>
+
+                  {/* بردر هاور */}
+                  <div className={`absolute inset-0 border-2 rounded-2xl transition-all duration-400 pointer-events-none ${
+                    hoveredId === project.id
+                      ? 'border-white/30 shadow-2xl shadow-white/10'
+                      : isLocked ? 'border-white/10' : 'border-white/0'
+                  }`} />
                 </div>
               );
             })}
           </div>
         )}
+
+        {/* مودال */}
+        {selectedProject && (
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setSelectedProject(null)}>
+            <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl" onClick={e => e.stopPropagation()}>
+              <div className="relative h-64 overflow-hidden">
+                <Image
+                  src={selectedProject.banner?.startsWith('http') ? selectedProject.banner : `http://86.106.158.93:8000/${selectedProject.banner}`}
+                  alt={selectedProject.title}
+                  fill
+                  className="object-cover"
+                  placeholder="blur"
+                  blurDataURL={getBlurDataUrl()}
+                />
+                <button onClick={() => setSelectedProject(null)} className="absolute top-4 right-4 w-10 h-10 bg-white rounded-full flex items-center justify-center hover:bg-slate-100">
+                  <span className="text-2xl">×</span>
+                </button>
+              </div>
+              <div className="p-8">
+                <span className={`inline-block px-3 py-1 bg-gradient-to-r ${colorMap[selectedProject.category_name] || greenGrad} text-white rounded-full text-sm font-medium mb-3 shadow-lg`}>
+                  {selectedProject.category_name}
+                </span>
+                <h2 className="text-3xl font-bold text-slate-900 mb-4">{selectedProject.title}</h2>
+                <p className="text-slate-600 text-lg mb-6 leading-relaxed">{selectedProject.intro}</p>
+                <div className="mb-6">
+                  <h3 className="text-sm font-semibold text-slate-900 mb-3">Key Skills</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {selectedProject.tags?.split(',').map((tag, idx) => (
+                      <span key={idx} className="px-3 py-1 bg-[#245336]/10 text-[#114422] rounded-full text-sm font-medium border border-[#245336]/30">
+                        {tag.trim()}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                <a href={`/projects/${selectedProject.link}`} className={`inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r ${greenGrad} text-white rounded-lg font-medium hover:shadow-xl hover:scale-105 transition-all shadow-xl`}>
+                  View site <ArrowUpRight className="w-4 h-4" />
+                </a>
+              </div>
+            </div>
+          </div>
+        )}
+
+       
       </div>
 
-      {/* انیمیشن fadeInUp */}
       <style jsx>{`
         @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
+          from { opacity: 0; transform: translateY(30px); }
+          to { opacity: 1; transform: translateY(0); }
         }
       `}</style>
     </section>
