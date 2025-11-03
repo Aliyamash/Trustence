@@ -29,25 +29,28 @@ export default function Projects() {
     'Marketing': greenGrad,
   };
 
-  useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        setLoading(true);
-        const response = await getFetch("/projects");
-        let data = Array.isArray(response) ? response : response?.data || response?.projects || [];
-        setProjects(data);
-
-        const unique = Array.from(new Set(data.map(p => p.category_name).filter(Boolean)));
-        setCategories(['All', ...unique]);
-        setFilteredProjects(data);
-      } catch (err) {
-        setError("Failed to load projects");
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchProjects();
-  }, []);
+useEffect(() => {
+  const fetchProjects = async () => {
+    try {
+      setLoading(true);
+      const response = await getFetch("/projects");
+      
+      // فقط این خط مهمه!
+      const data = Array.isArray(response.data) ? response.data : [];
+      
+      setProjects(data);
+      setFilteredProjects(data);
+      
+      const unique = ['All', ...new Set(data.map(p => p.category_name).filter(Boolean))];
+      setCategories(unique);
+    } catch (err) {
+      setError("server error");
+    } finally {
+      setLoading(false);
+    }
+  };
+  fetchProjects();
+}, []);
 
   useEffect(() => {
     if (selectedCategory === 'All') {
