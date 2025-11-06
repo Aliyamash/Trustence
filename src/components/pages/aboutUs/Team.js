@@ -17,6 +17,8 @@ async function fetchTeamData() {
 
 export default async function Team() {
   const { data: teams, error } = await fetchTeamData();
+  console.log(teams);
+  
 
   return (
     <div className="bg-[#0A1810] py-24 md:py-52 text-white">
@@ -41,7 +43,7 @@ export default async function Team() {
                     <div className="w-80 mx-auto md:w-[19rem] h-[25rem] mb-4">
                       <Image
                         className="max-h-full max-w-full rounded-2xl object-cover mx-auto shadow-2xl shadow-[#fdfdfd42]"
-                        src={`${process.env.NEXT_PUBLIC_API_BASE_URL.replace('/api', '')}/${member.profile}`}
+                        src={`${process.env.NEXT_PUBLIC_MEDIA_URL}/${member.profile}`}
                         alt={member.name}
                         width={304}
                         height={304}

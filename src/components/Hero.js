@@ -28,7 +28,7 @@ export default function Hero() {
   return (
     <>
     
-      <div className="gradiant-bg md:py-60 py-40 h-auto">
+      <div className="gradiant-bg lg:py-60 md:py-44 py-40 h-auto">
         <div className="container">
           {/* hero title (nich) */}
           <div className="text-center mb-8 md:mb-20">

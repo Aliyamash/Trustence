@@ -10,11 +10,12 @@ export default function AboutUs() {
         <div className="text-white md:w-2/3">
           <p className="font-semibold mb-4">Design</p>
           <div>
-            <h1 className="title lightColor md:text-5xl text-3xl  pb-6 text-pretty">
+            
+            <h1 className="title lightColor md:text-5xl text-3xl text-[#245336] pb-6 text-pretty">
               Where art meets technology
             </h1>
           </div>
-          <p className="mb-8">
+          <p className="mb-8 ">
             We don’t just build websites. we craft digital masterpieces that
             tell your brand’s story, captivate your audience, and drive real
             business growth. Every pixel is placed with purpose, every
@@ -22,14 +23,14 @@ export default function AboutUs() {
           </p>
           <div className="flex flex-col">
             <div className="my-4">
-              <h1 className="title lightColor mb-2">Built on trust</h1>
+              <h1 className="title text-[#000] mb-2">Built on trust</h1>
               <p>
                 Trust isn’t just a word. it’s the foundation we code into every
                 project
               </p>
             </div>
             <div className="my-4">
-              <h1 className="title lightColor mb-2">From Sketch to Launch</h1>
+              <h1 className="title text-[#000] mb-2">From Sketch to Launch</h1>
               <p>
                 With you every step of the way, from concept to final implementation.
               </p>

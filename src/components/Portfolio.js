@@ -33,7 +33,7 @@ export default async function Portfilio() {
               >
                 <div className="relative aspect-[3/1] rounded-xl overflow-hidden shadow-2xl mb-6">
                   <Image
-                    src={`http://86.106.158.93:8000/${project.banner}`}
+                    src={`https://api.trustenceagency.com/${project.banner}`}
                     alt={project.title}
                     fill
                     className="object-cover"

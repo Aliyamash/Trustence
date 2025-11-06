@@ -25,8 +25,11 @@ export default function TypewriterText({ text, className, speed = 0.15, delay = 
         y: 100,
         opacity: 0,
         duration: 0.5,
-        ease: "power2.out",
-        stagger: 0.2, 
+        ease: "bounce.out",
+        stagger:{
+          amount: 0.5,
+          from: "random"
+        },
         delay: delay,
       });
     });

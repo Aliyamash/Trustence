@@ -140,6 +140,7 @@ body {
 
 .title {
   display: block;
+  font-weight: bold;
   font-family: "Aboreto", Arial, Helvetica, sans-serif;
 }
 .lightColor {
@@ -395,4 +396,8 @@ body {
 
 .Toastify__progress-bar {
   background-color: rgb(146, 146, 146);
+}
+.char {
+  display: inline-block;
+  will-change: transform;
 }

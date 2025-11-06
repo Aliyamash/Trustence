@@ -90,15 +90,15 @@ export default function Footer() {
               <Link href={"/aboutus"}>About Us</Link>
               <Link href={"/service"}>Our Service</Link>
               <Link href={"/contact"}>Contact Us</Link>
-              <Link href={"/blog"}>Blog Posts</Link>
+              {/* <Link href={"/blog"}>Blog Posts</Link> */}
             </div>
           </div>
 
           <div>
             <p className="font-bold mb-4 mt-12 text-lg">Resources</p>
             <div className="flex flex-col gap-2">
-              <Link href={"/portfolio"}>Portfilio</Link>
-              <Link href={"email:ali2763.mar@gmail.com"}>Support</Link>
+              <Link href={"/projects"}>Portfilio</Link>
+              <Link href={"mailto:trustenceagecy@gmail.com"}>Support</Link>
               <Link href={"/aboutus"}>Careers</Link>
             </div>
           </div>
@@ -106,10 +106,9 @@ export default function Footer() {
           <div>
             <p className="font-bold mb-4 mt-12 text-lg">Follow Us</p>
             <div className="flex flex-col gap-2">
-              <Link href={"https://www.twitter.com"}>Twitter Feed</Link>
-              <Link href={""}>Telegram Account</Link>
-              <Link href={"https://www.linkedin.com"}>LinkedIn Profile</Link>
-              <Link href={"https://www.instagram.com"}>Instagram Gallery</Link>
+              <Link href={"https://www.t.me/Real_MoOorGan"}>Telegram Account</Link>
+              <Link href={"http://linkedin.com/in/trustence-agency-b13a9038a"}>LinkedIn Profile</Link>
+              <Link href={"https://www.instagram.com/trustence.official/"}>Instagram Gallery</Link>
               <Link href={"https://wa.me/989217332763"}>WhatsApp Account</Link>
             </div>
           </div>
@@ -117,9 +116,9 @@ export default function Footer() {
           <div>
             <p className="font-bold mb-4 mt-12 text-lg">Contact Info</p>
             <div className="flex flex-col gap-2">
-              <Link href={"#"}>Privacy Policy</Link>
-              <Link href={"#"}>Term of Use</Link>
-              <Link href={"#"}>Copyright Notice</Link>
+              <Link href={"/Privacy"}>Privacy Policy</Link>
+              <Link href={"/terms"}>Term of Use</Link>
+              <Link href={"/copyright"}>Copyright Notice</Link>
             </div>
           </div>
         </div>
@@ -135,19 +134,16 @@ export default function Footer() {
           </div>
 
           <div className="flex gap-4 mb-8 md:mb-0">
-            <Link href={"https://www.youtube.com"}>
-              <Twitter className="icon-btn-size2" />
-            </Link>
-            <Link href={"https://www.youtube.com"}>
+            <Link href={"https://www.instagram.com/trustence.official/"}>
               <Instagram className="icon-btn-size2" />
             </Link>
             <Link href={"https://wa.me/989217332763"}>
               <Image src={WhatsApp} className="icon-btn-size2" />
             </Link>
-            <Link href={"https://www.youtube.com"}>
+            <Link href={"http://linkedin.com/in/trustence-agency-b13a9038a"}>
               <Linkedin className="icon-btn-size2" />
             </Link>
-            <Link href={"https://www.youtube.com"}>
+            <Link href={"https://www.t.me/Real_MoOorGan"}>
               <Image src={telegram} className="icon-btn-size2" />
             </Link>
           </div>

@@ -3,11 +3,17 @@ const nextConfig = {
   reactStrictMode: false,
   images: {
     remotePatterns: [
-     {
-        protocol: 'http',
-        hostname: '86.106.158.93',
-        port: '8000',
-        pathname: '/media/**', // همه مسیرهای media
+    {
+        protocol: 'https',                    
+        hostname: 'api.trustenceagency.com',  
+        port: '',                            
+        pathname: '/media/**',               
+      },
+      {
+        protocol: 'https',
+        hostname: 'api.trustenceagency.com',
+        port: '',
+        pathname: '/storage/**',              
       },
     ],
   },

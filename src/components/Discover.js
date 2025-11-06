@@ -10,7 +10,6 @@ import Link from "next/link";
 export default function Discover() {
   const titleRef = useRef(null);
   const buttonRef = useRef(null);
-  const dotsRef = useRef([]);
   const sectionRef = useRef(null);
 
   useEffect(() => {
@@ -18,14 +17,14 @@ export default function Discover() {
 
     const ctx = gsap.context(() => {
 
-      const split = new SplitText(titleRef.current, { type: "chars" });
+      const split = new SplitText(titleRef.current, { type: " chars , words " });
       const chars = split.chars;
 
     
       gsap.set([chars, buttonRef.current], {
         y: 100,
         opacity: 0,
-        rotationX: -120,
+        rotationX: -180,
       });
 
   
@@ -33,9 +32,12 @@ export default function Discover() {
         y: 0,
         opacity: 1,
         rotationX: 0,
-        duration: 0.8,
+        duration: 1,
         ease: "back.out(1.7)",
-        stagger: 0.03,
+        stagger: {
+          amount: 2,
+          from: "start",
+        },
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top 80%",
@@ -66,14 +68,14 @@ export default function Discover() {
   return (
     <section
       ref={sectionRef}
-      className="bg-[#245336] py-44 h-fit overflow-hidden"
+      className="bg-[#245336] py-64 h-fit overflow-hidden"
     >
       <div className="container">
         <div className="mt-24 md:mt-36">
          
           <h1
             ref={titleRef}
-            className="title-discover title text-center md:text-7xl text-5xl text-[#fff8ee]"
+            className="title-discover select-none title text-center md:text-7xl text-5xl text-[#fff8ee]"
           >
             Your business breakthrough starts with this strategic conversation.
           </h1>
