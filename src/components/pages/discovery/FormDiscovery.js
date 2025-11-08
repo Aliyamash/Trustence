@@ -14,7 +14,7 @@ export default function FormDiscovery() {
   const formRef = useRef(null);
   const containerRef = useRef(null);
 
-  // انیمیشن ورود با اسکرول
+  
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
@@ -56,16 +56,16 @@ export default function FormDiscovery() {
 
   // Toast و Reset
   useEffect(() => {
-    if (!state) return;
-    if (state?.status === "error") {
-      toast.error(state.message);
-    } else if (state?.status === "success") {
+    if (!state) return; 
+    if(state?.status === 'error'){
+      toast.error(state.message)
+    }else{
       toast.success(state.message);
       formRef.current?.reset();
     }
-  }, [state]);
+  },[state])
 
-  // استایل گرادیان متن (اینلاین برای تضمین کار کردن در همه مرورگرها)
+
   const gradientText = {
     backgroundImage: "linear-gradient(to right, #1C422B, #658672)",
     backgroundClip: "text",
@@ -120,7 +120,7 @@ export default function FormDiscovery() {
             <label className="block text-sm font-medium text-[#1C422B] mb-2">Full Name</label>
             <input
               type="text"
-              name="full_name"
+              name="Full_Name"
               required
               placeholder="John Doe"
               className="w-full px-5 py-4 rounded-xl outline-none border border-[#d0d0d0] focus:border-[#658672] focus:ring-4 focus:ring-[#658672]/20 transition-all duration-300 bg-gray-50/50"
@@ -132,7 +132,7 @@ export default function FormDiscovery() {
             <label className="block text-sm font-medium text-[#1C422B] mb-2">Email</label>
             <input
               type="email"
-              name="email"
+              name="Email"
               required
               placeholder="john@example.com"
               className="w-full px-5 py-4 rounded-xl border outline-none border-[#d0d0d0] focus:border-[#658672] focus:ring-4 focus:ring-[#658672]/20 transition-all duration-300 bg-gray-50/50"
@@ -143,7 +143,7 @@ export default function FormDiscovery() {
           <div className="form-field">
             <label className="block text-sm font-medium text-[#1C422B] mb-2">Your Project</label>
             <textarea
-              name="message"
+              name="Inquiry"
               required
               rows={5}
               placeholder="Tell us about your vision, goals, and timeline..."

@@ -27,7 +27,7 @@ export default function ContactUs() {
 
               <div className="flex gap-8 my-6">
                 <LocateIcon />
-                <p>Iran - Isfahan - Zarinshahr</p>
+                <p>Switzerland - Einigen , BE 3646</p>
               </div>
           </div>
 

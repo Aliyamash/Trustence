@@ -5,22 +5,22 @@ import SubmitButton from "@/components/SubmitButton";
 import { useFormState } from "react-dom";
 import { useRef, useEffect } from "react";
 import { toast } from "react-toastify";
+import Link from "next/link";
 
 export default function Form() {
   const [state, aboutFormAction] = useFormState(aboutCreate, null);
   const formRef = useRef(null);
 
  
-  useEffect(() => {
-    if (!state) return;
-
-    if (state?.status === "error") {
-      toast.error(state.message);
-    } else if (state?.status === "success") {
+   useEffect(() => {
+    if (!state) return; 
+    if(state?.status === 'error'){
+      toast.error(state.message)
+    }else{
       toast.success(state.message);
       formRef.current?.reset();
     }
-  }, [state]);
+  },[state])
 
   return (
     <div className="text-white">
@@ -30,7 +30,7 @@ export default function Form() {
           <label className="block text-sm -ml-1 mb-2">Full Name</label>
           <input
             type="text"
-            name="full_name"
+            name="Full_Name"
             required
             placeholder="John Doe"
             className="w-full lg:w-[30rem] bg-[#1a221d] rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#658672] transition"
@@ -42,7 +42,7 @@ export default function Form() {
           <label className="block text-sm -ml-1 mb-2">Email</label>
           <input
             type="email"
-            name="email"
+            name="Email"
             required
             placeholder="john@example.com"
             className="w-full lg:w-[30rem] bg-[#1a221d] rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#658672] transition"
@@ -53,7 +53,7 @@ export default function Form() {
         <div className="mb-8">
           <label className="block text-sm -ml-1 mb-2">Message</label>
           <textarea
-            name="message"
+            name="Inquiry"
             required
             placeholder="Tell us about your project..."
             rows={6}
@@ -64,9 +64,9 @@ export default function Form() {
         {/* چک‌باکس */}
         <div className="mb-8">
           <label className="custom-checkbox text-sm flex items-center gap-2">
-            <input type="checkbox" name="agree_terms" required />
+            <input type="checkbox" name="Agree_terms" required />
             <span className="checkmark"></span>
-            I agree to the <span className="underline">Terms of Service</span> and <span className="underline">Privacy Policy</span>
+            I agree to the <Link href={"/terms"} className="underline hover:text-green-500">Terms of Service</Link> and <Link href={"/privacy"} className="underline hover:text-green-500">Privacy Policy</Link>
           </label>
         </div>
 

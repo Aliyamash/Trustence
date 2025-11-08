@@ -17,8 +17,7 @@ async function fetchTeamData() {
 
 export default async function Team() {
   const { data: teams, error } = await fetchTeamData();
-  console.log(teams);
-  
+
 
   return (
     <div className="bg-[#0A1810] py-24 md:py-52 text-white">
