@@ -1,6 +1,13 @@
 // app/team/page.js
 import Image from "next/image";
-import { Github, Twitter, Linkedin } from "lucide-react";
+import {
+  Github,
+  Twitter,
+  Linkedin,
+  User,
+  Users,
+  UserRound,
+} from "lucide-react";
 import Link from "next/link";
 import { getFetch } from "@/utils/fetch";
 import { Suspense } from "react";
@@ -17,7 +24,6 @@ async function fetchTeamData() {
 
 export default async function Team() {
   const { data: teams, error } = await fetchTeamData();
-
 
   return (
     <div className="bg-[#0A1810] py-24 md:py-52 text-white">
@@ -50,23 +56,36 @@ export default async function Team() {
                       />
                     </div>
                     <div className="py-2">
-                      <h1 className="font-bold text-2xl text-center">{member.name}</h1>
+                      <h1 className="font-bold text-2xl text-center">
+                        {member.name}
+                      </h1>
                       <p className="text-lg text-center">{member.position}</p>
                     </div>
-                    <p className="w-[80%] my-4 text-center text-pretty">{member.bio}</p>
+                    <p className="w-[80%] my-4 text-center text-pretty">
+                      {member.bio}
+                    </p>
                     <div className="flex pt-1 gap-8">
                       {member.github && member.github !== "#" && (
-                        <Link href={member.github} className="hover:-translate-y-1 transition duration-300">
+                        <Link
+                          href={member.github}
+                          className="hover:-translate-y-1 transition duration-300"
+                        >
                           <Github className="icon-btn-size" />
                         </Link>
                       )}
                       {member.twitter && member.twitter !== "#" && (
-                        <Link href={member.twitter} className="hover:-translate-y-1 transition duration-300">
+                        <Link
+                          href={member.twitter}
+                          className="hover:-translate-y-1 transition duration-300"
+                        >
                           <Twitter className="icon-btn-size" />
                         </Link>
                       )}
                       {member.linkedin && member.linkedin !== "#" && (
-                        <Link href={member.linkedin} className="hover:-translate-y-1 transition duration-300">
+                        <Link
+                          href={member.linkedin}
+                          className="hover:-translate-y-1 transition duration-300"
+                        >
                           <Linkedin className="icon-btn-size" />
                         </Link>
                       )}
@@ -75,10 +94,28 @@ export default async function Team() {
                 ))
               ) : (
                 <div className="text-center text-gray-400 text-lg py-10">
-                 No members found.
+                  No members found.
                 </div>
               )}
+              
+            <div className="w-[300px]">
+              <div className="bg-[#99999911]  rounded-2xl backdrop-blur-sm p-8 flex flex-col items-center justify-center text-center shadow-2xl  transition duration-200 w-[300px] h-[25rem]">
+                <div className="flex gap-3 opacity-80">
+                  <Users className="w-16 h-16 text-white" />
+                </div>
+              </div>
+             <div className="text-center text-pretty mt-6">
+               <h3 className="text-white text-xl font-semibold mb-3 tracking-wide">
+                 + More Specialists
+                </h3>
+
+                <p className="text-[#fff8ee] text-md leading-relaxed">
+                  Hidden experts across design, development and AI.
+                </p>
+             </div>
             </div>
+            </div>
+            
           )}
         </Suspense>
 
@@ -90,7 +127,10 @@ export default async function Team() {
           </p>
           <div className="flex overflow-hidden relative font-bold transition-shadow duration-700 text-white hover:text-black hover:shadow-xl hover:shadow-[#658672] p-btn items-center bg-btn2 px-8 py-4 w-fit rounded-xl">
             <div className="transition-all absolute duration-700 hover:scale-[25rem] top-1.5/3 left-4 z-0 dot bg-white h-1.5 w-1.5 rounded-full"></div>
-            <Link className="z-10 text-lg transition-all duration-700" href="/discovery">
+            <Link
+              className="z-10 text-lg transition-all duration-700"
+              href="/discovery"
+            >
               Open positions
             </Link>
           </div>
@@ -99,7 +139,6 @@ export default async function Team() {
     </div>
   );
 }
-
 
 function Spinner() {
   return (
