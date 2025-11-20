@@ -21,13 +21,8 @@ export default function ContactUs() {
               </div>
 
               <div className="flex gap-8 my-6">
-                <Phone />
-                <p>(+98) 921-155-7398</p>
-              </div>
-
-              <div className="flex gap-8 my-6">
                 <LocateIcon />
-                <p>Switzerland - Einigen , BE 3646</p>
+                <p>Switzerland - Einigen</p>
               </div>
           </div>
 

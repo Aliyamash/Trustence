@@ -46,15 +46,15 @@ export default async function Portfilio() {
                   </h2>
                   <p className="ml-1 mb-6">{project.intro}</p>
                 </div>
-                <div className="flex transition duration-500 service-container items-center">
-                  <Link
+                <Link className="flex transition duration-500 service-container items-center" 
+                 href={project.link}>
+                  <div
                     className="btn-service pr-1 ml-2 text-lg transition-all duration-500"
-                    href={project.link}
                   >
                     View Project
-                  </Link>
+                  </div>
                   <ChevronRight className="icon-btn-size transition-all duration-500" />
-                </div>
+                </Link>
               </div>
             ))
           )}

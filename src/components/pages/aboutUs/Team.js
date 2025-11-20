@@ -25,10 +25,12 @@ async function fetchTeamData() {
 export default async function Team() {
   const { data: teams, error } = await fetchTeamData();
 
+  
+
   return (
-    <div className="bg-[#0A1810] py-24 md:py-52 text-white">
+    <div className="bg-[#0A1810] py-24 md:py-52 text-white"id="team">
       <div className="container">
-        <div className="mb-32">
+        <div className="mb-32"  >
           <p className="font-bold">Together</p>
           <h1 className="text-6xl mt-4 mb-6 title font-bold">Our Team</h1>
           <h2>We stand by our word</h2>

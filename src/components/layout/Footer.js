@@ -138,13 +138,13 @@ export default function Footer() {
               <Instagram className="icon-btn-size2" />
             </Link>
             <Link href={"https://wa.me/989217332763"}>
-              <Image src={WhatsApp} className="icon-btn-size2" />
+              <Image src={WhatsApp} className="icon-btn-size2" alt="whats app" />
             </Link>
             <Link href={"http://linkedin.com/in/trustence-agency-b13a9038a"}>
               <Linkedin className="icon-btn-size2" />
             </Link>
             <Link href={"https://www.t.me/Real_MoOorGan"}>
-              <Image src={telegram} className="icon-btn-size2" />
+              <Image src={telegram} className="icon-btn-size2" alt="telegram" />
             </Link>
           </div>
         </div>

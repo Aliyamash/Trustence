@@ -4,6 +4,7 @@ import FAQSection from "@/components/FAQSection";
 import Hero from "@/components/Hero";
 import Portfilio from "@/components/Portfolio";
 import Service from "@/components/Service";
+import TeamSection from "@/components/TeamSection";
 
 export default function Home() {
   return (
@@ -13,6 +14,7 @@ export default function Home() {
   <Service/>
   <Discover/>
   <Portfilio/>
+  <TeamSection/>
   <FAQSection/>
   </>);
 }

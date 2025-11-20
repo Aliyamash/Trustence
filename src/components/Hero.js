@@ -21,7 +21,7 @@ export default function Hero() {
     gsap.fromTo(
       buttonRef.current,
       { y: 20, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1, ease: "power2.out", delay: 3 }
+      { y: 0, opacity: 1, duration: 1, ease: "power2.out", delay: 1 }
     );
     
   }, []);
