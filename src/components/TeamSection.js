@@ -26,7 +26,7 @@ export default async function TeamSection() {
   const visibleMembers = teamMembers.slice(0,2);
 
   return (
-    <section className="py-24 px-6 bg-[#fff8ee]">
+    <section className="py-60 px-6 bg-[#fff8ee]">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16 ">
           <h2 className="text-4xl font-bold text-[#060e09] mb-4 tracking-tight title">
@@ -46,7 +46,7 @@ export default async function TeamSection() {
                   key={index}
                   className="flex flex-col items-center group transition-transform duration-300 hover:-translate-y-2"
                 >
-                  <div className="relative mb-4 overflow-hidden rounded-2xl shadow-lg shadow-[#818080] w-64 h-64">
+                  <div className="relative mb-4 overflow-hidden rounded-2xl shadow-lg shadow-[#818080] w-80 h-80">
                     <Image
                       src={`${process.env.NEXT_PUBLIC_MEDIA_URL}/${member.profile}`}
                       alt={member.name}
@@ -73,13 +73,13 @@ export default async function TeamSection() {
             )}
 
             <div className="flex flex-col items-center relative">
-              <div className="relative mb-4 overflow-hidden rounded-2xl w-64 h-64">
+              <div className="relative mb-4 overflow-hidden rounded-2xl w-80 h-80">
                 <Image
-                  width={64}
-                  height={64}
+                  width={80}
+                  height={80}
                   src={fadedMember.image}
                   alt="More team members"
-                  className="w-64 h-64 object-cover blur-sm opacity-40"
+                  className="w-80 h-80 object-cover blur-sm opacity-40"
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#fff8ee]/50 to-[#fff8ee]" />
               </div>
