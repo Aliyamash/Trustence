@@ -22,7 +22,6 @@ async function fetchTeamData() {
 export default async function TeamSection() {
   const { data: teamMembers, error } = await fetchTeamData();
 
-  // فقط ۳ نفر اول رو نشون بده (مثل دیزاین اصلی)
   const visibleMembers = teamMembers.slice(0,2);
 
   return (
