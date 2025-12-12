@@ -10,8 +10,8 @@ export default function AboutUsPage() {
     return(
         <>
             <HeadAbout/>
-            <PeopleAbout/>
             <Team/>
+            <PeopleAbout/>
             <ContactUs/>
             <DiscoverAbout />
         </>
