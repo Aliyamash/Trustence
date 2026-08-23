@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getFetch } from "@/utils/fetch";
+import { getFetch, resolveMediaUrl } from "@/utils/fetch";
 import { getBlurDataUrl } from "@/utils/helper";
 import { ArrowRight, Filter, ArrowUpRight, Lock, Sparkles } from "lucide-react";
 import Image from "next/image";
@@ -17,7 +17,6 @@ export default function Projects() {
   const [hoveredId, setHoveredId] = useState(null);
   const [selectedProject, setSelectedProject] = useState(null);
 
-  // گرادیان سبز سه‌گانه (تیره → متوسط → روشن)
   const greenGrad = "from-[#114422] via-[#245336] to-[#22c55e]";
 
   const colorMap = {
@@ -35,7 +34,6 @@ export default function Projects() {
         setLoading(true);
         const response = await getFetch("/projects");
 
-        // فقط این خط مهمه!
         const data = Array.isArray(response.data) ? response.data : [];
 
         setProjects(data);
@@ -162,7 +160,7 @@ export default function Projects() {
                       src={
                         project.banner?.startsWith("http")
                           ? project.banner
-                          : `${process.env.NEXT_PUBLIC_MEDIA_URL}/${project.banner}`
+                          : resolveMediaUrl(project.banner)
                       }
                       alt={project.title}
                       fill
@@ -337,7 +335,9 @@ export default function Projects() {
                   </div>
                 </div>
                 <a
-                  href={`${selectedProject.link}`}
+                  href={selectedProject.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className={`inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r ${greenGrad} text-white rounded-lg font-medium hover:shadow-xl hover:scale-105 transition-all shadow-xl`}
                 >
                   View site <ArrowUpRight className="w-4 h-4" />

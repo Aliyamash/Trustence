@@ -52,7 +52,7 @@ export default function PeopleAbout() {
 
           {/* picture */}
           <div className="mx-auto w-[17rem] sm:w-[20rem] md:w-[25rem] lg:w-[35rem] 2xl:w-[40rem] h-full">
-            <Image className="w-full h-full" src={picAbout}  />
+            <Image className="w-full h-full" src={picAbout} alt="Trustence team collaborating" />
           </div>
 
 

@@ -1,18 +1,10 @@
 import { ChevronRight, Layers } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { getFetch } from "@/utils/fetch";
+import { getProjects } from "@/utils/content";
 
-export default async function Portfilio() {
-  let projects = [];
-
- try {
-    const response = await getFetch('/last-projects/2');
-    projects = Array.isArray(response.data) ? response.data : [];
-  } catch (error) {
-    console.error("خطا در دریافت پروژه‌ها:", error);
-  }
-
+export default async function Portfolio() {
+  const projects = await getProjects(2);
   return (
     <div className="bg-[#E9EDEA]">
       <div className="py-24 container">
@@ -24,7 +16,7 @@ export default async function Portfilio() {
           </p>
 
           {projects.length === 0 ? (
-            <p className="text-red-600 text-lg">Problem loading previous project</p>
+            <p className="text-red-600 text-lg">هیچ پروژه‌ای برای نمایش موجود نیست</p>
           ) : (
             projects.map((project) => (
               <div
@@ -33,7 +25,7 @@ export default async function Portfilio() {
               >
                 <div className="relative aspect-[3/1] rounded-xl overflow-hidden shadow-2xl mb-6">
                   <Image
-                    src={`https://api.trustenceagency.com/${project.banner}`}
+                    src={project.banner}
                     alt={project.title}
                     fill
                     className="object-cover"
@@ -46,11 +38,13 @@ export default async function Portfilio() {
                   </h2>
                   <p className="ml-1 mb-6">{project.intro}</p>
                 </div>
-                <Link className="flex transition duration-500 service-container items-center" 
-                 href={project.link}>
-                  <div
-                    className="btn-service pr-1 ml-2 text-lg transition-all duration-500"
-                  >
+                <Link
+                  className="flex transition duration-500 service-container items-center"
+                  href={project.link || `/projects/${project.id}`}
+                  target={project.link ? "_blank" : undefined}
+                  rel={project.link ? "noopener noreferrer" : undefined}
+                >
+                  <div className="btn-service pr-1 ml-2 text-lg transition-all duration-500">
                     View Project
                   </div>
                   <ChevronRight className="icon-btn-size transition-all duration-500" />

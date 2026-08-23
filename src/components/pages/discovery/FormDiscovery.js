@@ -3,14 +3,13 @@
 
 import { formDiscover } from "@/actions/discovery";
 import SubmitButton from "@/components/SubmitButton";
-import { useFormState } from "react-dom";
-import { useRef, useEffect } from "react";
+import { useActionState, useRef, useEffect } from "react";
 import { toast } from "react-toastify";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 export default function FormDiscovery() {
-  const [state, formDiscoveryAction] = useFormState(formDiscover, null);
+  const [state, formDiscoveryAction] = useActionState(formDiscover, null);
   const formRef = useRef(null);
   const containerRef = useRef(null);
 

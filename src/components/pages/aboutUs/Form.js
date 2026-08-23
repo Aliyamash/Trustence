@@ -2,13 +2,12 @@
 
 import { aboutCreate } from "@/actions/about";
 import SubmitButton from "@/components/SubmitButton";
-import { useFormState } from "react-dom";
-import { useRef, useEffect } from "react";
+import { useActionState, useRef, useEffect } from "react";
 import { toast } from "react-toastify";
 import Link from "next/link";
 
 export default function Form() {
-  const [state, aboutFormAction] = useFormState(aboutCreate, null);
+  const [state, aboutFormAction] = useActionState(aboutCreate, null);
   const formRef = useRef(null);
 
  

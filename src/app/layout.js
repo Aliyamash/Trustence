@@ -1,7 +1,7 @@
-import Header from "@/components/layout/Header";
 import "./globals.css";
-import Footer from "@/components/layout/Footer";
-import Toastify from "@/components/library/Toastify";
+import AnalyticsTracker from "@/components/AnalyticsTracker";
+import SiteChrome from "@/components/layout/SiteChrome";
+
 
 export const metadata = {
   title: "Trustence",
@@ -42,10 +42,8 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <Header />
-        {children}
-        <Toastify />
-        <Footer />
+        <AnalyticsTracker />
+        <SiteChrome>{children}</SiteChrome>
       </body>
     </html>
   );

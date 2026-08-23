@@ -9,28 +9,20 @@ import {
   UserRound,
 } from "lucide-react";
 import Link from "next/link";
-import { getFetch } from "@/utils/fetch";
 import { Suspense } from "react";
+import { getTeamMembers } from "@/utils/content";
 
 async function fetchTeamData() {
-  try {
-    const response = await getFetch("/our-team");
-    return { data: response.data, error: null };
-  } catch (error) {
-    console.error("Error retrieving team members: ", error);
-    return { data: [], error: "A problem was detected on the server" };
-  }
+  return { data: await getTeamMembers(), error: null };
 }
 
 export default async function Team() {
   const { data: teams, error } = await fetchTeamData();
 
-  
-
   return (
-    <div className="bg-[#0A1810] py-24 md:py-52 text-white"id="team">
+    <div className="bg-[#0A1810] py-24 md:py-52 text-white" id="team">
       <div className="container">
-        <div className="mb-32"  >
+        <div className="mb-32">
           <p className="font-bold">Together</p>
           <h1 className="text-6xl mt-4 mb-6 title font-bold">Our Team</h1>
           <h2>We stand by our word</h2>
@@ -43,18 +35,17 @@ export default async function Team() {
               {error}
             </div>
           ) : (
-            <div className="grid auto-cols-auto grid-cols-1 md:grid-cols-2 lg:grid-cols-3  justify-center justify-items-center gap-24 gap-y-24 md:gap-4 md:gap-y-24">
+            <div className="grid auto-cols-auto grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-center justify-items-center gap-24 gap-y-24 md:gap-4 md:gap-y-24">
               {teams.length > 0 ? (
-                teams.map((member, index) => (
-                  <div key={index} className="flex flex-col items-center">
+                teams.map((member) => (
+                  <div key={member.id} className="flex flex-col items-center">
                     <div className="w-80 mx-auto md:w-[19rem] h-[25rem] mb-4">
                       <Image
                         className="max-h-full max-w-full rounded-2xl object-cover mx-auto shadow-2xl shadow-[#fdfdfd42]"
-                        src={`${process.env.NEXT_PUBLIC_MEDIA_URL}/${member.profile}`}
+                        src={member.image}
                         alt={member.name}
                         width={304}
                         height={304}
-                        unoptimized
                       />
                     </div>
                     <div className="py-2">
@@ -99,25 +90,23 @@ export default async function Team() {
                   No members found.
                 </div>
               )}
-              
-            <div className="w-[300px]">
-              <div className="bg-[#99999911]  rounded-2xl backdrop-blur-sm p-8 flex flex-col items-center justify-center text-center shadow-2xl  transition duration-200 w-[300px] h-[25rem]">
-                <div className="flex gap-3 opacity-80">
-                  <Users className="w-16 h-16 text-white" />
+
+              <div className="w-[300px]">
+                <div className="bg-[#99999911] rounded-2xl backdrop-blur-sm p-8 flex flex-col items-center justify-center text-center shadow-2xl transition duration-200 w-[300px] h-[25rem]">
+                  <div className="flex gap-3 opacity-80">
+                    <Users className="w-16 h-16 text-white" />
+                  </div>
+                </div>
+                <div className="text-center text-pretty mt-6">
+                  <h3 className="text-white text-xl font-semibold mb-3 tracking-wide">
+                    + More Specialists
+                  </h3>
+                  <p className="text-[#fff8ee] text-md leading-relaxed">
+                    Hidden experts across design, development and AI.
+                  </p>
                 </div>
               </div>
-             <div className="text-center text-pretty mt-6">
-               <h3 className="text-white text-xl font-semibold mb-3 tracking-wide">
-                 + More Specialists
-                </h3>
-
-                <p className="text-[#fff8ee] text-md leading-relaxed">
-                  Hidden experts across design, development and AI.
-                </p>
-             </div>
             </div>
-            </div>
-            
           )}
         </Suspense>
 

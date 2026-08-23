@@ -2,7 +2,7 @@
 
 # dependencies
 /node_modules
-/package-lock.json
+/.pnpm-store/
 /.pnp
 .pnp.js
 .yarn/install-state.gz
@@ -20,6 +20,7 @@
 # misc
 .DS_Store
 *.pem
+.idea/
 
 # debug
 npm-debug.log*

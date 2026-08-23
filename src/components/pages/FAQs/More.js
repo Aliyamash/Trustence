@@ -1,29 +1,13 @@
 "use client"
 import { faqCreate } from "@/actions/FAQ";
 import SubmitButton from "@/components/SubmitButton";
-import { getFetch } from "@/utils/fetch";
-import { useEffect, useRef, useState } from "react";
-import { useFormState } from "react-dom";
+import { useActionState, useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 
 export default function MoreQuestion(){
 
-    const [ state , formActionFAQ] = useFormState(faqCreate)
-    const [formFields , setFormField] = useState([])
+    const [ state , formActionFAQ] = useActionState(faqCreate, null)
     const formRef = useRef(null)
-   useEffect(() => {
-    const fetchFields = async () => {
-      try {
-        const data = await getFetch("/project-request-form/get_in_touch");     
-        setFormField(data);
-      } catch (err) {
-        console.error("Error fetching fields:", err);
-      }
-    };
-
-    fetchFields();
-  }, []);
-    
      useEffect(() => {
         if (!state) return; 
         if(state?.status === 'error'){
@@ -44,15 +28,15 @@ export default function MoreQuestion(){
                    <div className="flex flex-col gap-5">
                      <div className="flex flex-col md:flex-row items-start gap-5">
                         <div className="w-full ">
-                            <input className="bg-zinc-200 p-8 w-full rounded-3xl" name="Full_Name" type="text" placeholder="Full Name" />
+                            <input className="bg-zinc-200 p-8 w-full rounded-3xl" name="Full_Name" type="text" placeholder="Full Name" required />
                         </div>
 
                          <div className="w-full ">
-                            <input className="bg-zinc-200 p-8 w-full rounded-3xl" name="Email" type="email" placeholder="Email Address" />
+                            <input className="bg-zinc-200 p-8 w-full rounded-3xl" name="Email" type="email" placeholder="Email Address" required />
                         </div>
                     </div>
                     <div >
-                        <textarea className="bg-zinc-200 p-8 w-full rounded-3xl" name="Inquiry" id="message" placeholder="Your Message" rows={8}></textarea>
+                        <textarea className="bg-zinc-200 p-8 w-full rounded-3xl" name="Inquiry" id="message" placeholder="Your Message" rows={8} required></textarea>
                     </div>
                    </div>
                    

@@ -14,7 +14,7 @@ export default function TermsOfUse() {
           <div className="max-w-4xl mx-auto px-4 md:px-8">
             <section className="mb-10 text-white">
               <p className="leading-relaxed">
-                By using <strong>www.trustenceagency.com</strong>, you agree to these Terms, which are governed by the laws of the <strong>European Union</strong> and supplemented by the laws of <strong>Ireland</strong> (as our EU representative jurisdiction).
+                By using <strong>trust-ence.com</strong>, you agree to these Terms, which are governed by the laws of the <strong>European Union</strong> and supplemented by the laws of <strong>Ireland</strong> (as our EU representative jurisdiction).
               </p>
             </section>
 

@@ -1,14 +1,14 @@
 "use client"
 import { serviceCreate } from "@/actions/service";
 import { Headset } from "lucide-react";
-import { useEffect, useRef } from "react";
-import { useFormState } from "react-dom";
+import { useActionState, useEffect, useRef } from "react";
 import { toast } from "react-toastify";
+import SubmitButton from "@/components/SubmitButton";
 
 
 export default function DiscoveryForm() {
 
-const[state , formServiceAction] = useFormState(serviceCreate)
+const[state , formServiceAction] = useActionState(serviceCreate, null)
 const formRef = useRef(null)
 
  useEffect(() => {
@@ -34,7 +34,7 @@ const formRef = useRef(null)
             name="Full_Name"
             className="mt-1 w-full p-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1C422B]"
             placeholder="John Doe"
-            
+            required
           />
         </div>
 
@@ -45,7 +45,7 @@ const formRef = useRef(null)
             name="Email"
             className="mt-1 w-full p-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1C422B]"
             placeholder="john@example.com"
-            
+            required
           />
         </div>
 
@@ -56,7 +56,7 @@ const formRef = useRef(null)
             name="Phone_Number"
             className="mt-1 w-full p-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1C422B]"
             placeholder="+1 234 567 890"
-            
+            required
           />
         </div>
 
@@ -65,7 +65,7 @@ const formRef = useRef(null)
           <select
             name="Select_Service"
             className="mt-1 w-full p-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1C422B]"
-            
+            required
           >
             <option value="">Choose...</option>
             <option value="Normal Website Design">Normal Website Design</option>
@@ -79,7 +79,7 @@ const formRef = useRef(null)
           <select
             name="Budget_Range"
             className="mt-1 w-full p-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1C422B]"
-            
+            required
           >
             <option value="">Select Budget</option>
             <option value="$1000 - $3000">$1000 - $3000</option>
@@ -95,15 +95,15 @@ const formRef = useRef(null)
             rows="4"
             className="mt-1 w-full p-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1C422B]"
             placeholder="Tell us a bit about your project..."
+            required
           ></textarea>
         </div>
 
-        <button
-          type="submit"
-          className="w-full py-3 rounded-xl bg-gradient-to-r from-[#1C422B] to-[#4CAF50] text-white font-bold hover:opacity-90 transition"
-        >
-          Request Session
-        </button>
+        <SubmitButton
+          title="Request Session"
+          loadingTitle="Sending..."
+          style="w-full py-3 rounded-xl bg-gradient-to-r from-[#1C422B] to-[#4CAF50] text-white font-bold hover:opacity-90 transition disabled:opacity-60"
+        />
 
         <div className="flex flex-row gap-2 justify-center items-center">
         <p className="text-xs text-zinc-500 inline text-center mt-2 ">

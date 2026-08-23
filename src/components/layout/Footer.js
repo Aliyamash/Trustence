@@ -11,14 +11,13 @@ import WhatsApp from "@/public/images/whatsapp.svg";
 import logo from "@/public/images/logo.webp";
 import Image from "next/image";
 import Link from "next/link";
-import { useFormState } from "react-dom";
 import { create } from "@/actions/footer";
 import SubmitButton from "../SubmitButton";
-import { useEffect, useRef } from "react";
+import { useActionState, useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 
 export default function Footer() {
-  const [state, formAction] = useFormState(create);
+  const [state, formAction] = useActionState(create, null);
   const formRef = useRef(null)
 
   useEffect(() => {
@@ -54,6 +53,7 @@ export default function Footer() {
                   type="email"
                   name="Email"
                   placeholder="Your email here"
+                  required
                 />
                 <SubmitButton
                   title="join"
@@ -86,7 +86,7 @@ export default function Footer() {
           <div>
             <p className="font-bold mb-4 mt-12 text-lg">Quick Links</p>
             <div className="flex flex-col gap-2">
-              <Link href={"#"}>Home page</Link>
+              <Link href={"/"}>Home page</Link>
               <Link href={"/aboutus"}>About Us</Link>
               <Link href={"/service"}>Our Service</Link>
               <Link href={"/contact"}>Contact Us</Link>
@@ -116,7 +116,7 @@ export default function Footer() {
           <div>
             <p className="font-bold mb-4 mt-12 text-lg">Contact Info</p>
             <div className="flex flex-col gap-2">
-              <Link href={"/Privacy"}>Privacy Policy</Link>
+              <Link href={"/privacy"}>Privacy Policy</Link>
               <Link href={"/terms"}>Term of Use</Link>
               <Link href={"/copyright"}>Copyright Notice</Link>
             </div>
@@ -129,8 +129,8 @@ export default function Footer() {
             <p className="text-sm pt-12 md:pt-0">
               © 2024 Trustence. All rights reserved.
             </p>
-            <Link href={"#"}>Privacy Policy</Link>
-            <Link href={"#"}>Term of Use</Link>
+            <Link href={"/privacy"}>Privacy Policy</Link>
+            <Link href={"/terms"}>Term of Use</Link>
           </div>
 
           <div className="flex gap-4 mb-8 md:mb-0">

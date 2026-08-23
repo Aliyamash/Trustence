@@ -1,6 +1,4 @@
 // app/privacy-policy/page.tsx
-import Link from 'next/link';
-
 export default function PrivacyPolicy() {
   return (
     <>
@@ -17,7 +15,7 @@ export default function PrivacyPolicy() {
           <div className="max-w-4xl mx-auto px-4 md:px-8">
             <section className="mb-10 text-white">
               <p className="leading-relaxed">
-                <strong>Trustence Inc.</strong> ("we", "us", or "our") operates <strong>www.trustenceagency.com</strong> (the "Site").
+                <strong>Trustence Inc.</strong> ("we", "us", or "our") operates <strong>trust-ence.com</strong> (the "Site").
               </p>
               <p className="mt-4 leading-relaxed">
                 This Privacy Policy is compliant with the <strong>General Data Protection Regulation (GDPR)</strong> and applies to all individuals in the European Union (EU) and European Economic Area (EEA).
@@ -38,8 +36,9 @@ export default function PrivacyPolicy() {
               <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">2. Information We Collect</h2>
               <ul className="list-disc pl-6 text-white/90 space-y-3 text-lg">
                 <li><strong>Personal Data:</strong> Name, email, phone, and any data submitted via contact forms.</li>
-                <li><strong>Usage Data:</strong> IP address, browser type, pages visited, time spent (via Google Analytics or similar).</li>
-                <li><strong>Cookies:</strong> Essential, analytics, and marketing cookies (with consent).</li>
+                <li><strong>Usage Data:</strong> Pages visited, referring page, approximate country, device type/model, operating system, browser, and a random session identifier.</li>
+                <li><strong>IP Processing:</strong> The server processes the IP address briefly to estimate the country, then discards it. Raw IP addresses, precise location, city, and coordinates are not stored in analytics.</li>
+                <li><strong>Browser Storage:</strong> A session identifier used only to distinguish visits during the current browser session.</li>
               </ul>
             </section>
 
@@ -75,6 +74,9 @@ export default function PrivacyPolicy() {
               <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">5. Data Retention & Security</h2>
               <p className="text-white/90 text-lg leading-relaxed">
                 We retain data only as long as necessary. We use encryption, access controls, and regular security audits to protect your information.
+              </p>
+              <p className="mt-4 text-white/90 text-lg leading-relaxed">
+                Country and device detection are approximate. VPNs, proxies, browser privacy controls, and modified user-agent strings may affect accuracy.
               </p>
             </section>
 

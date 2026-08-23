@@ -1,25 +1,9 @@
 "use server";
-import { postFetch } from "@/utils/fetch";
+import { submitRequest } from "./submitRequest";
 
-async function aboutCreate(state, formData) {
-  const Full_Name = formData.get("Full_Name");
-  const Email = formData.get("Email");
-  const Inquiry = formData.get("Inquiry");
-  const form_page = "get_in_touch";
-
-  if (Full_Name === "" || Email === "" || Inquiry === "") {
-    return {
-      status: "error",
-      message: "Please fill in the field.",
-    };
-  }
-  const data = await postFetch('/project-request/' , { Full_Name , Email , Inquiry , form_page})
-    
-   if (data.status == "200") {
-    return {
-      status: data.status,
-      message: data.message,
-    };
-  } 
+async function aboutCreate(_state, formData) {
+  const payload = { Full_Name: formData.get("Full_Name"), Email: formData.get("Email"), Inquiry: formData.get("Inquiry"), Agree_terms: Boolean(formData.get("Agree_terms")), form_page: "get_in_touch" };
+  if (!payload.Agree_terms) return { status: "error", message: "Please accept the Terms and Privacy Policy." };
+  return submitRequest(payload, ["Full_Name", "Email", "Inquiry"]);
 }
 export { aboutCreate };

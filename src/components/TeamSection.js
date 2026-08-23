@@ -1,28 +1,22 @@
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
-import { getFetch } from "@/utils/fetch";
 import Link from "next/link";
+import { getTeamMembers } from "@/utils/content";
 
 const fadedMember = {
   role: "And More",
-  image: "https://api.trustenceagency.com/media/Team/4/6905cbbb7be4c.jpg",
+  image: "https://api.trust-ence.com/media/Team/4/6905cbbb7be4c.jpg",
   imagePlaceholder: true, // فقط برای تشخیص
 };
 
 async function fetchTeamData() {
-  try {
-    const response = await getFetch("/our-team");
-    return { data: response.data, error: null };
-  } catch (error) {
-    console.error("Error retrieving team members: ", error);
-    return { data: [], error: "A problem was detected on the server" };
-  }
+  return { data: await getTeamMembers(), error: null };
 }
 
 export default async function TeamSection() {
   const { data: teamMembers, error } = await fetchTeamData();
 
-  const visibleMembers = teamMembers.slice(0,2);
+  const visibleMembers = teamMembers.slice(0, 2);
 
   return (
     <section className="py-60 px-6 bg-[#fff8ee]">
@@ -42,18 +36,17 @@ export default async function TeamSection() {
             {visibleMembers.length > 0 ? (
               visibleMembers.map((member, index) => (
                 <div
-                  key={index}
+                  key={member.id} // بهتر است از id یکتا استفاده شود
                   className="flex flex-col items-center group transition-transform duration-300 hover:-translate-y-2"
                 >
                   <div className="relative mb-4 overflow-hidden rounded-2xl shadow-lg shadow-[#818080] w-80 h-80">
                     <Image
-                      src={`${process.env.NEXT_PUBLIC_MEDIA_URL}/${member.profile}`}
+                      src={member.image}
                       alt={member.name}
                       fill
                       sizes="(max-width: 768px) 100vw, 300px"
                       className="object-cover object-[center_10%] hover:scale-110 transition-transform duration-500"
-                      unoptimized
-                      priority
+                      priority={index === 0}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#060e09]/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     <div className="absolute bottom-4 left-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -67,7 +60,7 @@ export default async function TeamSection() {
               ))
             ) : (
               <div className="col-span-full text-center text-gray-500">
-                {error || "user not found" }
+                {error || "user not found"}
               </div>
             )}
 
