@@ -1,4 +1,9 @@
-// app/privacy-policy/page.tsx
+export const metadata = {
+  title: "Privacy Policy",
+  description: "Read the Trustence privacy policy and how website data is handled.",
+  alternates: { canonical: "/privacy" },
+};
+
 export default function PrivacyPolicy() {
   return (
     <>

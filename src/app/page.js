@@ -6,6 +6,12 @@ import Portfilio from "@/components/Portfolio";
 import Service from "@/components/Service";
 import TeamSection from "@/components/TeamSection";
 
+export const metadata = {
+  title: "Web Design & Development Agency",
+  description: "Trustence creates strategic, high-performance websites, brand experiences, and digital products for growing businesses.",
+  alternates: { canonical: "/" },
+};
+
 export default function Home() {
   return (
   <>

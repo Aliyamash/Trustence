@@ -16,6 +16,31 @@ async function getProject(id) {
   }
 }
 
+export async function generateMetadata({ params }) {
+  const { id } = await params;
+  const project = await getProject(id);
+
+  if (!project) {
+    return { title: "Project Not Found", robots: { index: false, follow: false } };
+  }
+
+  const title = project.title || "Project";
+  const description = project.description || project.intro || `A Trustence project: ${title}.`;
+  const image = project.banner ? resolveMediaUrl(project.banner) : undefined;
+
+  return {
+    title,
+    description,
+    alternates: { canonical: `/projects/${id}` },
+    openGraph: {
+      title: `${title} | Trustence`,
+      description,
+      type: "article",
+      images: image ? [{ url: image, alt: title }] : [],
+    },
+  };
+}
+
 export default async function SoloProjectPage({ params }) {
   const { id } = await params;
 

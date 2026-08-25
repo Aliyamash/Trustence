@@ -9,6 +9,12 @@ import WhyUs from "@/components/pages/service/WhyUs";
 import ProcessTimeline from "@/components/pages/service/WorkProcess";
 import Portfilio from "@/components/Portfolio";
 
+export const metadata = {
+  title: "Web Design, Development & Digital Services",
+  description: "Explore Trustence services: strategic web design, responsive development, digital product design, and brand-focused experiences.",
+  alternates: { canonical: "/service" },
+};
+
 export default function service(){
     return(
         <>

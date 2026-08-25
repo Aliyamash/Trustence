@@ -1,5 +1,10 @@
-// app/copyright-notice/page.tsx
 import Link from 'next/link';
+
+export const metadata = {
+  title: "Copyright Notice",
+  description: "Copyright and intellectual-property information for Trustence website content.",
+  alternates: { canonical: "/copyright" },
+};
 
 export default function CopyrightNotice() {
   return (

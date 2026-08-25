@@ -1,5 +1,10 @@
-// app/terms-of-use/page.tsx
 import Link from 'next/link';
+
+export const metadata = {
+  title: "Terms of Use",
+  description: "Read the terms governing use of the Trustence website.",
+  alternates: { canonical: "/terms" },
+};
 
 export default function TermsOfUse() {
   return (

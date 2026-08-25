@@ -1,5 +1,11 @@
 import Projects from "@/components/pages/projects/Projects";
 
+export const metadata = {
+  title: "Selected Digital Projects",
+  description: "Browse selected Trustence web design and development projects built for real-world impact.",
+  alternates: { canonical: "/projects" },
+};
+
 export default function projects() {
   return (
     <>
