@@ -3,12 +3,6 @@ import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { getTeamMembers } from "@/utils/content";
 
-const fadedMember = {
-  role: "And More",
-  image: "https://api.trust-ence.com/media/Team/4/6905cbbb7be4c.jpg",
-  imagePlaceholder: true, // فقط برای تشخیص
-};
-
 async function fetchTeamData() {
   return { data: await getTeamMembers(), error: null };
 }
@@ -17,6 +11,7 @@ export default async function TeamSection() {
   const { data: teamMembers, error } = await fetchTeamData();
 
   const visibleMembers = teamMembers.slice(0, 2);
+  const previewMember = teamMembers[2];
 
   return (
     <section className="py-60 px-6 bg-[#fff8ee]">
@@ -64,21 +59,23 @@ export default async function TeamSection() {
               </div>
             )}
 
-            <div className="flex flex-col items-center relative">
-              <div className="relative mb-4 overflow-hidden rounded-2xl w-80 h-80">
-                <Image
-                  width={80}
-                  height={80}
-                  src={fadedMember.image}
-                  alt="More team members"
-                  className="w-80 h-80 object-cover blur-sm opacity-40"
-                />
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#fff8ee]/50 to-[#fff8ee]" />
+            {previewMember && (
+              <div className="flex flex-col items-center relative">
+                <div className="relative mb-4 overflow-hidden rounded-2xl w-80 h-80">
+                  <Image
+                    fill
+                    sizes="(max-width: 768px) 100vw, 300px"
+                    src={previewMember.image}
+                    alt={`${previewMember.name}, one of the Trustence team members`}
+                    className="object-cover object-top blur-sm opacity-40"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#fff8ee]/50 to-[#fff8ee]" />
+                </div>
+                <p className="text-base font-black mt-2 text-[#060e09] opacity-40">
+                  And More
+                </p>
               </div>
-              <p className="text-base font-black mt-2 text-[#060e09] opacity-40">
-                {fadedMember.role}
-              </p>
-            </div>
+            )}
           </div>
 
           {/* دکمه See full team */}
