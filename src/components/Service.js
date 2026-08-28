@@ -11,18 +11,18 @@ export default function Service() {
     <div className="bg-[#D3DCD6]" id="service">
       <div className="container py-20 md:pt-40 md:pb-25">
         <div>
-          <h1 className="title text-4xl mb-20 md:mb-32 text-black md:text-center">
+          <h2 className="title text-4xl mb-20 md:mb-32 text-black md:text-center">
             Tailored Services for Your Exceptional Growth
-          </h1>
+          </h2>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 md:gap-12 justify-center gap-8">
           <div className="my-4 h-fit">
             <Handshake className="icon-title-size mb-4" />
-            <h1 className="title text-2xl font-black text-black">
+            <h3 className="title text-2xl font-black text-black">
               Cutting-Edge Technology with Unmatched Reliability. Your Success,
               Our Priority
-            </h1>
+            </h3>
             <p className="mt-5 ">
               Together, we blend cutting-edge technology and trusted reliability
               to fuel your success. Your vision is our shared mission, let's
@@ -41,10 +41,10 @@ export default function Service() {
 
           <div className="my-4">
             <ChartNoAxesCombined className="icon-title-size mb-4" />
-            <h1 className="title text-2xl font-bold text-black">
+            <h3 className="title text-2xl font-bold text-black">
               Our expert web design services are crafted to enhance user
               experience and drive measurable results.
-            </h1>
+            </h3>
             <p className="mt-5 ">
               Our team brings specialized knowledge and refined skills to every
               project, ensuring technically excellent and aesthetically stunning
@@ -63,13 +63,13 @@ export default function Service() {
 
           <div className="my-4 sm:col-span-2 sm:justify-self-center sm:w-2/3  lg:col-span-1 lg:justify-self-center lg:w-full">
             <ShieldCheck className="icon-title-size mb-4" />
-            <h1 className="title text-2xl font-black text-black">
+            <h3 className="title text-2xl font-black text-black">
               End-to-End Long-Term Support:{" "}
               <span className="text-xl font-semibold">
                 Your Success Is Our Ongoing Commitment. From Implementation to
                 Evolution
               </span>
-            </h1>
+            </h3>
             <p className="mt-5 ">
               Our dedicated Long-Term Support (LTS) program ensures your systems
               remain cutting-edge, secure, and optimized. With 24/7 monitoring,

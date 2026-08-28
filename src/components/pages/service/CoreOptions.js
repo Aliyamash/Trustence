@@ -8,7 +8,7 @@ export default function CoreOptions(){
                 <div key={value.id} className="gap-5 my-1">
                         <div className="flex w-full items-center gap-2 mb-2">
                         <value.icon className="icon-btn-size"/>
-                        <h1 className="text-lg font-bold ">{value.title}:</h1>
+                        <h3 className="text-lg font-bold ">{value.title}:</h3>
                         </div>
                         <p className="text-zinc-800 self-start ml-5">{value.description}</p>
                 </div>

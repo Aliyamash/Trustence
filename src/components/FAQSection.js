@@ -7,7 +7,7 @@ export default function FAQSection(){
             <div className="container">
                 <div className="flex flex-col md:flex-row gap-24 justify-between items-center">
                     <div className="text-white">
-                        <h1 className="font-bold text-3xl md:text-5xl mb-2">Have a Question ?</h1>
+                        <h2 className="font-bold text-3xl md:text-5xl mb-2">Have a Question?</h2>
                         <p className="text-lg ">This button leads you to the answer you've been looking for.</p>
                     </div>
                     <div>

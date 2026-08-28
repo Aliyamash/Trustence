@@ -11,9 +11,9 @@ export default function AboutUs() {
           <p className="font-semibold mb-4">Design</p>
           <div>
             
-            <h1 className="title lightColor md:text-5xl text-3xl text-[#245336] pb-6 text-pretty">
+            <h2 className="title lightColor md:text-5xl text-3xl text-[#245336] pb-6 text-pretty">
               Where art meets technology
-            </h1>
+            </h2>
           </div>
           <p className="mb-8 ">
             We don’t just build websites. we craft digital masterpieces that
@@ -23,14 +23,14 @@ export default function AboutUs() {
           </p>
           <div className="flex flex-col">
             <div className="my-4">
-              <h1 className="title text-[#000] mb-2">Built on trust</h1>
+              <h3 className="title text-[#000] mb-2">Built on trust</h3>
               <p>
                 Trust isn’t just a word. it’s the foundation we code into every
                 project
               </p>
             </div>
             <div className="my-4">
-              <h1 className="title text-[#000] mb-2">From Sketch to Launch</h1>
+              <h3 className="title text-[#000] mb-2">From Sketch to Launch</h3>
               <p>
                 With you every step of the way, from concept to final implementation.
               </p>
@@ -59,7 +59,7 @@ export default function AboutUs() {
           <Image
             src={aboutImg}
             className="w-full h-full aspect-[5/4] rounded-xl shadow-xl"
-            alt="service picture"
+            alt="Trustence team planning a website design project"
           />
         </div>
       </div>

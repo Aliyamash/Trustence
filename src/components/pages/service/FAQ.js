@@ -6,7 +6,7 @@ export default function FAQ() {
       <div className="container py-44 lg:py-64">
         <div className="flex lg:flex-row flex-col justify-center lg:justify-between gap-16">
           <div className="text-center lg:text-left">
-            <h1 className="text-2xl lg:text-4xl font-bold mb-2">Have a question ?</h1>
+            <h2 className="text-2xl lg:text-4xl font-bold mb-2">Have a question?</h2>
             <p className="text-xl lg:text-2xl font-bold text-green-900">
               Explore our FAQ page to find the answers you need.
             </p>

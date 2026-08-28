@@ -1,6 +1,5 @@
 "use client";
 import { CircleChevronDown, CircleChevronUp } from "lucide-react";
-import Script from "next/script";
 import { useState } from "react";
 
 export default function QuestionFAQ({ faqs }) {
@@ -19,14 +18,23 @@ export default function QuestionFAQ({ faqs }) {
             className="my-4 text-left bg-zinc-50 py-8 px-6 rounded-3xl shadow-lg"
             key={faq.id}
           >
-            <div className="flex items-center justify-between">
-              <h1
-                className="text-xl font-bold cursor-pointer select-none"
+            <div className="flex items-center justify-between gap-4">
+              <h2 className="text-xl font-bold select-none">
+                <button
+                type="button"
+                className="text-left"
+                aria-expanded={isOpen}
+                aria-controls={`faq-answer-${faq.id}`}
                 onClick={() => handleClick(faq.id)}
               >
                 {faq.question}
-              </h1>
-              <div
+                </button>
+              </h2>
+              <button
+                type="button"
+                aria-label={isOpen ? "Collapse answer" : "Expand answer"}
+                aria-expanded={isOpen}
+                aria-controls={`faq-answer-${faq.id}`}
                 className="cursor-pointer"
                 onClick={() => handleClick(faq.id)}
               >
@@ -35,32 +43,15 @@ export default function QuestionFAQ({ faqs }) {
                 ) : (
                   <CircleChevronDown className="icon-question-faq-down" />
                 )}
-              </div>
+              </button>
             </div>
 
-            {isOpen && (
-              <p className="text-zinc-500 select-none mt-4 font-bold pl-2">
+              <p id={`faq-answer-${faq.id}`} hidden={!isOpen} className="text-zinc-500 select-none mt-4 font-bold pl-2">
                 {faq.answer}
               </p>
-            )}
           </div>
         );
       })}
-
-      <Script id="faq-schema" type="application/ld+json">
-        {JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "FAQPage",
-          mainEntity: faqs.map((faq) => ({
-            "@type": "Question",
-            name: faq.question,
-            acceptedAnswer: {
-              "@type": "Answer",
-              text: faq.answer,
-            },
-          })),
-        })}
-      </Script>
     </>
   );
 }

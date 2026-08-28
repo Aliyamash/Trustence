@@ -22,7 +22,7 @@ export const faqs = [
     id: 4,
     category: "Services",
     question: "How much do your projects cost?",
-    answer: "We offer transparent pricing based on your needs. Projects start from [base amount] and vary depending on features."
+    answer: "Every project is scoped individually. After a free discovery call, we provide a written proposal with the deliverables, timeline, and total price before work begins."
   },
   {
     id: 5,
@@ -36,7 +36,7 @@ export const faqs = [
     id: 6,
     category: "Features",
     question: "Do you work on SEO and Google ranking?",
-    answer: "Yes, technical SEO is a standard part of every project at Trustence. We ensure your site is fully optimized for Google."
+    answer: "Yes. Our standard technical SEO setup covers crawlability, page metadata, canonical URLs, sitemap and robots directives, structured data where relevant, and performance fundamentals. Search rankings depend on competition, authority, and ongoing content, so no agency can guarantee a specific position."
   },
   {
     id: 7,
@@ -48,7 +48,7 @@ export const faqs = [
     id: 8,
     category: "Features",
     question: "How fast will my website be?",
-    answer: "We only deliver websites that meet global speed standards — fast, lightweight, and fully optimized."
+    answer: "We optimize code, images, caching, and delivery for strong Core Web Vitals. Final speed also depends on content, third-party scripts, hosting, and the features included in the project."
   },
   {
     id: 9,

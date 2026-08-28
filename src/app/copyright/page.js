@@ -1,10 +1,7 @@
 import Link from 'next/link';
+import { createMetadata } from '@/utils/seo';
 
-export const metadata = {
-  title: "Copyright Notice",
-  description: "Copyright and intellectual-property information for Trustence website content.",
-  alternates: { canonical: "/copyright" },
-};
+export const metadata = createMetadata({ title: "Copyright Notice", description: "Copyright and intellectual-property information for Trustence website content.", path: "/copyright" });
 
 export default function CopyrightNotice() {
   return (

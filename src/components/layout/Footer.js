@@ -98,7 +98,7 @@ export default function Footer() {
             <p className="font-bold mb-4 mt-12 text-lg">Resources</p>
             <div className="flex flex-col gap-2">
               <Link href={"/projects"}>Portfilio</Link>
-              <Link href={"mailto:trustenceagecy@gmail.com"}>Support</Link>
+              <Link href={"mailto:trustenceagency@gmail.com"}>Support</Link>
               <Link href={"/aboutus"}>Careers</Link>
             </div>
           </div>
@@ -107,7 +107,7 @@ export default function Footer() {
             <p className="font-bold mb-4 mt-12 text-lg">Follow Us</p>
             <div className="flex flex-col gap-2">
               <Link href={"https://www.t.me/Real_MoOorGan"}>Telegram Account</Link>
-              <Link href={"http://linkedin.com/in/trustence-agency-b13a9038a"}>LinkedIn Profile</Link>
+              <Link href={"https://www.linkedin.com/in/trustence-agency-b13a9038a"}>LinkedIn Profile</Link>
               <Link href={"https://www.instagram.com/trustence.official/"}>Instagram Gallery</Link>
               <Link href={"https://wa.me/989217332763"}>WhatsApp Account</Link>
             </div>
@@ -127,23 +127,23 @@ export default function Footer() {
         <div className="flex justify-between  flex-col-reverse md:flex-row px-2 ">
           <div className="flex flex-col-reverse md:flex-row gap-3 md:gap-12 ">
             <p className="text-sm pt-12 md:pt-0">
-              © 2024 Trustence. All rights reserved.
+              © {new Date().getFullYear()} Trustence. All rights reserved.
             </p>
             <Link href={"/privacy"}>Privacy Policy</Link>
             <Link href={"/terms"}>Term of Use</Link>
           </div>
 
           <div className="flex gap-4 mb-8 md:mb-0">
-            <Link href={"https://www.instagram.com/trustence.official/"}>
+            <Link aria-label="Trustence on Instagram" href={"https://www.instagram.com/trustence.official/"}>
               <Instagram className="icon-btn-size2" />
             </Link>
-            <Link href={"https://wa.me/989217332763"}>
+            <Link aria-label="Contact Trustence on WhatsApp" href={"https://wa.me/989217332763"}>
               <Image src={WhatsApp} className="icon-btn-size2" alt="whats app" />
             </Link>
-            <Link href={"http://linkedin.com/in/trustence-agency-b13a9038a"}>
+            <Link aria-label="Trustence on LinkedIn" href={"https://www.linkedin.com/in/trustence-agency-b13a9038a"}>
               <Linkedin className="icon-btn-size2" />
             </Link>
-            <Link href={"https://www.t.me/Real_MoOorGan"}>
+            <Link aria-label="Trustence on Telegram" href={"https://t.me/Real_MoOorGan"}>
               <Image src={telegram} className="icon-btn-size2" alt="telegram" />
             </Link>
           </div>

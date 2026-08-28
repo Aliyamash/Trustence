@@ -8,9 +8,9 @@ export default function DiscoverAbout() {
           <div className="flex flex-col gap-20 md:flex-row justify-between items-center">
             {/* title */}
             <div>
-              <h1 className="text-3xl md:text-5xl font-bold my-4">
+              <h2 className="text-3xl md:text-5xl font-bold my-4">
                 Join Our Discovery Session
-              </h1>
+              </h2>
               <p className="text-lg font-semibold">
                 Unlock new possibilities! 🚀 Join our FREE Discovery Session to
                 explore tailored solutions for your needs.

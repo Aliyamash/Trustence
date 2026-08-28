@@ -1,10 +1,7 @@
 import Link from 'next/link';
+import { createMetadata } from '@/utils/seo';
 
-export const metadata = {
-  title: "Terms of Use",
-  description: "Read the terms governing use of the Trustence website.",
-  alternates: { canonical: "/terms" },
-};
+export const metadata = createMetadata({ title: "Terms of Use", description: "Read the terms governing use of the Trustence website.", path: "/terms" });
 
 export default function TermsOfUse() {
   return (

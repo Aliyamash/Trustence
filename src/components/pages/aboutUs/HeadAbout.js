@@ -75,13 +75,14 @@ export default function HeadAbout() {
       <div className="container">
         <div className="flex flex-col items-center justify-between">
           <div className="text-white leading-[1.5] lg:leading-[1.2] text-center md:text-5xl lg:text-7xl title font-bold text-3xl mb-24">
-            <h1>Our objectives are crucial</h1>
+            <h1>Meet the Trustence Web Design Team</h1>
           </div>
           <div ref={textBlockRef} className="text-white text-center font-medium text-pretty sm:w-3/5 my-5">
             <p className="text-lg md:text-xl select-none">
-              At our core, we are dedicated to empowering individuals and
-              businesses in our niche market. Our mission is to deliver
-              innovative solutions that create lasting impact and foster growth.
+              We bring together strategy, design, development, marketing, and
+              visual storytelling to create useful digital experiences. Our
+              mission is to earn trust through clear communication, careful
+              execution, and measurable business value.
             </p>
           </div>
         </div>

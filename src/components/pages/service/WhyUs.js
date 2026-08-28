@@ -22,7 +22,7 @@ export default function WhyUs() {
             . With Trustence, you're not just getting a website; you're getting
             a custom-crafted journey built around your real business goals.
           </p>
-          <h1 className=" mt-16 font-bold text-xl text-gray-800"><span className="title mb-2 text-green-800 text-3xl md:text-5xl inline font-bold">Trustence</span> where professionalism meets trust</h1>
+          <h3 className=" mt-16 font-bold text-xl text-gray-800"><span className="title mb-2 text-green-800 text-3xl md:text-5xl inline font-bold">Trustence</span> where professionalism meets trust</h3>
         </div>
       </div>
     </div>

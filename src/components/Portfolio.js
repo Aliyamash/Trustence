@@ -10,7 +10,7 @@ export default async function Portfolio() {
       <div className="py-24 container">
         <div className="text-center">
           <p className="text-xl font-semibold">Portfolio</p>
-          <h1 className="title text-5xl mt-8 mb-6">Our Creative Showcase</h1>
+          <h2 className="title text-5xl mt-8 mb-6">Our Creative Showcase</h2>
           <p className="text-lg tracking-wide mb-20">
             explore our latest design projects and innovations
           </p>
@@ -33,9 +33,9 @@ export default async function Portfolio() {
                   />
                 </div>
                 <div className="text-left">
-                  <h2 className="title text-2xl mb-3 text-[#245336] font-semibold">
+                  <h3 className="title text-2xl mb-3 text-[#245336] font-semibold">
                     {project.title}
-                  </h2>
+                  </h3>
                   <p className="ml-1 mb-6">{project.intro}</p>
                 </div>
                 <Link

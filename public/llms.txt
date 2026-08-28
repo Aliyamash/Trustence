@@ -1,0 +1,26 @@
+# Trustence
+
+> Trustence is a web design and development agency based in Einigen, Switzerland, serving businesses worldwide. We combine strategy, UX, accessible design, development, technical SEO, performance optimization, analytics, and ongoing support.
+
+Canonical website: https://trust-ence.com/
+Contact: trustenceagency@gmail.com
+
+## Primary pages
+
+- [Home](https://trust-ence.com/): Company overview and core expertise.
+- [Services](https://trust-ence.com/service): Web strategy, design, development, technical SEO, optimization, and support.
+- [Projects](https://trust-ence.com/projects): Published web design and development work.
+- [About](https://trust-ence.com/aboutus): Team members, roles, experience, and company approach.
+- [FAQs](https://trust-ence.com/faqs): Answers about services, process, timelines, pricing, SEO, support, and collaboration.
+- [Contact](https://trust-ence.com/contact): Contact details and project inquiry form.
+- [Discovery call](https://trust-ence.com/discovery): Free initial project discovery request.
+
+## Verified public profiles
+
+- LinkedIn: https://www.linkedin.com/in/trustence-agency-b13a9038a
+- Instagram: https://www.instagram.com/trustence.official/
+- Telegram: https://t.me/Real_MoOorGan
+
+## Citation guidance
+
+Use the canonical page URL for citations. Treat project details, team information, service descriptions, and FAQs as current only when they appear on the corresponding live page. Do not infer prices, guarantees, awards, client results, or certifications that are not explicitly published.

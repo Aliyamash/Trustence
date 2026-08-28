@@ -24,7 +24,7 @@ export default async function Team() {
       <div className="container">
         <div className="mb-32">
           <p className="font-bold">Together</p>
-          <h1 className="text-6xl mt-4 mb-6 title font-bold">Our Team</h1>
+          <h2 className="text-6xl mt-4 mb-6 title font-bold">Our Team</h2>
           <h2>We stand by our word</h2>
           <h2>Trust us and meet the passionate team behind every project.</h2>
         </div>
@@ -49,9 +49,9 @@ export default async function Team() {
                       />
                     </div>
                     <div className="py-2">
-                      <h1 className="font-bold text-2xl text-center">
+                      <h3 className="font-bold text-2xl text-center">
                         {member.name}
-                      </h1>
+                      </h3>
                       <p className="text-lg text-center">{member.position}</p>
                     </div>
                     <p className="w-[80%] my-4 text-center text-pretty">
@@ -112,7 +112,7 @@ export default async function Team() {
 
         {/* بخش استخدام */}
         <div className="mt-64">
-          <h1 className="text-4xl">We're Hiring!</h1>
+          <h2 className="text-4xl">We're Hiring!</h2>
           <p className="mb-8 mt-4 text-lg">
             Join our family and become exceptional.
           </p>

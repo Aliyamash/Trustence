@@ -12,10 +12,10 @@ export default function PeopleAbout() {
             <div className="flex flex-col md:mb-16">
               {/* title */}
               <div>
-                <h1 className="title font-bold text-2xl md:text-4xl mb-8">
+                <h2 className="title font-bold text-2xl md:text-4xl mb-8">
                   Empowering geniuses to dominate markets, not just the
                   competition
-                </h1>
+                </h2>
               </div>
               {/* description */}
               <div>
@@ -28,7 +28,7 @@ export default function PeopleAbout() {
             </div>
             <div className="flex flex-col gap-4 md:flex-row mt-8">
               <div className="mb-4">
-                <h1 className="font-bold text-lg  mb-2">Our focus <Sprout className="inline-block icon-btn-size mx-1 -mt-1" /></h1>
+                <h3 className="font-bold text-lg  mb-2">Our focus <Sprout className="inline-block icon-btn-size mx-1 -mt-1" /></h3>
                 <p className="text">
                   is on particular clients whose websites serve as the primary
                   gateway to their business.
@@ -37,7 +37,7 @@ export default function PeopleAbout() {
               </div>
 
               <div className="mb-4">
-                <h1 className="font-bold text-lg  mb-2">Why Choose Us<HandHeart className="inline-block icon-btn-size2 mx-1 -mt-1" /></h1>
+                <h3 className="font-bold text-lg  mb-2">Why Choose Us<HandHeart className="inline-block icon-btn-size2 mx-1 -mt-1" /></h3>
                 <p className="text">
                   Your trust is our most valued currency. That’s why we
                   prioritize transparency, discretion, and a partnership that

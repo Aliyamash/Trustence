@@ -5,8 +5,11 @@ import { getBlurDataUrl } from '@/utils/helper';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import { getFetch, resolveMediaUrl } from '@/utils/fetch';
+import { cache } from 'react';
+import StructuredData from '@/components/StructuredData';
+import { absoluteUrl, breadcrumbSchema, createMetadata, SITE_URL } from '@/utils/seo';
 
-async function getProject(id) {
+const getProject = cache(async (id) => {
   try {
     const response = await getFetch(`/projects/${id}`);
     return response.data;
@@ -14,7 +17,7 @@ async function getProject(id) {
     console.error('Error fetching project:', error);
     return null;
   }
-}
+});
 
 export async function generateMetadata({ params }) {
   const { id } = await params;
@@ -28,13 +31,12 @@ export async function generateMetadata({ params }) {
   const description = project.description || project.intro || `A Trustence project: ${title}.`;
   const image = project.banner ? resolveMediaUrl(project.banner) : undefined;
 
+  const metadata = createMetadata({ title, description, path: `/projects/${id}` });
+
   return {
-    title,
-    description,
-    alternates: { canonical: `/projects/${id}` },
+    ...metadata,
     openGraph: {
-      title: `${title} | Trustence`,
-      description,
+      ...metadata.openGraph,
       type: "article",
       images: image ? [{ url: image, alt: title }] : [],
     },
@@ -56,8 +58,32 @@ export default async function SoloProjectPage({ params }) {
     notFound();
   }
 
+  const description = project.description || project.intro || `A Trustence project: ${project.title}.`;
+  const tags = typeof project.tags === "string" ? project.tags.split(",").map((tag) => tag.trim()).filter(Boolean) : [];
+  const projectUrl = `/projects/${id}`;
+  const projectSchema = {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    "@id": `${absoluteUrl(projectUrl)}#project`,
+    name: project.title,
+    description,
+    url: absoluteUrl(projectUrl),
+    image: project.banner ? resolveMediaUrl(project.banner) : undefined,
+    keywords: tags.length ? tags.join(", ") : undefined,
+    genre: project.category_name || project.category || undefined,
+    creator: { "@id": `${SITE_URL}/#organization` },
+    publisher: { "@id": `${SITE_URL}/#organization` },
+    mainEntityOfPage: absoluteUrl(projectUrl),
+    sameAs: project.link || project.project_url || undefined,
+  };
+
   return (
-    <div className="bg-[#060e09] text-white">
+    <>
+    <StructuredData data={[
+      breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Projects", path: "/projects" }, { name: project.title, path: projectUrl }]),
+      projectSchema,
+    ]} />
+    <article className="bg-[#060e09] text-white">
 
       {/* Hero Section */}
       <section className="px-6 md:px-24 py-24 bg-[#326d4a] relative overflow-hidden">
@@ -88,9 +114,8 @@ export default async function SoloProjectPage({ params }) {
             <h2 className="text-4xl font-semibold mb-6 text-white">Project Information</h2>
             <ul className="space-y-3 text-[#fff8ee] text-lg">
               <li><strong>Category:</strong> {project.category_name || project.category || '—'}</li>
-              <li><strong>Technologies:</strong> Next.js, Tailwind, GSAP</li>
-              <li><strong>Duration:</strong> 4 weeks</li>
-              <li><strong>Our Role:</strong> UI Design, Front-end Development</li>
+              <li><strong>Services:</strong> {tags.length ? tags.join(", ") : "Web design and development"}</li>
+              <li><strong>Delivery:</strong> Strategy, design, development, and launch support</li>
             </ul>
           </div>
           <div>
@@ -111,7 +136,7 @@ export default async function SoloProjectPage({ params }) {
               <div key={i} className="relative w-full h-64 md:h-80 rounded-2xl overflow-hidden shadow-xl">
                 <Image
                   src={resolveMediaUrl(project.banner)}
-                  alt={`Project Screenshot ${i}`}
+                  alt={`${project.title} project screenshot ${i}`}
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"
                   className="object-cover transition-transform duration-500 hover:scale-105"
@@ -162,6 +187,7 @@ export default async function SoloProjectPage({ params }) {
           Back to Projects
         </Link>
       </div>
-    </div>
+    </article>
+    </>
   );
 }

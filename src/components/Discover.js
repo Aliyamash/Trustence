@@ -73,12 +73,12 @@ export default function Discover() {
       <div className="container">
         <div className="mt-24 md:mt-36">
          
-          <h1
+          <h2
             ref={titleRef}
             className="title-discover select-none title text-center md:text-7xl text-5xl text-[#fff8ee]"
           >
             Your business breakthrough starts with this strategic conversation.
-          </h1>
+          </h2>
 
          
           <div className="flex overflow-hidden relative font-bold transition-shadow duration-700 text-white hover:text-black hover:shadow-xl hover:shadow-[#658672] p-btn mt-32 items-center bg-btn2 px-8 py-4 mx-auto w-fit rounded-xl anime-btn">

@@ -10,14 +10,14 @@ export default function ContactUs() {
             {/* info call */}
             <div>
               <p className="font-semibold">Connect</p>
-              <h1 className="text-5xl lg:text-7xl -ml-2 my-4">Get in Touch</h1>
+              <h2 className="text-5xl lg:text-7xl -ml-2 my-4">Get in Touch</h2>
               <p className="text-lg">We love hearing from you </p>
               <p className="text-lg">Please feel free also to contact us.</p>
 
           <div className="mt-12">
           <div className="flex gap-8 my-6">
                 <Mail />
-                <p>TrustenceAgency@gmail.com</p>
+                <a href="mailto:trustenceagency@gmail.com">trustenceagency@gmail.com</a>
               </div>
 
               <div className="flex gap-8 my-6">

@@ -1,6 +1,9 @@
-const siteUrl = "https://trust-ence.com";
+import { getProjects } from "@/utils/content";
+import { SITE_URL } from "@/utils/seo";
 
-export default function sitemap() {
+export const revalidate = 3600;
+
+export default async function sitemap() {
   const pages = [
     ["/", "weekly", 1],
     ["/service", "monthly", 0.9],
@@ -14,10 +17,19 @@ export default function sitemap() {
     ["/copyright", "yearly", 0.2],
   ];
 
-  return pages.map(([path, changeFrequency, priority]) => ({
-    url: `${siteUrl}${path}`,
-    lastModified: new Date(),
+  const staticPages = pages.map(([path, changeFrequency, priority]) => ({
+    url: `${SITE_URL}${path}`,
     changeFrequency,
     priority,
   }));
+
+  const projects = await getProjects();
+  const projectPages = projects.map((project) => ({
+    url: `${SITE_URL}/projects/${project.id}`,
+    lastModified: project.updated_at || project.created_at || undefined,
+    changeFrequency: "monthly",
+    priority: 0.7,
+  }));
+
+  return [...staticPages, ...projectPages];
 }

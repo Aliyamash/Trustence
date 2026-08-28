@@ -5,10 +5,10 @@ export default function WhyUS() {
     <div className="bg-white pt-12 pb-44">
       <div className="container">
         <div className="text-center w-full mb-8">
-          <h1 className="title font-bold text-5xl md:text-7xl text-[#326438]">
+          <h2 className="title font-bold text-5xl md:text-7xl text-[#326438]">
             Trustence
             <BookOpenCheck className="hidden sm:inline ml-12 w-[100px] h-[100px]" />
-          </h1>
+          </h2>
         </div>
         <div className="text-left md:text-center">
           <p className="text-2xl md:text-3xl font-bold text-pretty mb-24 mx-auto max-w-5xl">

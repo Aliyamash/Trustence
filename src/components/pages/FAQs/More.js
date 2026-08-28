@@ -21,7 +21,7 @@ export default function MoreQuestion(){
         <div className="pb-24">
             <div className="container">
                 <div className="my-12 text-center">
-                    <h1 className="text-2xl font-bold select-none">More Question ? <span className="block my-2 text-green-500">Contact Us..</span></h1>
+                    <h2 className="text-2xl font-bold select-none">Still have a question? <span className="block my-2 text-green-500">Contact us.</span></h2>
                 </div>
             <div>
                 <form ref={formRef} action={formActionFAQ}>

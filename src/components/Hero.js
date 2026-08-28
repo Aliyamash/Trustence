@@ -1,18 +1,9 @@
 "use client";
 import Link from "next/link";
-import dynamic from "next/dynamic";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ChevronsDown } from "lucide-react";
-
-const TypewriterText = dynamic(() => import("./TypewriterText"), {
-  ssr: false,
-  loading: () => (
-    <h1 className="title lightColor font-semibold md:text-5xl text-3xl py-8 text-pretty opacity-50">
-      Loading ...
-    </h1>
-  ),
-});
+import TypewriterText from "./TypewriterText";
 
 export default function Hero() {
   const buttonRef = useRef(null);
@@ -33,12 +24,12 @@ export default function Hero() {
           {/* hero title (nich) */}
           <div className="text-center mb-8 md:mb-20">
             <h1 className="title mt-24 md:text-7xl pb-6 text-pretty text-5xl text-[#CBA792] font-semibold">
-              85% of Users
+              Web Design &amp; Development That Builds Trust
             </h1>
 
             {/* انیمیشن تایپ فقط روی این خط */}
             <TypewriterText
-              text="Trust Websites with Professional Design Let’s Transform Yours into a Customer Magnet !"
+              text="Strategy, UX, development, and technical SEO—built around measurable business goals."
               className="title lightColor font-semibold md:text-4xl text-3xl pb-6 text-pretty"
               speed={0.06}
               delay={1}

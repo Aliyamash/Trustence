@@ -1,8 +1,6 @@
-export const metadata = {
-  title: "Privacy Policy",
-  description: "Read the Trustence privacy policy and how website data is handled.",
-  alternates: { canonical: "/privacy" },
-};
+import { createMetadata } from "@/utils/seo";
+
+export const metadata = createMetadata({ title: "Privacy Policy", description: "Read the Trustence privacy policy and how website data is handled.", path: "/privacy" });
 
 export default function PrivacyPolicy() {
   return (

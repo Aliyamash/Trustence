@@ -2,18 +2,19 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getFetch, resolveMediaUrl } from "@/utils/fetch";
+import { resolveMediaUrl } from "@/utils/fetch";
 import { getBlurDataUrl } from "@/utils/helper";
 import { ArrowRight, Filter, ArrowUpRight, Lock, Sparkles } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
-export default function Projects() {
-  const [projects, setProjects] = useState([]);
-  const [filteredProjects, setFilteredProjects] = useState([]);
-  const [categories, setCategories] = useState(["All"]);
+export default function Projects({ initialProjects = [] }) {
+  const [projects] = useState(initialProjects);
+  const [filteredProjects, setFilteredProjects] = useState(initialProjects);
+  const [categories] = useState(["All", ...new Set(initialProjects.map((project) => project.category_name).filter(Boolean))]);
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const loading = false;
+  const error = null;
   const [hoveredId, setHoveredId] = useState(null);
   const [selectedProject, setSelectedProject] = useState(null);
 
@@ -27,31 +28,6 @@ export default function Projects() {
     Branding: greenGrad,
     Marketing: greenGrad,
   };
-
-  useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        setLoading(true);
-        const response = await getFetch("/projects");
-
-        const data = Array.isArray(response.data) ? response.data : [];
-
-        setProjects(data);
-        setFilteredProjects(data);
-
-        const unique = [
-          "All",
-          ...new Set(data.map((p) => p.category_name).filter(Boolean)),
-        ];
-        setCategories(unique);
-      } catch (err) {
-        setError("server error");
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchProjects();
-  }, []);
 
   useEffect(() => {
     if (selectedCategory === "All") {
@@ -226,6 +202,13 @@ export default function Projects() {
                         >
                           {project.title}
                         </h3>
+                        <Link
+                          href={`/projects/${project.id}`}
+                          onClick={(event) => event.stopPropagation()}
+                          className="inline-flex items-center gap-1 text-sm font-semibold text-white underline decoration-white/40 underline-offset-4 hover:decoration-white"
+                        >
+                          View case study <ArrowRight className="h-4 w-4" />
+                        </Link>
 
                         <p
                           className={`text-sm leading-relaxed text-slate-100 transition-all duration-500 ${

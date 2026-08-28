@@ -10,9 +10,9 @@ export default function PremiumService() {
         <div className="container ">
           <div>
             <div className="flex gap-6 justify-center  items-center">
-              <h1 className="title font-bold text-center text-2xl sm:text-3xl md:text-5xl">
+              <h2 className="title font-bold text-center text-2xl sm:text-3xl md:text-5xl">
                 Premium Service
-              </h1>
+              </h2>
               <Key className="service-icons rotate-180" />
             </div>
             <p className="font-bold text-2xl text-center py-2 text-[#1C422B]">
@@ -27,9 +27,9 @@ export default function PremiumService() {
               <div className="lg:w-11/12 w-full">
                 <div>
                   <div className="flex items-center gap-2 mb-4">
-                    <h1 className="font-bold text-xl text-center">
+                    <h3 className="font-bold text-xl text-center">
                       Core Service
-                    </h1>
+                    </h3>
                   </div>
                   <p className="mb-4 text-pretty">
                     Our Core Service provides a solid foundation for your
@@ -55,12 +55,12 @@ export default function PremiumService() {
                 <div className="w-4/5">
                   <div>
                     <div className="flex items-center gap-2 mb-4">
-                      <h1 className="font-bold text-xl text-center">
+                      <h3 className="font-bold text-xl text-center">
                         Premium Service
-                      </h1>
-                      <h2 className="px-2 border-2 text-red-400 border-red-400 font-bold rounded-lg text-sm">
+                      </h3>
+                      <span className="px-2 border-2 text-red-400 border-red-400 font-bold rounded-lg text-sm">
                         POPULAR
-                      </h2>
+                      </span>
                     </div>
                     <p className="mb-12">
                       Premium services aren't just an upgrade. they're your
