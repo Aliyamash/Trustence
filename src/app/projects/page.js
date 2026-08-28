@@ -32,10 +32,6 @@ export default async function ProjectsPage() {
       breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Projects", path: "/projects" }]),
       projectListSchema,
     ]} />
-    <div className="container pt-64">
-        <h1 className="title text-5xl font-bold text-center mb-6">Web Design &amp; Development Projects</h1>
-        <p className="text-xl font-bold text-center ">Strategic design, real-world impact, and partnerships built on clarity, care, and confidence.</p>
-    </div>
      <Projects initialProjects={serializableProjects}/>
     </>
   );
