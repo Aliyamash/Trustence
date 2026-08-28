@@ -9,10 +9,10 @@ export default async function Portfolio() {
     <div className="bg-[#E9EDEA]">
       <div className="py-24 container">
         <div className="text-center">
-          <p className="text-xl font-semibold">Portfolio</p>
-          <h2 className="title text-5xl mt-8 mb-6">Our Creative Showcase</h2>
+          <p className="text-xl font-semibold">Selected work</p>
+          <h2 className="title text-5xl mt-8 mb-6">Digital experiences with a point of view.</h2>
           <p className="text-lg tracking-wide mb-20">
-            explore our latest design projects and innovations
+            A curated look at the websites and platforms we have shaped through strategy, design, and engineering.
           </p>
 
           {projects.length === 0 ? (
@@ -45,7 +45,7 @@ export default async function Portfolio() {
                   rel={project.link ? "noopener noreferrer" : undefined}
                 >
                   <div className="btn-service pr-1 ml-2 text-lg transition-all duration-500">
-                    View Project
+                    Explore the project
                   </div>
                   <ChevronRight className="icon-btn-size transition-all duration-500" />
                 </Link>
@@ -59,7 +59,7 @@ export default async function Portfolio() {
               className="pr-3 z-10 text-lg transition-all duration-300"
               href={"/projects"}
             >
-              View all
+              View all work
             </Link>
             <Layers className="icon-btn-size2 z-10" />
           </div>

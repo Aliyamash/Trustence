@@ -1,137 +1,107 @@
 export const faqs = [
-  // 💼 About Trustence Services
   {
-    id: 1,
-    category: "Services",
-    question: "What services does Trustence offer?",
-    answer: "We help businesses with professional website design, portfolio building, SEO, and optimization to maximize their online trust and presence."
+    id: 1, category: "Services",
+    question: "What does Trustence specialise in?",
+    answer: "Trustence is a multidisciplinary digital studio. We combine strategy, UX, bespoke web design, software engineering, n8n automation, API integrations, technical SEO, brand design, marketing, and visual content around a defined business objective.",
   },
   {
-    id: 2,
-    category: "Services",
-    question: "How can I start my project with you?",
-    answer: "Just fill out our 'Project Request' form or book a free discovery call with us to get started."
+    id: 2, category: "Services",
+    question: "How do I begin a project with Trustence?",
+    answer: "Start with the project enquiry or request a discovery session. Share the objective, current situation, and any known constraints. We review the context and arrange a focused conversation when the work appears to be a good fit.",
   },
   {
-    id: 3,
-    category: "Services",
-    question: "What is the process after I submit my request?",
-    answer: "We’ll schedule an online meeting to understand your needs, then send you a tailored proposal. Once approved, we begin the design and development."
+    id: 3, category: "Services",
+    question: "What happens after the first conversation?",
+    answer: "We clarify priorities, users, technical dependencies, content, and success criteria. When there is a strong mutual fit, we prepare a written proposal covering scope, responsibilities, milestones, commercial terms, and the intended handover.",
   },
   {
-    id: 4,
-    category: "Services",
-    question: "How much do your projects cost?",
-    answer: "Every project is scoped individually. After a free discovery call, we provide a written proposal with the deliverables, timeline, and total price before work begins."
+    id: 4, category: "Services",
+    question: "How is a project priced?",
+    answer: "Every engagement is scoped individually because a focused website, a custom platform, and an automation system require different expertise. You receive the agreed deliverables, timeline, and investment in writing before work begins.",
   },
   {
-    id: 5,
-    category: "Services",
-    question: "How long does it take to deliver the project?",
-    answer: "Typically between 2 to 6 weeks, depending on the size and complexity of the project."
-  },
-
-  // 🌐 Website Features
-  {
-    id: 6,
-    category: "Features",
-    question: "Do you work on SEO and Google ranking?",
-    answer: "Yes. Our standard technical SEO setup covers crawlability, page metadata, canonical URLs, sitemap and robots directives, structured data where relevant, and performance fundamentals. Search rankings depend on competition, authority, and ongoing content, so no agency can guarantee a specific position."
+    id: 5, category: "Services",
+    question: "How long does delivery take?",
+    answer: "Timing depends on scope, integrations, content readiness, feedback cycles, and stakeholder availability. We define a realistic delivery plan during scoping and make dependencies visible from the start.",
   },
   {
-    id: 7,
-    category: "Features",
-    question: "Will my website look perfect on mobile and tablet?",
-    answer: "Absolutely. We deliver 100% responsive websites that look great on every device."
+    id: 6, category: "Features",
+    question: "Do you include SEO and search readiness?",
+    answer: "Yes. Relevant projects can include crawlability, metadata, canonical URLs, sitemaps, structured data, information architecture, performance fundamentals, and AEO or GEO-ready content structure. Rankings also depend on competition, authority, and ongoing content, so we do not promise a specific position.",
   },
   {
-    id: 8,
-    category: "Features",
-    question: "How fast will my website be?",
-    answer: "We optimize code, images, caching, and delivery for strong Core Web Vitals. Final speed also depends on content, third-party scripts, hosting, and the features included in the project."
+    id: 7, category: "Features",
+    question: "Will the experience work across mobile, tablet, and desktop?",
+    answer: "Responsive behaviour is considered throughout design and development. We test key layouts and interactions across representative viewport sizes and prioritise accessibility, readability, and task completion—not merely visual similarity.",
   },
   {
-    id: 9,
-    category: "Features",
-    question: "Can I integrate Google Analytics or live chat with my site?",
-    answer: "Yes, we can connect your site with these tools as part of our services."
+    id: 8, category: "Features",
+    question: "How do you approach website performance?",
+    answer: "We optimise architecture, code, media, caching, and delivery for a strong performance foundation. Final results are influenced by hosting, content, third-party scripts, analytics, and the functionality included in the agreed scope.",
   },
   {
-    id: 10,
-    category: "Features",
-    question: "Will my site be installed on my own domain and hosting?",
-    answer: "Yes, your site will be deployed on your domain and hosting, or on servers we recommend."
+    id: 9, category: "Features",
+    question: "Can you connect analytics, CRM, live chat, or other tools?",
+    answer: "Yes. We can integrate appropriate third-party tools through supported packages, APIs, webhooks, or n8n workflows. We first review access, data flow, privacy considerations, and failure cases.",
   },
   {
-    id: 11,
-    category: "Features",
-    question: "Can you add an online store or custom features to my site?",
-    answer: "Yes, we design e-commerce websites and can add custom features based on your needs."
+    id: 10, category: "Features",
+    question: "Can you deploy the project to our own domain and infrastructure?",
+    answer: "Yes. We can work with suitable existing infrastructure or recommend an approach based on traffic, maintenance, privacy, and budget. Hosting access, ownership, backups, and deployment responsibilities are agreed before launch.",
   },
   {
-    id: 12,
-    category: "Features",
-    question: "Can my site be multilingual?",
-    answer: "Yes, we build multilingual websites as well."
-  },
-
-  // 🤝 Support & Collaboration
-  {
-    id: 13,
-    category: "Support",
-    question: "Do I get support after the website is delivered?",
-    answer: "Yes, you’re always covered by Trustence. We offer monthly support and maintenance packages."
+    id: 11, category: "Features",
+    question: "Do you build e-commerce and custom functionality?",
+    answer: "Yes. We can design e-commerce experiences, internal tools, customer portals, custom forms, dashboards, and integrations when they support a clear operational or commercial need.",
   },
   {
-    id: 14,
-    category: "Support",
-    question: "Can I request updates or upgrades in the future?",
-    answer: "Yes, anytime you want new features or changes, you can request them."
+    id: 12, category: "Features",
+    question: "Can the website support multiple languages?",
+    answer: "Yes. We can design multilingual content architecture, language navigation, metadata, and localisation workflows. Translation ownership and the required languages are defined during scoping.",
   },
   {
-    id: 15,
-    category: "Support",
-    question: "I'm outside of Iran. Can we still work together?",
-    answer: "Yes, we work with international clients and accept payments in USD, EUR, or crypto."
+    id: 13, category: "Support",
+    question: "What happens after launch?",
+    answer: "We provide a documented handover and can arrange an ongoing care or growth engagement for maintenance, monitoring, content, automation, optimisation, and future development. The exact support level is defined in the proposal.",
   },
   {
-    id: 16,
-    category: "Support",
-    question: "Do you offer installment payments?",
-    answer: "Yes, projects can be paid in 2 or 3 installments for your convenience."
+    id: 14, category: "Support",
+    question: "Can the platform evolve later?",
+    answer: "Yes. We favour maintainable foundations and clear ownership so useful features, integrations, and content can be introduced as the business evolves. Future work is assessed and scoped before implementation.",
   },
   {
-    id: 17,
-    category: "Support",
-    question: "How can I be sure my project will be delivered on time?",
-    answer: "Trust is our core value — we provide a clear timeline at the start and stick to it. Delays are not part of our process."
-  },
-
-  // 📝 Content & Site Management
-  {
-    id: 18,
-    category: "Content",
-    question: "Do I need to provide the content (texts and images)?",
-    answer: "You can provide them, or use our optional content creation services."
+    id: 15, category: "Support",
+    question: "Can you work with teams outside Switzerland?",
+    answer: "Yes. Our process is remote-ready, with focused calls, written decisions, clear milestones, and asynchronous updates for European and international stakeholders. Commercial and payment terms are confirmed in the proposal.",
   },
   {
-    id: 19,
-    category: "Content",
-    question: "Can I add new content to my site after delivery?",
-    answer: "Yes, your site will be designed to allow easy content management and updates."
-  },
-
-  // 🔒 Security & Communication
-  {
-    id: 20,
-    category: "Security",
-    question: "Will my information stay confidential during the project?",
-    answer: "Absolutely. Protecting your data is a fundamental value at Trustence."
+    id: 16, category: "Support",
+    question: "Can project payments be arranged by milestone?",
+    answer: "For suitable engagements, commercial terms can be linked to defined project milestones. The payment structure is agreed in writing before work begins and depends on the size and shape of the engagement.",
   },
   {
-    id: 21,
-    category: "Security",
-    question: "How can I contact the Trustence team?",
-    answer: "You can reach us via our contact form, WhatsApp, email, or by booking a discovery call."
-  }
+    id: 17, category: "Support",
+    question: "How do you manage timelines and delivery risk?",
+    answer: "We establish milestones, responsibilities, dependencies, and feedback windows during scoping. Progress and risks are communicated early. A transparent plan is more dependable than an unrealistic guarantee.",
+  },
+  {
+    id: 18, category: "Content",
+    question: "Who provides the copy, photography, and visual content?",
+    answer: "You may provide approved content, or we can include content strategy, copy direction, visual design, and video editing in the scope. Responsibilities and deadlines are agreed early because content directly affects design and delivery.",
+  },
+  {
+    id: 19, category: "Content",
+    question: "Will our team be able to update the website?",
+    answer: "When content management is part of the scope, we structure the system around the updates your team actually needs to make and provide an appropriate handover or training session.",
+  },
+  {
+    id: 20, category: "Security",
+    question: "How do you handle confidential project information?",
+    answer: "We limit access to the people and systems required for delivery, avoid unnecessary collection, and agree appropriate handling for credentials and sensitive materials. Project-specific security or compliance requirements should be identified during discovery.",
+  },
+  {
+    id: 21, category: "Security",
+    question: "What is the best way to contact Trustence?",
+    answer: "Use the website enquiry form, request a discovery session, or email trustenceagency@gmail.com. Providing the objective, desired timing, and current tools helps us respond more usefully.",
+  },
 ];

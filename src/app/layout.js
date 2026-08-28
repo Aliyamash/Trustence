@@ -7,7 +7,7 @@ import { DEFAULT_DESCRIPTION, SITE_NAME, SITE_URL } from "@/utils/seo";
 export const metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Trustence | Web Design & Development Agency",
+    default: "Trustence | Boutique Digital Studio",
     template: "%s | Trustence",
   },
   description: DEFAULT_DESCRIPTION,

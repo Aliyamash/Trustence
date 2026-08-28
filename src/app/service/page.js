@@ -3,8 +3,8 @@ import StructuredData from "@/components/StructuredData";
 import { serviceFaqs, services } from "@/data/services";
 import { breadcrumbSchema, createMetadata, SITE_URL, webPageSchema } from "@/utils/seo";
 
-const description = "Explore Trustence services for strategy, UX, web development, n8n automation, API integrations, SEO, brand design, marketing, and visual content.";
-export const metadata = createMetadata({ title: "Digital Services & n8n Automation", description, path: "/service" });
+const description = "Explore bespoke Trustence services for digital strategy, UX, web and software development, n8n automation, API integrations, SEO, brand design, marketing, and visual content.";
+export const metadata = createMetadata({ title: "Bespoke Digital Services & n8n Automation", description, path: "/service" });
 
 export default function ServicePage() {
   return (

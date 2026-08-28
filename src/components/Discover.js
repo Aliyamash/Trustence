@@ -77,7 +77,7 @@ export default function Discover() {
             ref={titleRef}
             className="title-discover select-none title text-center md:text-7xl text-5xl text-[#fff8ee]"
           >
-            Your business breakthrough starts with this strategic conversation.
+            The right digital investment begins with a precise conversation.
           </h2>
 
          
@@ -87,7 +87,7 @@ export default function Discover() {
             <Link
               className="z-10 text-lg transition-all duration-700"
               href={"/discovery"}>
-              Free Discover Call
+              Request a Discovery Call
             </Link>
           </div>
         </div>

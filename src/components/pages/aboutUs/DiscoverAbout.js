@@ -9,11 +9,11 @@ export default function DiscoverAbout() {
             {/* title */}
             <div>
               <h2 className="text-3xl md:text-5xl font-bold my-4">
-                Join Our Discovery Session
+                Begin with a considered discovery session.
               </h2>
               <p className="text-lg font-semibold">
-                Unlock new possibilities! 🚀 Join our FREE Discovery Session to
-                explore tailored solutions for your needs.
+                A focused conversation to understand your objectives, identify
+                the right digital opportunity, and define a credible next step.
               </p>
             </div>
 
@@ -26,7 +26,7 @@ export default function DiscoverAbout() {
                   className="z-10 text-lg transition-all duration-700"
                   href={"/service"}
                 >
-                  Learn
+                  Explore services
                 </Link>
               </div>
 
@@ -37,7 +37,7 @@ export default function DiscoverAbout() {
                   className="z-10 text-lg transition-all duration-700"
                   href={"/discovery"}
                 >
-                  Discover
+                  Request a session
                 </Link>
               </div>
             </div>

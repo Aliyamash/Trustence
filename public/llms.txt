@@ -1,26 +1,34 @@
 # Trustence
 
-> Trustence is a web design and development agency based in Einigen, Switzerland, serving businesses worldwide. We combine strategy, UX, accessible design, development, technical SEO, performance optimization, analytics, and ongoing support.
+> Trustence is a boutique digital studio based in Einigen, Switzerland. We create bespoke websites, custom digital platforms, n8n automations, API integrations, search-ready content systems, and distinctive visual experiences for ambitious organisations worldwide.
 
 Canonical website: https://trust-ence.com/
 Contact: trustenceagency@gmail.com
 
+## Core capabilities
+
+- Digital strategy, user experience, information architecture, and conversion journeys.
+- Bespoke web design, accessible front-end development, custom software, e-commerce, and digital products.
+- n8n workflow automation, CRM and API integrations, operational reporting, and AI-assisted workflows with human review.
+- Technical SEO, structured data, AEO and GEO-ready content architecture, performance foundations, and analytics.
+- Brand design, marketing direction, campaign content, and visual storytelling.
+
 ## Primary pages
 
-- [Home](https://trust-ence.com/): Company overview and core expertise.
-- [Services](https://trust-ence.com/service): Web strategy, design, development, technical SEO, optimization, and support.
-- [Projects](https://trust-ence.com/projects): Published web design and development work.
-- [About](https://trust-ence.com/aboutus): Team members, roles, experience, and company approach.
-- [FAQs](https://trust-ence.com/faqs): Answers about services, process, timelines, pricing, SEO, support, and collaboration.
-- [Contact](https://trust-ence.com/contact): Contact details and project inquiry form.
-- [Discovery call](https://trust-ence.com/discovery): Free initial project discovery request.
+- [Home](https://trust-ence.com/): Boutique studio overview, capabilities, and selected work.
+- [Services](https://trust-ence.com/service): Detailed capabilities across strategy, web, software, automation, search, brand, and content.
+- [Projects](https://trust-ence.com/projects): Selected digital work and published case studies.
+- [About](https://trust-ence.com/aboutus): Team members, disciplines, and studio approach.
+- [FAQs](https://trust-ence.com/faqs): Current answers about services, scope, delivery, ownership, security, automation, SEO, and collaboration.
+- [Contact](https://trust-ence.com/contact): Project enquiry and contact details.
+- [Strategy call](https://trust-ence.com/discovery): Complimentary initial conversation for prospective digital projects.
+
+## Editorial and citation guidance
+
+Use the canonical page URL for citations. Treat service descriptions, team information, project details, and FAQs as current only when they appear on the corresponding live page. Do not infer prices, guarantees, awards, client results, certifications, partnerships, or compliance claims that are not explicitly published.
 
 ## Verified public profiles
 
 - LinkedIn: https://www.linkedin.com/in/trustence-agency-b13a9038a
 - Instagram: https://www.instagram.com/trustence.official/
 - Telegram: https://t.me/Real_MoOorGan
-
-## Citation guidance
-
-Use the canonical page URL for citations. Treat project details, team information, service descriptions, and FAQs as current only when they appear on the corresponding live page. Do not infer prices, guarantees, awards, client results, or certifications that are not explicitly published.

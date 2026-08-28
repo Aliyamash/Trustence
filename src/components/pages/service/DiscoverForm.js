@@ -25,9 +25,9 @@ export default function DiscoveryForm() {
   return (
     <div className="w-full rounded-[2rem] border border-white/10 bg-[#fff8ee] p-6 text-[#07120c] shadow-2xl shadow-black/20 md:p-10" id="formDiscovery">
       <div className="mb-8 border-b border-[#07120c]/10 pb-7">
-        <p className="text-xs font-bold uppercase tracking-[.2em] text-[#245336]">Project enquiry</p>
+        <p className="text-xs font-bold uppercase tracking-[.2em] text-[#245336]">A considered first step</p>
         <h3 className="title mt-3 text-3xl font-semibold md:text-4xl">Request a discovery session</h3>
-        <p className="mt-3 leading-7 text-[#07120c]/60">Tell us enough to prepare a useful first conversation.</p>
+        <p className="mt-3 leading-7 text-[#07120c]/60">Share enough context for our team to prepare a useful, commercially focused conversation.</p>
       </div>
 
       <form ref={formRef} action={formServiceAction} className="space-y-5">
@@ -75,7 +75,7 @@ export default function DiscoveryForm() {
           <label className={labelClass} htmlFor="service-brief">Project brief</label>
           <textarea id="service-brief" name="Inquiry" rows="5" className={fieldClass} placeholder="What should change, and what would a good result look like?" required />
         </div>
-        <SubmitButton title="Request session" loadingTitle="Sending..." style="w-full rounded-xl bg-[#114422] py-4 font-bold text-white transition hover:-translate-y-0.5 hover:bg-[#07120c] disabled:opacity-60" />
+        <SubmitButton title="Request a private session" loadingTitle="Sending..." style="w-full rounded-xl bg-[#114422] py-4 font-bold text-white transition hover:-translate-y-0.5 hover:bg-[#07120c] disabled:opacity-60" />
         <div className="flex items-center justify-center gap-2 text-[#07120c]/45"><p className="text-center text-xs">We usually respond within one business day</p><Headset className="h-4 w-4" /></div>
       </form>
     </div>

@@ -24,12 +24,12 @@ export default function Hero() {
           {/* hero title (nich) */}
           <div className="text-center mb-8 md:mb-20">
             <h1 className="title mt-24 md:text-7xl pb-6 text-pretty text-5xl text-[#CBA792] font-semibold">
-              Web Design &amp; Development That Builds Trust
+              Bespoke Web Design, Development &amp; Automation
             </h1>
 
             {/* انیمیشن تایپ فقط روی این خط */}
             <TypewriterText
-              text="Strategy, UX, development, and technical SEO—built around measurable business goals."
+              text="A boutique digital team shaping high-performance websites, custom platforms, and intelligent workflows."
               className="title lightColor font-semibold md:text-4xl text-3xl pb-6 text-pretty"
               speed={0.06}
               delay={1}
@@ -38,7 +38,7 @@ export default function Hero() {
 
           {/* discription */}
           <p className="text-xl text-white text-center">
-            Our web designs are the bridge to your business growth and success
+            Considered strategy. Refined execution. Digital systems built to earn attention, confidence, and long-term value.
           </p>
 
           {/* btns */}
@@ -54,7 +54,7 @@ export default function Hero() {
 
               {/* متن با افکت گلو */}
               <span className="relative z-10 transition-colors duration-300 group-hover:text-[#FFF8EE] flex items-center gap-2">
-                Free Discover Call
+                Request a Discovery Call
                 <svg
                   className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1"
                   fill="none"

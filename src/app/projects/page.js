@@ -3,8 +3,8 @@ import StructuredData from "@/components/StructuredData";
 import { getProjects } from "@/utils/content";
 import { absoluteUrl, breadcrumbSchema, createMetadata, webPageSchema } from "@/utils/seo";
 
-const description = "Explore selected Trustence web design and development case studies, project goals, technologies, and outcomes.";
-export const metadata = createMetadata({ title: "Web Design & Development Projects", description, path: "/projects" });
+const description = "Explore selected Trustence case studies across bespoke web design, software development, digital products, and distinctive online experiences.";
+export const metadata = createMetadata({ title: "Selected Digital Work & Case Studies", description, path: "/projects" });
 export const revalidate = 300;
 
 export default async function ProjectsPage() {
@@ -28,7 +28,7 @@ export default async function ProjectsPage() {
   return (
     <>
     <StructuredData data={[
-      webPageSchema({ name: "Trustence web design and development projects", description, path: "/projects", type: "CollectionPage" }),
+      webPageSchema({ name: "Selected Trustence digital work and case studies", description, path: "/projects", type: "CollectionPage" }),
       breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Projects", path: "/projects" }]),
       projectListSchema,
     ]} />

@@ -18,11 +18,11 @@ export default async function TeamSection() {
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16 ">
           <h2 className="text-4xl font-bold text-[#060e09] mb-4 tracking-tight title">
-            Meet the Team Behind{" "}
+            A Multidisciplinary Team Behind{" "}
             <span className="text-6xl text-[#245336]">Trustence</span>
           </h2>
           <p className="text-lg text-[#1C422B]/70">
-            A creative team of designers, programmers, and AI consultants
+            Engineers, designers, strategists, and growth specialists working as one focused digital partner.
           </p>
         </div>
 
@@ -72,7 +72,7 @@ export default async function TeamSection() {
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#fff8ee]/50 to-[#fff8ee]" />
                 </div>
                 <p className="text-base font-black mt-2 text-[#060e09] opacity-40">
-                  And More
+                  More expertise
                 </p>
               </div>
             )}
@@ -86,7 +86,7 @@ export default async function TeamSection() {
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover/button:translate-x-full transition-transform duration-1000" />
                 <div className="relative flex flex-col items-center gap-5 text-white">
                   <span className="text-xl font-bold tracking-wider uppercase relative">
-                    See full team
+                    Meet the team
                     <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-white/60 group-hover/button:w-full transition-all duration-500" />
                   </span>
                   <div className="relative w-16 h-16">

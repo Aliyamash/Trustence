@@ -1,7 +1,7 @@
 export const SITE_URL = "https://trust-ence.com";
 export const SITE_NAME = "Trustence";
 export const DEFAULT_DESCRIPTION =
-  "Trustence designs and develops fast, accessible, search-ready websites and digital experiences for ambitious businesses.";
+  "Trustence is a boutique digital studio creating bespoke websites, custom platforms, intelligent automations, and search-ready digital experiences for ambitious businesses.";
 
 export const socialProfiles = [
   "https://www.linkedin.com/in/trustence-agency-b13a9038a",
@@ -28,7 +28,7 @@ export function createMetadata({ title, description = DEFAULT_DESCRIPTION, path 
       siteName: SITE_NAME,
       title: fullTitle,
       description,
-      images: [{ url: absoluteUrl("/opengraph-image"), width: 1200, height: 630, alt: `${SITE_NAME} web design and development agency` }],
+      images: [{ url: absoluteUrl("/opengraph-image"), width: 1200, height: 630, alt: `${SITE_NAME} boutique digital studio for web, software and automation` }],
     },
     twitter: {
       card: "summary_large_image",
@@ -67,9 +67,14 @@ export const organizationSchema = {
   knowsAbout: [
     "Web design",
     "Web development",
+    "Custom software development",
     "User experience design",
+    "n8n workflow automation",
+    "API integration",
     "Technical SEO",
     "Website performance optimization",
+    "Brand design",
+    "Digital marketing",
   ],
   sameAs: socialProfiles,
 };

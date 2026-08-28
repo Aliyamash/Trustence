@@ -5,14 +5,14 @@ import WhyUS from "@/components/pages/contactUs/WhyUs";
 import StructuredData from "@/components/StructuredData";
 import { breadcrumbSchema, createMetadata, webPageSchema } from "@/utils/seo";
 
-const description = "Contact Trustence to discuss your next website, digital product, redesign, or technical SEO project.";
-export const metadata = createMetadata({ title: "Contact Trustence", description, path: "/contact" });
+const description = "Contact Trustence to discuss a bespoke website, custom platform, n8n automation, digital redesign, technical SEO, or long-term digital partnership.";
+export const metadata = createMetadata({ title: "Discuss Your Digital Project", description, path: "/contact" });
 
 export default function ContactUs(){
     return(
         <>
         <StructuredData data={[
-          webPageSchema({ name: "Contact Trustence", description, path: "/contact", type: "ContactPage" }),
+          webPageSchema({ name: "Discuss a digital project with Trustence", description, path: "/contact", type: "ContactPage" }),
           breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Contact", path: "/contact" }]),
         ]} />
         <ContactHero/>

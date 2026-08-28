@@ -38,10 +38,10 @@ export default function Footer() {
             <h2 className="font-bold title text-shadow shadow-green-500 w-fit bg-none text-2xl mb-2">
               Trustence
             </h2>
-            <p>Where trust meets innovation</p>
+            <p>A boutique studio for considered digital work.</p>
             <p className="text-pretty">
-              Our agency is founded on trust, with your confidence as our top
-              priority.
+              Bespoke web experiences, custom systems, intelligent automation,
+              and digital growth—designed as one coherent whole.
             </p>
           </div>
           {/* input footer */}
@@ -52,11 +52,11 @@ export default function Footer() {
                   className="px-4 lg:w-[20rem] w-full py-2 text-lg rounded-lg bg-[#54524C]"
                   type="email"
                   name="Email"
-                  placeholder="Your email here"
+                  placeholder="Your email address"
                   required
                 />
                 <SubmitButton
-                  title="join"
+                  title="Contact me"
                   style="px-6 py-2 text-lg rounded-lg bg-[#54524C]"
                 />
               </div>
@@ -64,7 +64,7 @@ export default function Footer() {
               <div className="flex gap-2 mt-1">
                 <Heart />
                 <p>
-                  We’d love to hear from you! Type in your email and let’s start the conversation.
+                  Prefer email? Leave your address and our team will start the conversation.
                 </p>
               </div>
             </form>
@@ -86,10 +86,10 @@ export default function Footer() {
           <div>
             <p className="font-bold mb-4 mt-12 text-lg">Quick Links</p>
             <div className="flex flex-col gap-2">
-              <Link href={"/"}>Home page</Link>
+              <Link href={"/"}>Home</Link>
               <Link href={"/aboutus"}>About Us</Link>
-              <Link href={"/service"}>Our Service</Link>
-              <Link href={"/contact"}>Contact Us</Link>
+              <Link href={"/service"}>Services</Link>
+              <Link href={"/contact"}>Contact</Link>
               {/* <Link href={"/blog"}>Blog Posts</Link> */}
             </div>
           </div>
@@ -97,8 +97,8 @@ export default function Footer() {
           <div>
             <p className="font-bold mb-4 mt-12 text-lg">Resources</p>
             <div className="flex flex-col gap-2">
-              <Link href={"/projects"}>Portfilio</Link>
-              <Link href={"mailto:trustenceagency@gmail.com"}>Support</Link>
+              <Link href={"/projects"}>Selected Work</Link>
+              <Link href={"mailto:trustenceagency@gmail.com"}>Email the Studio</Link>
               <Link href={"/aboutus"}>Careers</Link>
             </div>
           </div>
@@ -114,10 +114,10 @@ export default function Footer() {
           </div>
 
           <div>
-            <p className="font-bold mb-4 mt-12 text-lg">Contact Info</p>
+            <p className="font-bold mb-4 mt-12 text-lg">Legal</p>
             <div className="flex flex-col gap-2">
               <Link href={"/privacy"}>Privacy Policy</Link>
-              <Link href={"/terms"}>Term of Use</Link>
+              <Link href={"/terms"}>Terms of Use</Link>
               <Link href={"/copyright"}>Copyright Notice</Link>
             </div>
           </div>
@@ -130,7 +130,7 @@ export default function Footer() {
               © {new Date().getFullYear()} Trustence. All rights reserved.
             </p>
             <Link href={"/privacy"}>Privacy Policy</Link>
-            <Link href={"/terms"}>Term of Use</Link>
+            <Link href={"/terms"}>Terms of Use</Link>
           </div>
 
           <div className="flex gap-4 mb-8 md:mb-0">

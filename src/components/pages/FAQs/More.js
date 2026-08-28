@@ -21,7 +21,7 @@ export default function MoreQuestion(){
         <div className="pb-24">
             <div className="container">
                 <div className="my-12 text-center">
-                    <h2 className="text-2xl font-bold select-none">Still have a question? <span className="block my-2 text-green-500">Contact us.</span></h2>
+                    <h2 className="text-2xl font-bold select-none">Your project deserves a more specific answer. <span className="block my-2 text-green-500">Ask our team directly.</span></h2>
                 </div>
             <div>
                 <form ref={formRef} action={formActionFAQ}>
@@ -36,11 +36,11 @@ export default function MoreQuestion(){
                         </div>
                     </div>
                     <div >
-                        <textarea className="bg-zinc-200 p-8 w-full rounded-3xl" name="Inquiry" id="message" placeholder="Your Message" rows={8} required></textarea>
+                        <textarea className="bg-zinc-200 p-8 w-full rounded-3xl" name="Inquiry" id="message" placeholder="What would you like to clarify?" rows={8} required></textarea>
                     </div>
                    </div>
                    
-                    <SubmitButton title={"Send Message"} style={"my-2 w-full text-center p-6 font-bold text-lg text-white rounded-3xl bg-green-700 hover:bg-green-900 transition duration-500"}/>
+                    <SubmitButton title={"Send enquiry"} style={"my-2 w-full text-center p-6 font-bold text-lg text-white rounded-3xl bg-green-700 hover:bg-green-900 transition duration-500"}/>
                    
                 </form>
             </div>

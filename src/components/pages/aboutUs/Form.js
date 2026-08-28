@@ -50,11 +50,11 @@ export default function Form() {
 
         {/* پیام */}
         <div className="mb-8">
-          <label className="block text-sm -ml-1 mb-2">Message</label>
+          <label className="block text-sm -ml-1 mb-2">Project or enquiry</label>
           <textarea
             name="Inquiry"
             required
-            placeholder="Tell us about your project..."
+            placeholder="What are you looking to create, improve, or automate?"
             rows={6}
             className="w-full lg:w-[30rem] bg-[#1a221d] rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-[#658672] transition"
           />
@@ -71,7 +71,7 @@ export default function Form() {
 
         {/* دکمه ارسال */}
         <SubmitButton
-          title="Send Message"
+          title="Send enquiry"
           loadingTitle="Sending..."
           style="text-sm block my-8 transition duration-500 service-container bg-btn w-fit px-8 py-2 rounded-xl items-center hover:scale-105 hover:text-white"
         />

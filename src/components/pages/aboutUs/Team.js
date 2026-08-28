@@ -23,10 +23,9 @@ export default async function Team() {
     <div className="bg-[#0A1810] py-24 md:py-52 text-white" id="team">
       <div className="container">
         <div className="mb-32">
-          <p className="font-bold">Together</p>
-          <h2 className="text-6xl mt-4 mb-6 title font-bold">Our Team</h2>
-          <h2>We stand by our word</h2>
-          <h2>Trust us and meet the passionate team behind every project.</h2>
+          <p className="font-bold">The people behind the work</p>
+          <h2 className="text-6xl mt-4 mb-6 title font-bold">One standard. Multiple disciplines.</h2>
+          <p className="max-w-2xl text-lg leading-8 text-white/65">Every engagement is shaped by the right combination of engineering, design, strategy, growth, and visual craft.</p>
         </div>
 
         <Suspense fallback={<Spinner />}>
@@ -99,10 +98,10 @@ export default async function Team() {
                 </div>
                 <div className="text-center text-pretty mt-6">
                   <h3 className="text-white text-xl font-semibold mb-3 tracking-wide">
-                    + More Specialists
+                    Extended expertise
                   </h3>
                   <p className="text-[#fff8ee] text-md leading-relaxed">
-                    Hidden experts across design, development and AI.
+                    Additional specialist capability is involved when the scope calls for it.
                   </p>
                 </div>
               </div>
@@ -112,9 +111,9 @@ export default async function Team() {
 
         {/* بخش استخدام */}
         <div className="mt-64">
-          <h2 className="text-4xl">We're Hiring!</h2>
+          <h2 className="text-4xl">Exceptional work deserves exceptional people.</h2>
           <p className="mb-8 mt-4 text-lg">
-            Join our family and become exceptional.
+            If you care about thoughtful craft, clear communication, and responsible technology, we would like to hear from you.
           </p>
           <div className="flex overflow-hidden relative font-bold transition-shadow duration-700 text-white hover:text-black hover:shadow-xl hover:shadow-[#658672] p-btn items-center bg-btn2 px-8 py-4 w-fit rounded-xl">
             <div className="transition-all absolute duration-700 hover:scale-[25rem] top-1.5/3 left-4 z-0 dot bg-white h-1.5 w-1.5 rounded-full"></div>
@@ -122,7 +121,7 @@ export default async function Team() {
               className="z-10 text-lg transition-all duration-700"
               href="/discovery"
             >
-              Open positions
+              Introduce yourself
             </Link>
           </div>
         </div>

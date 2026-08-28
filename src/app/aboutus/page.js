@@ -9,8 +9,8 @@ import StructuredData from "@/components/StructuredData";
 import { getTeamMembers } from "@/utils/content";
 import { breadcrumbSchema, createMetadata, SITE_URL, webPageSchema } from "@/utils/seo";
 
-const description = "Meet the designers, developers, strategists, and creative specialists behind Trustence and the digital work we create.";
-export const metadata = createMetadata({ title: "About Our Team", description, path: "/aboutus" });
+const description = "Meet the multidisciplinary team behind Trustence: a boutique digital studio combining strategy, software engineering, automation, design, marketing, and visual craft.";
+export const metadata = createMetadata({ title: "About Our Boutique Digital Studio", description, path: "/aboutus" });
 
 export default async function AboutUsPage() {
     const team = await getTeamMembers();
@@ -35,7 +35,7 @@ export default async function AboutUsPage() {
     return(
         <>
             <StructuredData data={[
-                webPageSchema({ name: "About the Trustence team", description, path: "/aboutus", type: "AboutPage" }),
+                webPageSchema({ name: "About the Trustence boutique digital studio", description, path: "/aboutus", type: "AboutPage" }),
                 breadcrumbSchema([{ name: "Home", path: "/" }, { name: "About", path: "/aboutus" }]),
                 peopleSchema,
             ]} />

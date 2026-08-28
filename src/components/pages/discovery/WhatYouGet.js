@@ -5,7 +5,7 @@ export default function WhatYouGet(){
     return(
         <div className="bg-transparent py-64">
             <div className="container">
-                <h2 className="text-5xl title font-bold text-white">What You'll Get in This Session</h2>
+                <h2 className="text-5xl title font-bold text-white">What the conversation is designed to reveal.</h2>
                 <div className="mt-28">
                     {sessionBenefits.map((benefit) => (
                         <div key={benefit.id} className="my-12">

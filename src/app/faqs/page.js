@@ -5,15 +5,15 @@ import StructuredData from "@/components/StructuredData";
 import { faqs } from "@/components/FaqsOptions";
 import { breadcrumbSchema, createMetadata, webPageSchema } from "@/utils/seo";
 
-const description = "Clear answers about Trustence web design services, project timelines, technical SEO, support, pricing, content, and collaboration.";
-export const metadata = createMetadata({ title: "Web Design & Development FAQs", description, path: "/faqs" });
+const description = "Clear answers about Trustence services, bespoke web projects, software and n8n automation, timelines, ownership, SEO, support, content, security, and collaboration.";
+export const metadata = createMetadata({ title: "Digital Project & Automation FAQs", description, path: "/faqs" });
 
 
 export default function fqasPage(){
     return(
         <div>
          <StructuredData data={[
-           webPageSchema({ name: "Trustence frequently asked questions", description, path: "/faqs", type: "CollectionPage" }),
+           webPageSchema({ name: "Trustence digital project and automation questions", description, path: "/faqs", type: "CollectionPage" }),
            breadcrumbSchema([{ name: "Home", path: "/" }, { name: "FAQs", path: "/faqs" }]),
            {
              "@context": "https://schema.org",

@@ -13,16 +13,15 @@ export default function PeopleAbout() {
               {/* title */}
               <div>
                 <h2 className="title font-bold text-2xl md:text-4xl mb-8">
-                  Empowering geniuses to dominate markets, not just the
-                  competition
+                  Built for organisations that treat digital as a business asset.
                 </h2>
               </div>
               {/* description */}
               <div>
                 <p className="text-xl text-pretty">
-                  We excel at creating outstanding websites. Our priority is
-                  helping you increase your customer base. Remember, a unique
-                  showcase reflects professionalism for you and your business.😉
+                  A strong digital presence should do more than look polished.
+                  It should clarify your value, reduce friction, support your
+                  team, and make the right decision feel natural for your customer.
                 </p>
               </div>
             </div>
@@ -30,8 +29,8 @@ export default function PeopleAbout() {
               <div className="mb-4">
                 <h3 className="font-bold text-lg  mb-2">Our focus <Sprout className="inline-block icon-btn-size mx-1 -mt-1" /></h3>
                 <p className="text">
-                  is on particular clients whose websites serve as the primary
-                  gateway to their business.
+                  We create websites, platforms, and automations for teams that
+                  value clarity, quality, and long-term ownership.
                  
                 </p>
               </div>
@@ -39,10 +38,9 @@ export default function PeopleAbout() {
               <div className="mb-4">
                 <h3 className="font-bold text-lg  mb-2">Why Choose Us<HandHeart className="inline-block icon-btn-size2 mx-1 -mt-1" /></h3>
                 <p className="text">
-                  Your trust is our most valued currency. That’s why we
-                  prioritize transparency, discretion, and a partnership that
-                  evolves with your needs because true luxury lies in the
-                  confidence of knowing you’re in the right hands.
+                  Premium service is not theatre. It is the confidence created
+                  by precise scope, discreet communication, considered decisions,
+                  and a partner who respects the details.
                   
                 </p>
               </div>

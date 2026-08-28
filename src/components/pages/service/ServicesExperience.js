@@ -55,11 +55,11 @@ export default function ServicesExperience() {
                 <Sparkles className="h-4 w-4" /> Capabilities · Europe & worldwide
               </p>
               <h1 id="services-title" className="title max-w-5xl text-5xl font-semibold leading-[1.03] md:text-7xl lg:text-[6rem]">
-                Digital systems designed to work <span className="text-[#86a58f]">beautifully.</span>
+                Bespoke digital systems, designed to work <span className="text-[#86a58f]">beautifully.</span>
               </h1>
             </div>
             <div className="border-l border-white/15 pl-6 lg:mb-2">
-              <p className="text-lg leading-8 text-white/65">Strategy, design, engineering, automation, and growth brought together by one multidisciplinary team.</p>
+              <p className="text-lg leading-8 text-white/65">Strategy, design, software engineering, automation, and growth—brought together with the focus and care of one boutique team.</p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link href="/discovery" className="inline-flex items-center gap-2 rounded-xl bg-[#fff8ee] px-5 py-3.5 font-semibold text-[#07120c] transition hover:-translate-y-0.5 hover:bg-white">Start a project <ArrowUpRight className="h-4 w-4" /></Link>
                 <Link href="/projects" className="inline-flex items-center gap-2 rounded-xl border border-white/15 px-5 py-3.5 font-semibold text-white/75 transition hover:border-[#86a58f] hover:text-white">See our work <ArrowRight className="h-4 w-4" /></Link>
@@ -67,7 +67,7 @@ export default function ServicesExperience() {
             </div>
           </div>
           <ul className="mt-20 grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-3" aria-label="How we work">
-            {["Strategy-led", "Accessible by default", "Built for ownership"].map((item) => (
+            {["Strategy before execution", "Craft without compromise", "Built for ownership"].map((item) => (
               <li key={item} className="flex items-center gap-3 bg-[#0b1911] px-5 py-4 text-sm text-white/70"><Check className="h-4 w-4 text-[#86a58f]" /> {item}</li>
             ))}
           </ul>
@@ -77,8 +77,8 @@ export default function ServicesExperience() {
       <section className="px-5 py-24 md:px-10 md:py-36" aria-labelledby="capabilities-title">
         <div className="mx-auto max-w-7xl">
           <div className="mb-14 grid gap-6 md:grid-cols-2 md:items-end">
-            <div><p className="mb-4 text-xs font-bold uppercase tracking-[.24em] text-[#cba792]">What we can build</p><h2 id="capabilities-title" className="title text-4xl font-semibold leading-tight md:text-6xl">One idea. Every layer it needs.</h2></div>
-            <p className="max-w-xl text-lg leading-8 text-white/55 md:justify-self-end">Choose a focused service or combine disciplines into one coherent delivery team. The scope follows the problem, not a fixed package.</p>
+            <div><p className="mb-4 text-xs font-bold uppercase tracking-[.24em] text-[#cba792]">The complete digital experience</p><h2 id="capabilities-title" className="title text-4xl font-semibold leading-tight md:text-6xl">One ambition. Every discipline it deserves.</h2></div>
+            <p className="max-w-xl text-lg leading-8 text-white/55 md:justify-self-end">Engage a focused specialist capability or bring the disciplines together as one coherent team. The scope is shaped around value, not a predetermined package.</p>
           </div>
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {services.map((service) => {
@@ -106,7 +106,7 @@ export default function ServicesExperience() {
             <div className="relative overflow-hidden bg-[#153c27] p-7 text-white md:p-12 lg:p-16">
               <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full border border-white/10" /><div className="absolute -right-10 -top-10 h-44 w-44 rounded-full border border-white/10" />
               <p className="relative mb-7 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[.24em] text-[#cba792]"><Bot className="h-4 w-4" /> n8n automation studio</p>
-              <h2 id="automation-title" className="title relative text-4xl font-semibold leading-tight md:text-6xl">Less repetition. More useful work.</h2>
+              <h2 id="automation-title" className="title relative text-4xl font-semibold leading-tight md:text-6xl">Intelligent operations, without unnecessary friction.</h2>
               <p className="relative mt-7 max-w-xl text-lg leading-8 text-white/65">We design n8n workflows around the way your organisation actually works—from a single lead flow to connected operations across teams.</p>
               <div className="relative mt-12 space-y-3">
                 {workflowSteps.map((step, index) => {
@@ -128,7 +128,7 @@ export default function ServicesExperience() {
 
       <section className="border-y border-white/10 bg-[#0a1710] px-5 py-24 md:px-10 md:py-32" aria-labelledby="team-title">
         <div className="mx-auto max-w-7xl"><div className="grid gap-12 lg:grid-cols-[.8fr_1.2fr]">
-          <div><p className="mb-4 text-xs font-bold uppercase tracking-[.24em] text-[#cba792]">The team behind the work</p><h2 id="team-title" className="title text-4xl font-semibold leading-tight md:text-6xl">Different specialists. One direction.</h2><p className="mt-6 max-w-lg text-lg leading-8 text-white/55">Your website, automation, brand, and marketing should support each other. Our team structure makes that collaboration natural.</p></div>
+          <div><p className="mb-4 text-xs font-bold uppercase tracking-[.24em] text-[#cba792]">A boutique multidisciplinary team</p><h2 id="team-title" className="title text-4xl font-semibold leading-tight md:text-6xl">Specialist minds. One exacting standard.</h2><p className="mt-6 max-w-lg text-lg leading-8 text-white/55">Your website, software, automation, brand, and marketing should reinforce each other. Our structure makes that coherence part of the process.</p></div>
           <div className="grid gap-px overflow-hidden rounded-[2rem] border border-white/10 bg-white/10 sm:grid-cols-2">
             {disciplines.map((discipline) => { const Icon = discipline.icon; return <article key={discipline.title} className="bg-[#0c1e14] p-7 md:p-9"><Icon className="h-6 w-6 text-[#86a58f]" /><h3 className="mt-8 text-xl font-bold">{discipline.title}</h3><p className="mt-3 leading-7 text-white/50">{discipline.detail}</p></article>; })}
           </div>
@@ -137,7 +137,7 @@ export default function ServicesExperience() {
 
       <section className="px-5 py-24 md:px-10 md:py-36" aria-labelledby="process-title">
         <div className="mx-auto max-w-7xl">
-          <div className="mb-14 max-w-3xl"><p className="mb-4 text-xs font-bold uppercase tracking-[.24em] text-[#cba792]">A clear collaboration</p><h2 id="process-title" className="title text-4xl font-semibold leading-tight md:text-6xl">From uncertainty to a working system.</h2></div>
+          <div className="mb-14 max-w-3xl"><p className="mb-4 text-xs font-bold uppercase tracking-[.24em] text-[#cba792]">A composed collaboration</p><h2 id="process-title" className="title text-4xl font-semibold leading-tight md:text-6xl">From ambition to a system you are proud to own.</h2></div>
           <ol className="border-t border-white/15">{process.map(([number, title, detail]) => <li key={number} className="grid gap-4 border-b border-white/10 py-7 transition hover:bg-white/[.025] md:grid-cols-[6rem_15rem_1fr] md:items-center md:px-5"><span className="font-mono text-sm text-[#86a58f]">{number}</span><h3 className="text-xl font-bold">{title}</h3><p className="max-w-2xl leading-7 text-white/50">{detail}</p></li>)}</ol>
         </div>
       </section>
@@ -158,7 +158,7 @@ export default function ServicesExperience() {
 
       <section className="border-t border-white/10 bg-[#0c1e14] px-5 py-20 md:px-10 md:py-28" aria-label="Request a project consultation">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[.8fr_1.2fr] lg:items-start">
-          <div className="lg:sticky lg:top-28"><p className="mb-4 text-xs font-bold uppercase tracking-[.24em] text-[#cba792]">Tell us what should work better</p><h2 className="title text-4xl font-semibold leading-tight md:text-6xl">Let’s make the next step clear.</h2><p className="mt-6 max-w-lg text-lg leading-8 text-white/55">Share the outcome you need, the tools you use, or the process that keeps slowing your team down. We’ll start from there.</p></div>
+          <div className="lg:sticky lg:top-28"><p className="mb-4 text-xs font-bold uppercase tracking-[.24em] text-[#cba792]">A conversation worth having</p><h2 className="title text-4xl font-semibold leading-tight md:text-6xl">Let’s define the right next move.</h2><p className="mt-6 max-w-lg text-lg leading-8 text-white/55">Share the outcome, the current tools, or the process that should feel more capable. We will begin with the questions that make the investment clearer.</p></div>
           <DiscoveryForm />
         </div>
       </section>

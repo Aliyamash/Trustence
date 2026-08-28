@@ -81,14 +81,14 @@ export default function FormDiscovery() {
       {/* مرحله‌ها */}
       <section className="space-y-10 text-center">
         <h2 className="text-5xl md:text-6xl font-bold text-center text-[#46c972]" >
-          Discovery Session Steps
+          A simple, considered process
         </h2>
 
         <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           {[
-            { icon: "📝", title: "1. Submit the Form", desc: "Fill out the form below to give us initial info about your project." },
-            { icon: "🎥", title: "2. Video Call", desc: "We'll have a 30-minute call to dive deeper into your goals." },
-            { icon: "📄", title: "3. Get Your Proposal", desc: "You'll receive a tailored proposal and project timeline." },
+            { icon: "01", title: "Share the context", desc: "Tell us what you want to create, improve, or automate and why it matters now." },
+            { icon: "02", title: "Meet the team", desc: "We hold a focused video conversation to examine goals, constraints, and fit." },
+            { icon: "03", title: "Receive a clear next step", desc: "When there is a strong fit, we prepare a tailored scope, timeline, and commercial proposal." },
           ].map((step, i) => (
             <div
               key={i}
@@ -106,7 +106,7 @@ export default function FormDiscovery() {
       {/* فرم */}
       <section className="max-w-2xl mx-auto">
         <h2 className="text-5xl md:text-6xl font-bold text-center mb-12 text-[#46c972]" >
-          Book Your Free Discovery Session
+          Request your discovery session
         </h2>
 
         <form
@@ -140,19 +140,19 @@ export default function FormDiscovery() {
 
           {/* پیام */}
           <div className="form-field">
-            <label className="block text-sm font-medium text-[#1C422B] mb-2">Your Project</label>
+            <label className="block text-sm font-medium text-[#1C422B] mb-2">Project, challenge, or opportunity</label>
             <textarea
               name="Inquiry"
               required
               rows={5}
-              placeholder="Tell us about your vision, goals, and timeline..."
+              placeholder="What should be created or improved, and what would a valuable outcome look like?"
               className="w-full px-5 py-4 rounded-xl border outline-none border-[#d0d0d0] focus:border-[#658672] focus:ring-4 focus:ring-[#658672]/20 transition-all duration-300 bg-gray-50/50 resize-none"
             />
           </div>
 
           {/* دکمه */}
           <SubmitButton
-            title="Book Session"
+            title="Request session"
             loadingTitle="Sending..."
             style="w-full text-lg py-5 rounded-2xl font-semibold bg-gradient-to-r from-[#1C422B] to-[#173520] text-white hover:shadow-xl hover:shadow-[#658672]/30 transform hover:scale-[1.02] transition-all duration-300"
           />

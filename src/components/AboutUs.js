@@ -8,31 +8,32 @@ export default function AboutUs() {
     <div className="bg-[#658672] block"  id="about">
       <div className="container py-12 flex flex-col md:flex-row gap-12 items-center justify-center">
         <div className="text-white md:w-2/3">
-          <p className="font-semibold mb-4">Design</p>
+          <p className="font-semibold mb-4">The Trustence standard</p>
           <div>
             
             <h2 className="title lightColor md:text-5xl text-3xl text-[#245336] pb-6 text-pretty">
-              Where art meets technology
+              Quiet confidence, engineered into every detail.
             </h2>
           </div>
           <p className="mb-8 ">
-            We don’t just build websites. we craft digital masterpieces that
-            tell your brand’s story, captivate your audience, and drive real
-            business growth. Every pixel is placed with purpose, every
-            interaction designed to inspire.
+            We combine commercial thinking, restrained design, and dependable
+            engineering to create digital experiences that feel unmistakably
+            yours. Every decision has a purpose: strengthen perception, simplify
+            the journey, and support measurable business value.
           </p>
           <div className="flex flex-col">
             <div className="my-4">
-              <h3 className="title text-[#000] mb-2">Built on trust</h3>
+              <h3 className="title text-[#000] mb-2">Discreet by nature</h3>
               <p>
-                Trust isn’t just a word. it’s the foundation we code into every
-                project
+                Clear communication, thoughtful handling of your information,
+                and no unnecessary complexity.
               </p>
             </div>
             <div className="my-4">
-              <h3 className="title text-[#000] mb-2">From Sketch to Launch</h3>
+              <h3 className="title text-[#000] mb-2">From direction to ownership</h3>
               <p>
-                With you every step of the way, from concept to final implementation.
+                One coherent process from first decision to launch, handover,
+                and the next stage of growth.
               </p>
             </div>
           </div>
@@ -42,14 +43,14 @@ export default function AboutUs() {
               className="transition-all duration-500 mr-4 px-6 py-4 bg-btn rounded-xl"
               href={"/aboutus"}
             >
-              Learn
+              About the studio
             </Link>
             <div className="flex items-center hover:text-gray-800">
               <Link
                 className="pr-1 hover:pr-3 transition-all duration-500 "
                 href={"/discovery"}
               >
-                Discover
+                Discuss a project
               </Link>
               <ChevronRight className="transition-all duration-500" />
             </div>

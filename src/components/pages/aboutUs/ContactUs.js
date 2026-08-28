@@ -9,10 +9,9 @@ export default function ContactUs() {
           <div className="flex flex-col gap-16 lg:gap-8 justify-center lg:justify-around lg:flex-row  ">
             {/* info call */}
             <div>
-              <p className="font-semibold">Connect</p>
-              <h2 className="text-5xl lg:text-7xl -ml-2 my-4">Get in Touch</h2>
-              <p className="text-lg">We love hearing from you </p>
-              <p className="text-lg">Please feel free also to contact us.</p>
+              <p className="font-semibold">A direct conversation</p>
+              <h2 className="text-5xl lg:text-7xl -ml-2 my-4">Tell us what you are building.</h2>
+              <p className="max-w-lg text-lg leading-8 text-white/65">Share the ambition, the challenge, or the system that should work better. We will respond with a thoughtful next step.</p>
 
           <div className="mt-12">
           <div className="flex gap-8 my-6">

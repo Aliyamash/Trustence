@@ -12,21 +12,20 @@ export default function WhyUS() {
         </div>
         <div className="text-left md:text-center">
           <p className="text-2xl md:text-3xl font-bold text-pretty mb-24 mx-auto max-w-5xl">
-            We know you're ready to get in touch, but as a matter of courtesy,
-            we'd like to briefly share the core values that define our team.
+            The quality of a digital partnership is felt long before launch—in
+            the questions asked, the decisions explained, and the details respected.
           </p>
           <div className="flex lg:flex-row flex-col justify-between lg:items-center gap-8">
           <p className="text-xl text-left text-pretty lg:w-2/3 font-medium mb-6  ">
-            At the heart of our agency lies the essence of trust, the
-            cornerstone of our team. We are committed first to honoring our
-            clients with deep respect, and second, to building powerful
-            platforms that drive their growth and success.
+            We treat every engagement with discretion and commercial care.
+            You receive a clear scope, honest technical guidance, and a digital
+            solution shaped around the way your organisation actually operates.
             <HeartHandshake className="inline icon-btn-size2 ml-2 text-green-700" />
           </p>
          
           <p className="text-xl text-green-950 text-left text-pretty lg:w-7/12 font-medium mb-6">
-            In a world where distrust has become the norm, we choose to be
-            different, by creating genuine connections built on trust.
+            Our ambition is simple: make the process feel composed, make the
+            technology feel dependable, and create work your business is proud to own.
           <Heart className="inline icon-btn-size2 ml-2 text-green-700 "/>
           </p>
         

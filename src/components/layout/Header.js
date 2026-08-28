@@ -22,10 +22,10 @@ const NavLinks = ({ onLinkClick }) => {
         About Us
       </Link>
       <Link href="/service" onClick={handleClick} className="hover:text-[#CBA792] transition">
-        Service
+        Services
       </Link>
       <Link href="/contact" onClick={handleClick} className="hover:text-[#CBA792] transition">
-        Contact Us
+        Contact
       </Link>
       <Link href="/projects" onClick={handleClick} className="hover:text-[#CBA792] transition">
         Work

@@ -1,7 +1,5 @@
 import portfolio from '@/public/images/portfolio.png'
 import creativeShop from '@/public/images/shahriarh.png'
-import { link } from 'framer-motion/client'
-
 export const projects = [
   {
     id:1,
@@ -10,7 +8,7 @@ export const projects = [
     title: "Animated Portfolio Website",
     category: "Web Design / Portfolio",
     intro:
-      "A clean, animated portfolio showcasing work with modern design and smooth interactions.",
+      "A cinematic portfolio experience that turns personal work into a memorable digital identity through deliberate motion and visual restraint.",
   },
   {
     id:2,
@@ -19,6 +17,6 @@ export const projects = [
     title: "Creative Portfolio & Shop Website",
     category: "Portfolio / E-commerce / Web Design",
     intro:
-      "A stylish hybrid website that showcases work while offering products for sale, built with modern layouts and creative visual elements."
+      "A distinctive portfolio and commerce experience that balances personal storytelling, product discovery, and a confident visual identity."
   },
 ]

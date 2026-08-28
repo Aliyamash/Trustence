@@ -12,8 +12,8 @@ const NavLinks = ({ onLinkClick }) => {
     <>
       <Link href="/" onClick={handleClick}>Home</Link>
       <Link href="/aboutus" onClick={handleClick}>About Us</Link>
-      <Link href="/service" onClick={handleClick}>Service</Link>
-      <Link href="/contact" onClick={handleClick}>Contact Us</Link>
+      <Link href="/service" onClick={handleClick}>Services</Link>
+      <Link href="/contact" onClick={handleClick}>Contact</Link>
       <Link href="/projects" onClick={handleClick}>Work</Link>
       <div onClick={handleClick}>
         <BtnDiscover />
