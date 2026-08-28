@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   Bell,
@@ -294,6 +295,7 @@ function MessageDetails({ message, onClose, onStatus }) {
 function CreatePanel({ type, apiKey, onClose, onCreated }) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const [galleryCount, setGalleryCount] = useState(0);
   const isProject = type === "project";
 
   async function submit(event) {
@@ -306,7 +308,15 @@ function CreatePanel({ type, apiKey, onClose, onCreated }) {
       const body = isProject
         ? { title: form.get("title"), category_name: form.get("category_name"), intro: form.get("intro"), description: form.get("description"), link: form.get("link"), tags: form.get("tags"), banner: uploaded.path, is_published: true }
         : { name: form.get("name"), position: form.get("position"), bio: form.get("bio"), github: form.get("github"), twitter: form.get("twitter"), linkedin: form.get("linkedin"), sort_order: Number(form.get("sort_order") || 0), profile: uploaded.path, is_published: true };
-      await apiRequest(isProject ? "/admin/projects" : "/admin/team", apiKey, { method: "POST", body: JSON.stringify(body) });
+      const created = await apiRequest(isProject ? "/admin/projects" : "/admin/team", apiKey, { method: "POST", body: JSON.stringify(body) });
+      if (isProject) {
+        const galleryFiles = form.getAll("gallery_images").filter((file) => file instanceof File && file.size > 0);
+        const galleryUploads = await Promise.all(galleryFiles.map((file) => uploadImage(file, apiKey)));
+        await Promise.all(galleryUploads.map((image, index) => apiRequest(`/admin/projects/${created.id}/images`, apiKey, {
+          method: "POST",
+          body: JSON.stringify({ path: image.path, alt_text: `${body.title} – project image ${index + 1}`, sort_order: index }),
+        })));
+      }
       await onCreated();
       onClose();
     } catch (submitError) {
@@ -322,11 +332,84 @@ function CreatePanel({ type, apiKey, onClose, onCreated }) {
         <div className="mb-7 flex items-center justify-between"><div><p className="text-xs font-bold text-emerald-600">محتوای جدید</p><h2 className="mt-1 text-2xl font-black text-slate-900">{isProject ? "افزودن پروژه" : "افزودن عضو تیم"}</h2></div><button type="button" onClick={onClose} className="grid h-10 w-10 place-items-center rounded-xl bg-slate-100 text-slate-500"><X size={20} /></button></div>
         <div className="grid gap-4 sm:grid-cols-2">
           {isProject ? <><input className={inputClass} name="title" placeholder="عنوان پروژه" required /><input className={inputClass} name="category_name" placeholder="دسته‌بندی" required /><textarea className={`${inputClass} sm:col-span-2`} name="intro" placeholder="معرفی کوتاه" required /><textarea className={`${inputClass} sm:col-span-2`} name="description" placeholder="توضیحات کامل" /><input className={inputClass} name="tags" placeholder="تگ‌ها با کاما" /><input className={inputClass} name="link" type="url" placeholder="https://project.example" /></> : <><input className={inputClass} name="name" placeholder="نام کامل" required /><input className={inputClass} name="position" placeholder="سمت" required /><textarea className={`${inputClass} sm:col-span-2`} name="bio" placeholder="بیوگرافی" /><input className={inputClass} name="github" type="url" placeholder="لینک GitHub" /><input className={inputClass} name="linkedin" type="url" placeholder="لینک LinkedIn" /><input className={inputClass} name="twitter" type="url" placeholder="لینک X/Twitter" /><input className={inputClass} name="sort_order" type="number" min="0" defaultValue="0" placeholder="ترتیب" /></>}
-          <label className="flex cursor-pointer items-center gap-3 rounded-2xl border-2 border-dashed border-emerald-200 bg-emerald-50/60 p-5 text-sm font-bold text-emerald-800 sm:col-span-2"><CloudUpload /><span>انتخاب تصویر (حداکثر ۸ مگابایت)</span><input className="hidden" name="image" type="file" accept="image/jpeg,image/png,image/webp,image/gif" required /></label>
+          <label className="flex cursor-pointer items-center gap-3 rounded-2xl border-2 border-dashed border-emerald-200 bg-emerald-50/60 p-5 text-sm font-bold text-emerald-800 sm:col-span-2"><CloudUpload /><span>{isProject ? "تصویر اصلی پروژه" : "تصویر عضو تیم"} (حداکثر ۸ مگابایت)</span><input className="hidden" name="image" type="file" accept="image/jpeg,image/png,image/webp,image/gif" required /></label>
+          {isProject && <label className="flex cursor-pointer items-center gap-3 rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 p-5 text-sm font-bold text-slate-700 sm:col-span-2"><ImageIcon className="text-emerald-700" /><span>تصاویر تکمیلی گالری {galleryCount ? `(${formatNumber(galleryCount)} تصویر انتخاب شده)` : "(اختیاری)"}</span><input className="hidden" name="gallery_images" type="file" accept="image/jpeg,image/png,image/webp,image/gif" multiple onChange={(event) => setGalleryCount(event.target.files?.length || 0)} /></label>}
         </div>
         {error && <p className="mt-4 rounded-xl bg-rose-50 p-3 text-sm text-rose-700">{error}</p>}
         <button disabled={busy} className="mt-6 flex w-full items-center justify-center gap-2 rounded-2xl bg-emerald-700 px-5 py-4 font-bold text-white shadow-lg shadow-emerald-700/20 disabled:opacity-60">{busy ? <RefreshCw className="animate-spin" size={18} /> : <CloudUpload size={18} />}{busy ? "در حال آپلود..." : "آپلود و انتشار"}</button>
       </form>
+    </div>
+  );
+}
+
+function ProjectGalleryPanel({ project, apiKey, onClose, onChanged }) {
+  const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+
+  const loadImages = useCallback(async () => {
+    setLoading(true);
+    try {
+      setImages(await apiRequest(`/admin/projects/${project.id}/images`, apiKey));
+    } catch (loadError) {
+      setError(loadError.message);
+    } finally {
+      setLoading(false);
+    }
+  }, [apiKey, project.id]);
+
+  useEffect(() => { loadImages(); }, [loadImages]);
+
+  async function addImages(event) {
+    const files = Array.from(event.target.files || []).filter((file) => file.size > 0);
+    if (!files.length) return;
+    setBusy(true);
+    setError("");
+    try {
+      const uploaded = await Promise.all(files.map((file) => uploadImage(file, apiKey)));
+      await Promise.all(uploaded.map((image, index) => apiRequest(`/admin/projects/${project.id}/images`, apiKey, {
+        method: "POST",
+        body: JSON.stringify({ path: image.path, alt_text: `${project.title} – project image ${images.length + index + 1}`, sort_order: images.length + index }),
+      })));
+      event.target.value = "";
+      await loadImages();
+      await onChanged();
+    } catch (uploadError) {
+      setError(uploadError.message);
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function removeImage(image) {
+    if (!window.confirm("این تصویر از گالری پروژه حذف شود؟")) return;
+    setBusy(true);
+    setError("");
+    try {
+      await apiRequest(`/admin/projects/${project.id}/images/${image.id}`, apiKey, { method: "DELETE" });
+      setImages((items) => items.filter((item) => item.id !== image.id));
+      await onChanged();
+    } catch (removeError) {
+      setError(removeError.message);
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <div className="fixed inset-0 z-[140] flex items-end justify-center bg-slate-950/55 p-0 backdrop-blur-sm sm:items-center sm:p-5" onMouseDown={(event) => event.target === event.currentTarget && onClose()}>
+      <section className="max-h-[92vh] w-full max-w-4xl overflow-y-auto rounded-t-[2rem] bg-white shadow-2xl sm:rounded-[2rem]">
+        <header className="sticky top-0 z-10 flex items-center justify-between border-b border-slate-100 bg-white/95 p-5 backdrop-blur-xl sm:p-7">
+          <div><p className="text-xs font-black text-emerald-700">گالری پروژه</p><h2 className="mt-1 text-xl font-black text-slate-900">{project.title}</h2><p className="mt-1 text-xs text-slate-400">تصاویر گالری در صفحهٔ جزئیات پروژه نمایش داده می‌شوند؛ تصویر اصلی تکرار نمی‌شود.</p></div>
+          <button type="button" onClick={onClose} className="grid h-11 w-11 place-items-center rounded-2xl bg-slate-100 text-slate-500 transition hover:bg-rose-50 hover:text-rose-600"><X size={20} /></button>
+        </header>
+        <div className="p-5 sm:p-7">
+          <label className={`flex cursor-pointer items-center justify-center gap-3 rounded-[1.4rem] border-2 border-dashed border-emerald-200 bg-emerald-50/70 p-6 text-sm font-black text-emerald-800 transition hover:border-emerald-400 ${busy ? "pointer-events-none opacity-60" : ""}`}><CloudUpload size={22} /><span>{busy ? "در حال آپلود تصاویر..." : "افزودن چند تصویر به گالری"}</span><input className="hidden" type="file" accept="image/jpeg,image/png,image/webp,image/gif" multiple onChange={addImages} disabled={busy} /></label>
+          {error && <p className="mt-4 rounded-2xl bg-rose-50 p-4 text-sm text-rose-700">{error}</p>}
+          {loading ? <div className="grid min-h-64 place-items-center text-sm text-slate-400"><RefreshCw className="animate-spin text-emerald-600" /></div> : <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{images.map((image, index) => <article key={image.id} className="group overflow-hidden rounded-[1.4rem] border border-slate-100 bg-slate-50"><div className="relative aspect-[4/3] overflow-hidden bg-slate-200"><Image src={mediaUrl(image.path)} alt={image.alt_text || `${project.title} – project image ${index + 1}`} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-cover transition duration-500 group-hover:scale-105" /><div className="absolute left-3 top-3 rounded-full bg-slate-950/65 px-2.5 py-1 text-[10px] font-black text-white backdrop-blur">تصویر {formatNumber(index + 1)}</div></div><div className="flex items-center justify-between gap-3 p-3"><p className="truncate text-xs text-slate-500">{image.alt_text || "بدون متن جایگزین"}</p><button type="button" disabled={busy} onClick={() => removeImage(image)} className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-rose-50 text-rose-600 transition hover:bg-rose-600 hover:text-white disabled:opacity-50" aria-label="حذف تصویر"><Trash2 size={16} /></button></div></article>)}{!images.length && <div className="col-span-full rounded-[1.5rem] border border-dashed border-slate-200 py-16 text-center text-sm text-slate-400">هنوز تصویر تکمیلی برای این پروژه ثبت نشده است.</div>}</div>}
+        </div>
+      </section>
     </div>
   );
 }
@@ -339,6 +422,7 @@ export default function AdminDashboard() {
   const [error, setError] = useState("");
   const [query, setQuery] = useState("");
   const [createType, setCreateType] = useState(null);
+  const [galleryProject, setGalleryProject] = useState(null);
   const [stats, setStats] = useState({ summary: {}, activity: [], traffic: [], topPages: [], referrers: [], countries: [], devices: [], browsers: [], operatingSystems: [], recentVisits: [], recent: [] });
   const [projects, setProjects] = useState([]);
   const [team, setTeam] = useState([]);
@@ -429,7 +513,7 @@ export default function AdminDashboard() {
 
           {active === "analytics" && <AnalyticsOverview stats={stats} />}
 
-          {active === "projects" && <section className="space-y-5"><div className="flex items-center justify-between"><div><h2 className="text-2xl font-black">پروژه‌ها</h2><p className="mt-1 text-sm text-slate-400">نمونه‌کارهای منتشرشده و پیش‌نویس‌ها</p></div><button onClick={() => setCreateType("project")} className="flex items-center gap-2 rounded-2xl bg-emerald-700 px-4 py-3 text-sm font-bold text-white shadow-lg"><Plus size={18} />افزودن پروژه</button></div><div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">{filteredProjects.map((project) => <article key={project.id} className="overflow-hidden rounded-[1.7rem] bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl"><div className="h-48 bg-slate-200 bg-cover bg-center" style={{ backgroundImage: `url("${mediaUrl(project.banner)}")` }} /><div className="p-5"><div className="flex items-center justify-between"><span className="rounded-lg bg-emerald-50 px-2.5 py-1 text-[11px] font-bold text-emerald-700">{project.category_name}</span><span className={`h-2.5 w-2.5 rounded-full ${project.is_published ? "bg-emerald-500" : "bg-slate-300"}`} /></div><h3 className="mt-4 text-lg font-black">{project.title}</h3><p className="mt-2 line-clamp-2 text-sm leading-6 text-slate-500">{project.intro}</p><div className="mt-5 flex items-center justify-between border-t border-slate-100 pt-4"><span className="text-xs text-slate-400">{formatDate(project.created_at)}</span><button onClick={() => remove(`/admin/projects/${project.id}`, project.title)} className="grid h-9 w-9 place-items-center rounded-xl bg-rose-50 text-rose-600"><Trash2 size={16} /></button></div></div></article>)}</div>{!filteredProjects.length && <div className="rounded-3xl bg-white py-24 text-center text-slate-400">پروژه‌ای پیدا نشد.</div>}</section>}
+          {active === "projects" && <section className="space-y-5"><div className="flex items-center justify-between"><div><h2 className="text-2xl font-black">پروژه‌ها</h2><p className="mt-1 text-sm text-slate-400">نمونه‌کارهای منتشرشده، پیش‌نویس‌ها و گالری تصویر هر پروژه</p></div><button onClick={() => setCreateType("project")} className="flex items-center gap-2 rounded-2xl bg-emerald-700 px-4 py-3 text-sm font-bold text-white shadow-lg"><Plus size={18} />افزودن پروژه</button></div><div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">{filteredProjects.map((project) => <article key={project.id} className="overflow-hidden rounded-[1.7rem] bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl"><div className="h-48 bg-slate-200 bg-cover bg-center" style={{ backgroundImage: `url("${mediaUrl(project.banner)}")` }} /><div className="p-5"><div className="flex items-center justify-between"><span className="rounded-lg bg-emerald-50 px-2.5 py-1 text-[11px] font-bold text-emerald-700">{project.category_name}</span><span className={`h-2.5 w-2.5 rounded-full ${project.is_published ? "bg-emerald-500" : "bg-slate-300"}`} /></div><h3 className="mt-4 text-lg font-black">{project.title}</h3><p className="mt-2 line-clamp-2 text-sm leading-6 text-slate-500">{project.intro}</p><div className="mt-5 flex items-center justify-between gap-3 border-t border-slate-100 pt-4"><button type="button" onClick={() => setGalleryProject(project)} className="flex items-center gap-2 rounded-xl bg-emerald-50 px-3 py-2 text-xs font-black text-emerald-700 transition hover:bg-emerald-100"><ImageIcon size={15} />گالری {formatNumber(project.gallery_count || 0)}</button><div className="flex items-center gap-3"><span className="text-xs text-slate-400">{formatDate(project.created_at)}</span><button onClick={() => remove(`/admin/projects/${project.id}`, project.title)} className="grid h-9 w-9 place-items-center rounded-xl bg-rose-50 text-rose-600"><Trash2 size={16} /></button></div></div></div></article>)}</div>{!filteredProjects.length && <div className="rounded-3xl bg-white py-24 text-center text-slate-400">پروژه‌ای پیدا نشد.</div>}</section>}
 
           {active === "team" && <section className="space-y-5"><div className="flex items-center justify-between"><div><p className="text-xs font-black text-emerald-700">تیم Trustence</p><h2 className="mt-1 text-2xl font-black">اعضای تیم</h2><p className="mt-1 text-sm text-slate-400">تمام اطلاعات و تصاویر منتقل‌شده از صفحه اصلی</p></div><button onClick={() => setCreateType("team")} className="flex items-center gap-2 rounded-2xl bg-gradient-to-l from-emerald-600 to-emerald-800 px-4 py-3 text-sm font-bold text-white shadow-lg shadow-emerald-800/20"><Plus size={18} />عضو جدید</button></div><div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">{filteredTeam.map((member) => <article key={member.id} className="group overflow-hidden rounded-[1.8rem] border border-white bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-emerald-950/10"><div className="relative h-56 overflow-hidden bg-slate-200"><div className="absolute inset-0 bg-cover bg-center transition duration-500 group-hover:scale-105" style={{ backgroundImage: `url("${mediaUrl(member.profile)}")` }} /><div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" /><div className="absolute bottom-4 right-4 text-white"><h3 className="text-xl font-black">{member.name}</h3><p className="mt-1 text-sm text-emerald-200">{member.position}</p></div><span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-[10px] font-black text-emerald-800 backdrop-blur">فعال</span></div><div className="p-5"><p className="line-clamp-3 min-h-[4.5rem] text-sm leading-6 text-slate-500">{member.bio || "بیوگرافی ثبت نشده است."}</p><div className="mt-4 flex items-center justify-between border-t border-slate-100 pt-4"><span className="text-xs text-slate-400">ترتیب نمایش: {formatNumber(member.sort_order)}</span><button aria-label={`حذف ${member.name}`} onClick={() => remove(`/admin/team/${member.id}`, member.name)} className="grid h-10 w-10 place-items-center rounded-xl bg-rose-50 text-rose-600 transition hover:bg-rose-600 hover:text-white"><Trash2 size={16} /></button></div></div></article>)}</div>{!filteredTeam.length && <div className="rounded-3xl bg-white py-24 text-center text-slate-400">عضوی پیدا نشد.</div>}</section>}
 
@@ -437,6 +521,7 @@ export default function AdminDashboard() {
         </div>
       </div>
       {createType && <CreatePanel type={createType} apiKey={apiKey} onClose={() => setCreateType(null)} onCreated={() => loadData()} />}
+      {galleryProject && <ProjectGalleryPanel project={galleryProject} apiKey={apiKey} onClose={() => setGalleryProject(null)} onChanged={() => loadData()} />}
       {selectedMessage && <MessageDetails message={selectedMessage} onClose={() => setSelectedMessage(null)} onStatus={updateMessageStatus} />}
     </main>
   );
