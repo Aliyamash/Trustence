@@ -1,55 +1,40 @@
-import ApproachService from "@/components/pages/service/ApproachService";
-import CoreService from "@/components/pages/service/CoreService";
-import DiscoveryForm from "@/components/pages/service/DiscoverForm";
-import FAQ from "@/components/pages/service/FAQ";
-import PremiumService from "@/components/pages/service/PremiumSection";
-import ServiceProView from "@/components/pages/service/ServiceProView";
-import WelcomeService from "@/components/pages/service/WelcomeService";
-import WhyUs from "@/components/pages/service/WhyUs";
-import ProcessTimeline from "@/components/pages/service/WorkProcess";
-import Portfilio from "@/components/Portfolio";
+import ServicesExperience from "@/components/pages/service/ServicesExperience";
 import StructuredData from "@/components/StructuredData";
+import { serviceFaqs, services } from "@/data/services";
 import { breadcrumbSchema, createMetadata, SITE_URL, webPageSchema } from "@/utils/seo";
 
-const description = "Explore Trustence services: strategy, UX, responsive web design, development, technical SEO, performance optimization, and ongoing support.";
-export const metadata = createMetadata({ title: "Web Design, Development & Digital Services", description, path: "/service" });
+const description = "Explore Trustence services for strategy, UX, web development, n8n automation, API integrations, SEO, brand design, marketing, and visual content.";
+export const metadata = createMetadata({ title: "Digital Services & n8n Automation", description, path: "/service" });
 
-export default function service(){
-    return(
-        <>
-        <StructuredData data={[
-            webPageSchema({ name: "Trustence web design and development services", description, path: "/service" }),
-            breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Services", path: "/service" }]),
-            {
-                "@context": "https://schema.org",
-                "@type": "Service",
-                name: "Web design and development services",
-                serviceType: "Website strategy, UX design, web development, technical SEO, and support",
-                description,
-                url: `${SITE_URL}/service`,
-                areaServed: "Worldwide",
-                provider: { "@id": `${SITE_URL}/#organization` },
-                audience: { "@type": "BusinessAudience", audienceType: "Businesses and organizations" },
-                hasOfferCatalog: {
-                    "@type": "OfferCatalog",
-                    name: "Digital services",
-                    itemListElement: ["Website strategy and UX", "Responsive web design", "Web development", "Technical SEO", "Performance optimization", "Ongoing support"].map((name) => ({
-                        "@type": "Offer",
-                        itemOffered: { "@type": "Service", name },
-                    })),
-                },
-            },
-        ]} />
-        <WelcomeService/>
-        <ApproachService/>
-        <WhyUs/>
-        <ServiceProView/>
-        <CoreService/>
-        <PremiumService/>
-        <ProcessTimeline/>
-        <Portfilio/>
-        <FAQ/>
-        <DiscoveryForm/>
-        </>
-    )
+export default function ServicePage() {
+  return (
+    <>
+      <StructuredData data={[
+        webPageSchema({ name: "Trustence digital services and automation", description, path: "/service" }),
+        breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Services", path: "/service" }]),
+        {
+          "@context": "https://schema.org", "@type": "Service",
+          name: "Digital design, development, and automation services",
+          serviceType: "Digital strategy, UX design, web development, n8n automation, SEO, branding, marketing, and visual content",
+          description, url: `${SITE_URL}/service`, areaServed: "Worldwide",
+          provider: { "@id": `${SITE_URL}/#organization` },
+          audience: { "@type": "BusinessAudience", audienceType: "Businesses and organisations" },
+          hasOfferCatalog: {
+            "@type": "OfferCatalog", name: "Digital services",
+            itemListElement: services.map(({ title, description: serviceDescription }) => ({
+              "@type": "Offer", itemOffered: { "@type": "Service", name: title, description: serviceDescription },
+            })),
+          },
+        },
+        {
+          "@context": "https://schema.org", "@type": "FAQPage",
+          mainEntity: serviceFaqs.map(({ question, answer }) => ({
+            "@type": "Question", name: question,
+            acceptedAnswer: { "@type": "Answer", text: answer },
+          })),
+        },
+      ]} />
+      <ServicesExperience />
+    </>
+  );
 }
