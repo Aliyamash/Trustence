@@ -35,7 +35,12 @@ export default function Hero() {
       <div className="mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-[1.08fr_.92fr]">
         <div>
           <p data-hero-copy className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#cba792]/25 bg-[#cba792]/10 px-4 py-2 text-xs font-bold uppercase tracking-[.15em] text-[#e6c9b6]"><Sparkles className="h-4 w-4" />{hero.eyebrow}</p>
-          <h1 data-hero-copy className="title max-w-4xl text-4xl font-semibold leading-[1.12] sm:text-5xl md:text-7xl">{hero.title}</h1>
+          <h1
+            data-hero-copy
+            className={`title max-w-4xl text-4xl font-semibold leading-[1.12] sm:text-5xl md:text-7xl ${isRtl ? "hero-title-fa" : ""}`}
+          >
+            {hero.title}
+          </h1>
           <TypewriterText text={hero.lead} className="mt-7 max-w-3xl text-xl font-medium leading-9 text-white/72 md:text-2xl" delay={0.35} />
           <p data-hero-copy className="mt-5 max-w-2xl text-base leading-8 text-white/52 md:text-lg">{hero.body}</p>
 

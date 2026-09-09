@@ -52,6 +52,35 @@ html[dir="rtl"] .title-discover {
   letter-spacing: -0.025em;
 }
 
+/* A display cut of Vazirmatn reserved for the Persian home hero. */
+html[dir="rtl"] .hero-title-fa {
+  font-family: "Vazirmatn Variable", Tahoma, Arial, sans-serif;
+  font-size-adjust: 0.52;
+  font-variation-settings: "wght" 900;
+  font-weight: 900;
+  font-feature-settings: "ss01", "ss02";
+  letter-spacing: -0.055em;
+  line-height: 1.42;
+  text-wrap: balance;
+  text-shadow: 0 14px 42px rgba(203, 167, 146, 0.14);
+}
+
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  html[dir="rtl"] .hero-title-fa {
+    background: linear-gradient(118deg, #fff8ee 8%, #fff 52%, #dfbfa9 118%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+@media (width < 40rem) {
+  html[dir="rtl"] .hero-title-fa {
+    letter-spacing: -0.04em;
+    line-height: 1.5;
+  }
+}
+
 html[dir="rtl"] [class*="tracking-"] {
   letter-spacing: 0;
 }
