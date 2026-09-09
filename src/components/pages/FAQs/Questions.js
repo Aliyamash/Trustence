@@ -1,11 +1,15 @@
 "use client";
-import { faqs } from "@/components/FaqsOptions";
-import { categories } from "@/components/IconsFAQ";
+import { getFaqs } from "@/components/FaqsOptions";
+import { getCategories } from "@/components/IconsFAQ";
 import FilterFaq from "@/components/FilterFaq";
 import QuestionFAQ from "@/components/QuestionsFAQ";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useLocale } from "@/i18n/LocaleProvider";
 
 export default function QuestionFaq() {
+  const { locale } = useLocale();
+  const faqs = getFaqs(locale);
+  const categories = getCategories(locale);
   const [item, setItem] = useState(faqs);
   const [activeCategory ,  setActiveCategory] = useState("")
   const filterItems = (category) => {
@@ -13,6 +17,8 @@ export default function QuestionFaq() {
     setItem(newItems);
      setActiveCategory(category);
   };
+
+  useEffect(() => { setItem(faqs); setActiveCategory(""); }, [locale]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className=" bg-transparent pb-24">

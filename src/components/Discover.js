@@ -6,8 +6,12 @@ import { gsap } from "gsap";
 import { SplitText } from "gsap/SplitText";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
+import { useLocale } from "@/i18n/LocaleProvider";
+import { getCopy } from "@/i18n/copy";
 
 export default function Discover() {
+  const { locale, isRtl } = useLocale();
+  const copy = getCopy(locale);
   const titleRef = useRef(null);
   const buttonRef = useRef(null);
   const sectionRef = useRef(null);
@@ -17,18 +21,18 @@ export default function Discover() {
 
     const ctx = gsap.context(() => {
 
-      const split = new SplitText(titleRef.current, { type: " chars , words " });
-      const chars = split.chars;
+      const split = new SplitText(titleRef.current, { type: locale === "fa" ? "words" : "chars,words" });
+      const targets = locale === "fa" ? split.words : split.chars;
 
     
-      gsap.set([chars, buttonRef.current], {
+      gsap.set([targets, buttonRef.current], {
         y: 100,
         opacity: 0,
-        rotationX: -180,
+        rotationX: locale === "fa" ? 0 : -120,
       });
 
   
-      gsap.to(chars, {
+      gsap.to(targets, {
         y: 0,
         opacity: 1,
         rotationX: 0,
@@ -36,7 +40,7 @@ export default function Discover() {
         ease: "back.out(1.7)",
         stagger: {
           amount: 2,
-          from: "start",
+          from: isRtl ? "end" : "start",
         },
         scrollTrigger: {
           trigger: sectionRef.current,
@@ -63,7 +67,7 @@ export default function Discover() {
     });
 
     return () => ctx.revert();
-  }, []);
+  }, [locale, isRtl]);
 
   return (
     <section
@@ -77,7 +81,7 @@ export default function Discover() {
             ref={titleRef}
             className="title-discover select-none title text-center md:text-7xl text-5xl text-[#fff8ee]"
           >
-            The right digital investment begins with a precise conversation.
+            {copy.home.discover.title}
           </h2>
 
          
@@ -87,7 +91,7 @@ export default function Discover() {
             <Link
               className="z-10 text-lg transition-all duration-700"
               href={"/discovery"}>
-              Request a Discovery Call
+              {copy.common.discover}
             </Link>
           </div>
         </div>

@@ -15,20 +15,24 @@ import { create } from "@/actions/footer";
 import SubmitButton from "../SubmitButton";
 import { useActionState, useEffect, useRef } from "react";
 import { toast } from "react-toastify";
+import { useLocale } from "@/i18n/LocaleProvider";
+import { getCopy } from "@/i18n/copy";
 
 export default function Footer() {
+  const { locale } = useLocale();
+  const copy = getCopy(locale);
   const [state, formAction] = useActionState(create, null);
   const formRef = useRef(null)
 
   useEffect(() => {
     if (!state) return; 
     if(state?.status === 'error'){
-      toast.error(state.message)
+      toast.error(locale === "fa" ? "ارسال انجام نشد؛ لطفاً دوباره تلاش کنید." : state.message)
     }else{
-      toast.success(state.message);
+      toast.success(locale === "fa" ? "درخواست شما با موفقیت ثبت شد." : state.message);
       formRef.current?.reset();
     }
-  },[state])
+  },[state, locale])
   return (
     <div className="bg-[#060e09] text-white -mt-2 py-24">
       <div className="container">
@@ -38,10 +42,9 @@ export default function Footer() {
             <h2 className="font-bold title text-shadow shadow-green-500 w-fit bg-none text-2xl mb-2">
               Trustence
             </h2>
-            <p>A boutique studio for considered digital work.</p>
+            <p>{copy.footer.intro}</p>
             <p className="text-pretty">
-              Bespoke web experiences, custom systems, intelligent automation,
-              and digital growth—designed as one coherent whole.
+              {copy.footer.body}
             </p>
           </div>
           {/* input footer */}
@@ -52,11 +55,11 @@ export default function Footer() {
                   className="px-4 lg:w-[20rem] w-full py-2 text-lg rounded-lg bg-[#54524C]"
                   type="email"
                   name="Email"
-                  placeholder="Your email address"
+                  placeholder={copy.footer.email}
                   required
                 />
                 <SubmitButton
-                  title="Contact me"
+                  title={copy.footer.contact}
                   style="px-6 py-2 text-lg rounded-lg bg-[#54524C]"
                 />
               </div>
@@ -64,7 +67,7 @@ export default function Footer() {
               <div className="flex gap-2 mt-1">
                 <Heart />
                 <p>
-                  Prefer email? Leave your address and our team will start the conversation.
+                  {copy.footer.prefer}
                 </p>
               </div>
             </form>
@@ -84,41 +87,41 @@ export default function Footer() {
           </div>
 
           <div>
-            <p className="font-bold mb-4 mt-12 text-lg">Quick Links</p>
+            <p className="font-bold mb-4 mt-12 text-lg">{copy.footer.quick}</p>
             <div className="flex flex-col gap-2">
-              <Link href={"/"}>Home</Link>
-              <Link href={"/aboutus"}>About Us</Link>
-              <Link href={"/service"}>Services</Link>
-              <Link href={"/contact"}>Contact</Link>
+              <Link href={"/"}>{copy.nav.home}</Link>
+              <Link href={"/aboutus"}>{copy.nav.about}</Link>
+              <Link href={"/service"}>{copy.nav.services}</Link>
+              <Link href={"/contact"}>{copy.nav.contact}</Link>
               {/* <Link href={"/blog"}>Blog Posts</Link> */}
             </div>
           </div>
 
           <div>
-            <p className="font-bold mb-4 mt-12 text-lg">Resources</p>
+            <p className="font-bold mb-4 mt-12 text-lg">{copy.footer.resources}</p>
             <div className="flex flex-col gap-2">
-              <Link href={"/projects"}>Selected Work</Link>
-              <Link href={"mailto:trustenceagency@gmail.com"}>Email the Studio</Link>
-              <Link href={"/aboutus"}>Careers</Link>
+              <Link href={"/projects"}>{copy.footer.selected}</Link>
+              <Link href={"mailto:trustenceagency@gmail.com"}>{copy.footer.studioEmail}</Link>
+              <Link href={"/aboutus"}>{copy.footer.careers}</Link>
             </div>
           </div>
 
           <div>
-            <p className="font-bold mb-4 mt-12 text-lg">Follow Us</p>
+            <p className="font-bold mb-4 mt-12 text-lg">{copy.footer.follow}</p>
             <div className="flex flex-col gap-2">
-              <Link href={"https://www.t.me/Real_MoOorGan"}>Telegram Account</Link>
-              <Link href={"https://www.linkedin.com/in/trustence-agency-b13a9038a"}>LinkedIn Profile</Link>
-              <Link href={"https://www.instagram.com/trustence.official/"}>Instagram Gallery</Link>
-              <Link href={"https://wa.me/989217332763"}>WhatsApp Account</Link>
+              <Link href={"https://www.t.me/Real_MoOorGan"}>{copy.footer.telegram}</Link>
+              <Link href={"https://www.linkedin.com/in/trustence-agency-b13a9038a"}>{copy.footer.linkedin}</Link>
+              <Link href={"https://www.instagram.com/trustence.official/"}>{copy.footer.instagram}</Link>
+              <Link href={"https://wa.me/989217332763"}>{copy.footer.whatsapp}</Link>
             </div>
           </div>
 
           <div>
-            <p className="font-bold mb-4 mt-12 text-lg">Legal</p>
+            <p className="font-bold mb-4 mt-12 text-lg">{copy.footer.legal}</p>
             <div className="flex flex-col gap-2">
-              <Link href={"/privacy"}>Privacy Policy</Link>
-              <Link href={"/terms"}>Terms of Use</Link>
-              <Link href={"/copyright"}>Copyright Notice</Link>
+              <Link href={"/privacy"}>{copy.footer.privacy}</Link>
+              <Link href={"/terms"}>{copy.footer.terms}</Link>
+              <Link href={"/copyright"}>{copy.footer.copyright}</Link>
             </div>
           </div>
         </div>
@@ -127,10 +130,10 @@ export default function Footer() {
         <div className="flex justify-between  flex-col-reverse md:flex-row px-2 ">
           <div className="flex flex-col-reverse md:flex-row gap-3 md:gap-12 ">
             <p className="text-sm pt-12 md:pt-0">
-              © {new Date().getFullYear()} Trustence. All rights reserved.
+              © {new Date().getFullYear()} Trustence. {copy.footer.rights}
             </p>
-            <Link href={"/privacy"}>Privacy Policy</Link>
-            <Link href={"/terms"}>Terms of Use</Link>
+            <Link href={"/privacy"}>{copy.footer.privacy}</Link>
+            <Link href={"/terms"}>{copy.footer.terms}</Link>
           </div>
 
           <div className="flex gap-4 mb-8 md:mb-0">

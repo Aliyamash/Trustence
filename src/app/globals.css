@@ -39,6 +39,56 @@ body {
   background-color: transparent;
 }
 
+html[dir="rtl"] body {
+  font-family: "Vazirmatn Variable", Tahoma, Arial, sans-serif;
+  font-feature-settings: "ss01";
+  letter-spacing: 0;
+}
+
+html[dir="rtl"] .title,
+html[dir="rtl"] .title-discover {
+  font-family: "Vazirmatn Variable", Tahoma, Arial, sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+}
+
+html[dir="rtl"] [class*="tracking-"] {
+  letter-spacing: 0;
+}
+
+html[dir="rtl"] h1,
+html[dir="rtl"] h2 {
+  font-weight: 800;
+  line-height: 1.45;
+}
+
+html[dir="rtl"] h3,
+html[dir="rtl"] h4 {
+  font-weight: 700;
+  line-height: 1.55;
+}
+
+html[dir="rtl"] p,
+html[dir="rtl"] li,
+html[dir="rtl"] label,
+html[dir="rtl"] input,
+html[dir="rtl"] textarea,
+html[dir="rtl"] select,
+html[dir="rtl"] button {
+  line-height: 1.85;
+}
+
+html[dir="rtl"] .text-left {
+  text-align: right;
+}
+
+html[dir="rtl"] input[type="email"],
+html[dir="rtl"] input[type="url"],
+html[dir="rtl"] input[type="tel"] {
+  direction: ltr;
+  text-align: right;
+}
+
 .container {
   max-width: 90%;
   margin: 0 auto;

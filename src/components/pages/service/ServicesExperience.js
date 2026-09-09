@@ -1,167 +1,67 @@
-import Link from "next/link";
-import {
-  ArrowRight, ArrowUpRight, Bot, Braces, Check, Code2, Megaphone,
-  Palette, PenTool, Search, ShieldCheck, Sparkles, Users, Video, Workflow, Zap,
-} from "lucide-react";
-import DiscoveryForm from "./DiscoverForm";
-import { automationUseCases, serviceFaqs, services } from "@/data/services";
+"use client";
 
-const serviceIcons = {
-  strategy: PenTool,
-  development: Code2,
-  automation: Workflow,
-  growth: Search,
-  brand: Palette,
-  content: Video,
+import Link from "next/link";
+import { ArrowRight, ArrowUpRight, Bot, Braces, Check, Code2, Megaphone, Palette, PenTool, Search, ShieldCheck, Sparkles, Users, Video, Workflow, Zap } from "lucide-react";
+import DiscoveryForm from "./DiscoverForm";
+import { getAutomationUseCases, getServiceFaqs, getServices } from "@/data/services";
+import { useLocale } from "@/i18n/LocaleProvider";
+
+const serviceIcons = { strategy: PenTool, development: Code2, automation: Workflow, growth: Search, brand: Palette, content: Video };
+
+const content = {
+  en: {
+    eyebrow: "Capabilities · Europe & worldwide", title: "Bespoke digital systems, designed to work beautifully.", intro: "Strategy, design, software engineering, automation, and growth—brought together with the focus and care of one boutique team.", start: "Start a project", seeWork: "See our work", promises: ["Strategy before execution", "Craft without compromise", "Built for ownership"],
+    capabilityEyebrow: "The complete digital experience", capabilityTitle: "One ambition. Every discipline it deserves.", capabilityBody: "Engage a focused specialist capability or bring the disciplines together as one coherent team. The scope is shaped around value, not a predetermined package.", serviceLabel: "SERVICE",
+    automationEyebrow: "n8n automation studio", automationTitle: "Intelligent operations, without unnecessary friction.", automationBody: "We design n8n workflows around the way your organisation actually works—from a single lead flow to connected operations across teams.", ownershipTitle: "Designed for responsible ownership", ownershipBody: "Hosting choice, least-privilege credentials, clear failure paths, and documented handover are considered from the start—not added after launch.", automationCta: "Explore an automation",
+    teamEyebrow: "A boutique multidisciplinary team", teamTitle: "Specialist minds. One exacting standard.", teamBody: "Your website, software, automation, brand, and marketing should reinforce each other. Our structure makes that coherence part of the process.",
+    processEyebrow: "A composed collaboration", processTitle: "From ambition to a system you are proud to own.", engagementEyebrow: "Ways to work together", engagementTitle: "The right shape for the work.", faqEyebrow: "Useful answers", faqTitle: "Before we begin.", conversationEyebrow: "A conversation worth having", conversationTitle: "Let’s define the right next move.", conversationBody: "Share the outcome, the current tools, or the process that should feel more capable. We will begin with the questions that make the investment clearer.",
+    workflow: [["Trigger", "Form, event or schedule"], ["Logic", "Rules, AI and approvals"], ["Tools", "CRM, email, data and APIs"], ["Result", "A useful action, automatically"]],
+    disciplines: [["Engineering", "Software engineers building reliable digital systems."], ["Growth", "Marketing specialists connecting products with the right audience."], ["Identity", "Design and visual content that make brands recognisable."], ["Direction", "Strategic partnership keeping decisions tied to business value."]],
+    process: [["01", "Discover", "We clarify the audience, problem, constraints, and the result worth pursuing."], ["02", "Scope", "You receive a focused plan with deliverables, responsibilities, and milestones."], ["03", "Design", "We turn strategy into an accessible, distinctive experience and validate the important flows."], ["04", "Build & automate", "Development, integrations, and n8n workflows come together as one tested system."], ["05", "Launch & improve", "We hand over clearly, monitor the essentials, and prioritise the next useful improvement."]],
+    models: [["Defined outcome", "Project delivery", "A complete website, product, identity, or digital experience delivered through clear milestones."], ["Focused improvement", "Automation sprint", "Map one high-value process, build the workflow, test edge cases, and document the handover."], ["Continuous progress", "Growth partnership", "Ongoing design, engineering, content, and optimisation for teams that need steady momentum."]],
+  },
+  fa: {
+    eyebrow: "توانمندی‌ها · اروپا و سراسر جهان", title: "سیستم‌های دیجیتال اختصاصی که زیبا و دقیق کار می‌کنند.", intro: "استراتژی، طراحی، مهندسی نرم‌افزار، اتوماسیون و رشد؛ با تمرکز و دقت یک تیم بوتیک در کنار هم.", start: "شروع یک پروژه", seeWork: "نمونه‌کارهای ما", promises: ["استراتژی پیش از اجرا", "کیفیت بدون مصالحه", "ساخته‌شده برای مالکیت شما"],
+    capabilityEyebrow: "تجربه کامل دیجیتال", capabilityTitle: "یک هدف؛ تمام تخصص‌هایی که شایسته آن است.", capabilityBody: "یک توانمندی تخصصی را انتخاب کنید یا همه تخصص‌ها را در قالب یک تیم منسجم کنار هم داشته باشید. دامنه کار بر اساس ارزش شکل می‌گیرد، نه یک بسته از پیش تعیین‌شده.", serviceLabel: "خدمت",
+    automationEyebrow: "استودیوی اتوماسیون n8n", automationTitle: "عملیات هوشمند، بدون اصطکاک غیرضروری.", automationBody: "گردش‌کارهای n8n را بر اساس روش واقعی کار سازمان شما طراحی می‌کنیم؛ از مدیریت یک سرنخ تا عملیات متصل میان چند تیم.", ownershipTitle: "طراحی‌شده برای مالکیت مسئولانه", ownershipBody: "انتخاب میزبانی، دسترسی حداقلی، مسیرهای روشن خطا و مستندات تحویل از همان ابتدا در نظر گرفته می‌شوند.", automationCta: "بررسی یک اتوماسیون",
+    teamEyebrow: "یک تیم بوتیک چندتخصصی", teamTitle: "ذهن‌های متخصص؛ یک استاندارد دقیق.", teamBody: "وب‌سایت، نرم‌افزار، اتوماسیون، برند و بازاریابی شما باید یکدیگر را تقویت کنند. ساختار تیم ما این انسجام را وارد فرایند می‌کند.",
+    processEyebrow: "همکاری منظم و شفاف", processTitle: "از ایده تا سیستمی که با افتخار مالک آن هستید.", engagementEyebrow: "روش‌های همکاری", engagementTitle: "مدل درست برای کاری که پیش روست.", faqEyebrow: "پاسخ‌های کاربردی", faqTitle: "پیش از شروع همکاری.", conversationEyebrow: "گفت‌وگویی که ارزشش را دارد", conversationTitle: "قدم بعدی درست را با هم مشخص کنیم.", conversationBody: "از نتیجه مورد انتظار، ابزارهای فعلی یا فرایندی که باید بهتر شود بگویید. ما با پرسش‌هایی آغاز می‌کنیم که سرمایه‌گذاری را روشن‌تر می‌کنند.",
+    workflow: [["شروع", "فرم، رویداد یا زمان‌بندی"], ["منطق", "قواعد، هوش مصنوعی و تأییدها"], ["ابزارها", "CRM، ایمیل، داده و API"], ["نتیجه", "یک اقدام مفید و خودکار"]],
+    disciplines: [["مهندسی", "مهندسان نرم‌افزار برای ساخت سیستم‌های دیجیتال قابل اتکا."], ["رشد", "متخصصان بازاریابی برای اتصال محصول به مخاطب درست."], ["هویت", "طراحی و محتوای بصری برای ساخت برندی قابل تشخیص."], ["جهت‌گیری", "همراهی راهبردی برای پیوند تصمیم‌ها با ارزش تجاری."]],
+    process: [["01", "شناخت", "مخاطب، مسئله، محدودیت‌ها و نتیجه ارزشمند را روشن می‌کنیم."], ["02", "تعریف دامنه", "برنامه‌ای متمرکز شامل خروجی‌ها، مسئولیت‌ها و نقاط عطف دریافت می‌کنید."], ["03", "طراحی", "استراتژی را به تجربه‌ای متمایز و دسترس‌پذیر تبدیل و جریان‌های مهم را اعتبارسنجی می‌کنیم."], ["04", "ساخت و اتوماسیون", "توسعه، اتصال‌ها و گردش‌کارهای n8n در یک سیستم آزموده کنار هم قرار می‌گیرند."], ["05", "انتشار و بهبود", "سیستم را شفاف تحویل می‌دهیم، بخش‌های مهم را پایش می‌کنیم و بهبود بعدی را اولویت می‌دهیم."]],
+    models: [["خروجی مشخص", "تحویل پروژه", "وب‌سایت، محصول، هویت یا تجربه دیجیتال کامل با نقاط عطف روشن."], ["بهبود متمرکز", "اسپرینت اتوماسیون", "یک فرایند مهم را ترسیم، گردش‌کار را پیاده‌سازی، حالت‌های خاص را آزمون و تحویل را مستند می‌کنیم."], ["پیشرفت پیوسته", "همکاری رشد", "طراحی، مهندسی، محتوا و بهینه‌سازی مستمر برای تیم‌هایی که به حرکت پایدار نیاز دارند."]],
+  },
 };
 
-const workflowSteps = [
-  { label: "Trigger", detail: "Form, event or schedule", icon: Zap },
-  { label: "Logic", detail: "Rules, AI and approvals", icon: Braces },
-  { label: "Tools", detail: "CRM, email, data and APIs", icon: Workflow },
-  { label: "Result", detail: "A useful action, automatically", icon: Check },
-];
-
-const disciplines = [
-  { title: "Engineering", detail: "Software engineers building reliable digital systems.", icon: Code2 },
-  { title: "Growth", detail: "Marketing specialists connecting products with the right audience.", icon: Megaphone },
-  { title: "Identity", detail: "Design and visual content that make brands recognisable.", icon: Palette },
-  { title: "Direction", detail: "Strategic partnership keeping decisions tied to business value.", icon: Users },
-];
-
-const process = [
-  ["01", "Discover", "We clarify the audience, problem, constraints, and the result worth pursuing."],
-  ["02", "Scope", "You receive a focused plan with deliverables, responsibilities, and milestones."],
-  ["03", "Design", "We turn strategy into an accessible, distinctive experience and validate the important flows."],
-  ["04", "Build & automate", "Development, integrations, and n8n workflows come together as one tested system."],
-  ["05", "Launch & improve", "We hand over clearly, monitor the essentials, and prioritise the next useful improvement."],
-];
-
-const engagementModels = [
-  { eyebrow: "Defined outcome", title: "Project delivery", description: "A complete website, product, identity, or digital experience delivered through clear milestones." },
-  { eyebrow: "Focused improvement", title: "Automation sprint", description: "Map one high-value process, build the workflow, test edge cases, and document the handover." },
-  { eyebrow: "Continuous progress", title: "Growth partnership", description: "Ongoing design, engineering, content, and optimisation for teams that need steady momentum." },
-];
-
 export default function ServicesExperience() {
+  const { locale, isRtl } = useLocale();
+  const copy = content[locale];
+  const services = getServices(locale);
+  const useCases = getAutomationUseCases(locale);
+  const faqs = getServiceFaqs(locale);
+  const workflow = copy.workflow.map(([label, detail], index) => ({ label, detail, icon: [Zap, Braces, Workflow, Check][index] }));
+  const disciplines = copy.disciplines.map(([title, detail], index) => ({ title, detail, icon: [Code2, Megaphone, Palette, Users][index] }));
+
   return (
     <main className="overflow-hidden bg-[#07120c] text-[#fff8ee]">
-      <section className="relative border-b border-white/10 px-5 pb-24 pt-40 md:px-10 md:pb-32 md:pt-56" aria-labelledby="services-title">
+      <section className="relative border-b border-white/10 px-5 pb-24 pt-40 md:px-10 md:pb-32 md:pt-56">
         <div className="pointer-events-none absolute inset-0 opacity-70" style={{ backgroundImage: "radial-gradient(circle at 14% 18%, rgba(101,134,114,.35), transparent 29%), radial-gradient(circle at 82% 16%, rgba(203,167,146,.19), transparent 25%)" }} />
-        <div className="relative mx-auto max-w-7xl">
-          <div className="grid items-end gap-14 lg:grid-cols-[1fr_23rem]">
-            <div>
-              <p className="mb-7 inline-flex items-center gap-2 rounded-full border border-[#cba792]/30 bg-[#cba792]/10 px-4 py-2 text-xs font-bold uppercase tracking-[.22em] text-[#e6c9b6]">
-                <Sparkles className="h-4 w-4" /> Capabilities · Europe & worldwide
-              </p>
-              <h1 id="services-title" className="title max-w-5xl text-5xl font-semibold leading-[1.03] md:text-7xl lg:text-[6rem]">
-                Bespoke digital systems, designed to work <span className="text-[#86a58f]">beautifully.</span>
-              </h1>
-            </div>
-            <div className="border-l border-white/15 pl-6 lg:mb-2">
-              <p className="text-lg leading-8 text-white/65">Strategy, design, software engineering, automation, and growth—brought together with the focus and care of one boutique team.</p>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <Link href="/discovery" className="inline-flex items-center gap-2 rounded-xl bg-[#fff8ee] px-5 py-3.5 font-semibold text-[#07120c] transition hover:-translate-y-0.5 hover:bg-white">Start a project <ArrowUpRight className="h-4 w-4" /></Link>
-                <Link href="/projects" className="inline-flex items-center gap-2 rounded-xl border border-white/15 px-5 py-3.5 font-semibold text-white/75 transition hover:border-[#86a58f] hover:text-white">See our work <ArrowRight className="h-4 w-4" /></Link>
-              </div>
-            </div>
-          </div>
-          <ul className="mt-20 grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-3" aria-label="How we work">
-            {["Strategy before execution", "Craft without compromise", "Built for ownership"].map((item) => (
-              <li key={item} className="flex items-center gap-3 bg-[#0b1911] px-5 py-4 text-sm text-white/70"><Check className="h-4 w-4 text-[#86a58f]" /> {item}</li>
-            ))}
-          </ul>
-        </div>
+        <div className="relative mx-auto max-w-7xl"><div className="grid items-end gap-14 lg:grid-cols-[1fr_23rem]"><div><p className="mb-7 inline-flex items-center gap-2 rounded-full border border-[#cba792]/30 bg-[#cba792]/10 px-4 py-2 text-xs font-bold uppercase tracking-[.18em] text-[#e6c9b6]"><Sparkles className="h-4 w-4" />{copy.eyebrow}</p><h1 className="title max-w-5xl text-5xl font-semibold leading-[1.1] md:text-7xl lg:text-[6rem]">{copy.title}</h1></div><div className="border-s border-white/15 ps-6 lg:mb-2"><p className="text-lg leading-8 text-white/65">{copy.intro}</p><div className="mt-8 flex flex-wrap gap-3"><Link href="/discovery" className="inline-flex items-center gap-2 rounded-xl bg-[#fff8ee] px-5 py-3.5 font-semibold text-[#07120c]">{copy.start}<ArrowUpRight className="h-4 w-4" /></Link><Link href="/projects" className="inline-flex items-center gap-2 rounded-xl border border-white/15 px-5 py-3.5 font-semibold text-white/75">{copy.seeWork}<ArrowRight className={`h-4 w-4 ${isRtl ? "rotate-180" : ""}`} /></Link></div></div></div><ul className="mt-20 grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-3">{copy.promises.map((item) => <li key={item} className="flex items-center gap-3 bg-[#0b1911] px-5 py-4 text-sm text-white/70"><Check className="h-4 w-4 text-[#86a58f]" />{item}</li>)}</ul></div>
       </section>
 
-      <section className="px-5 py-24 md:px-10 md:py-36" aria-labelledby="capabilities-title">
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-14 grid gap-6 md:grid-cols-2 md:items-end">
-            <div><p className="mb-4 text-xs font-bold uppercase tracking-[.24em] text-[#cba792]">The complete digital experience</p><h2 id="capabilities-title" className="title text-4xl font-semibold leading-tight md:text-6xl">One ambition. Every discipline it deserves.</h2></div>
-            <p className="max-w-xl text-lg leading-8 text-white/55 md:justify-self-end">Engage a focused specialist capability or bring the disciplines together as one coherent team. The scope is shaped around value, not a predetermined package.</p>
-          </div>
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {services.map((service) => {
-              const Icon = serviceIcons[service.icon];
-              return (
-                <article key={service.number} className={`group flex min-h-[27rem] flex-col justify-between rounded-[2rem] border p-7 transition duration-500 hover:-translate-y-1 md:p-9 ${service.featured ? "border-[#86a58f]/45 bg-[#123321]" : "border-white/10 bg-[#0c1e14] hover:border-white/20"}`}>
-                  <div>
-                    <div className="flex items-center justify-between"><span className="font-mono text-xs tracking-[.24em] text-white/35">SERVICE {service.number}</span><span className="grid h-12 w-12 place-items-center rounded-2xl border border-white/10 bg-white/5 text-[#cba792] transition group-hover:rotate-3 group-hover:bg-[#fff8ee] group-hover:text-[#114422]"><Icon className="h-5 w-5" /></span></div>
-                    <h3 className="title mt-12 text-3xl font-semibold leading-tight">{service.title}</h3>
-                    <p className="mt-5 leading-7 text-white/55">{service.description}</p>
-                  </div>
-                  <ul className="mt-10 space-y-3 border-t border-white/10 pt-6">
-                    {service.capabilities.map((capability) => <li key={capability} className="flex items-center gap-3 text-sm text-white/70"><span className="h-1.5 w-1.5 rounded-full bg-[#86a58f]" /> {capability}</li>)}
-                  </ul>
-                </article>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+      <section className="px-5 py-24 md:px-10 md:py-36"><div className="mx-auto max-w-7xl"><div className="mb-14 grid gap-6 md:grid-cols-2 md:items-end"><div><p className="mb-4 text-xs font-bold uppercase tracking-[.2em] text-[#cba792]">{copy.capabilityEyebrow}</p><h2 className="title text-4xl font-semibold md:text-6xl">{copy.capabilityTitle}</h2></div><p className="max-w-xl text-lg leading-8 text-white/55 md:justify-self-end">{copy.capabilityBody}</p></div><div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">{services.map((service) => { const Icon = serviceIcons[service.icon]; return <article key={service.number} className={`group flex min-h-[27rem] flex-col justify-between rounded-[2rem] border p-7 transition hover:-translate-y-1 md:p-9 ${service.featured ? "border-[#86a58f]/45 bg-[#123321]" : "border-white/10 bg-[#0c1e14]"}`}><div><div className="flex items-center justify-between"><span className="font-mono text-xs text-white/35">{copy.serviceLabel} {service.number}</span><span className="grid h-12 w-12 place-items-center rounded-2xl border border-white/10 bg-white/5 text-[#cba792]"><Icon className="h-5 w-5" /></span></div><h3 className="title mt-12 text-3xl font-semibold">{service.title}</h3><p className="mt-5 leading-7 text-white/55">{service.description}</p></div><ul className="mt-10 space-y-3 border-t border-white/10 pt-6">{service.capabilities.map((item) => <li key={item} className="flex items-center gap-3 text-sm text-white/70"><span className="h-1.5 w-1.5 rounded-full bg-[#86a58f]" />{item}</li>)}</ul></article>; })}</div></div></section>
 
-      <section className="px-5 pb-24 md:px-10 md:pb-36" aria-labelledby="automation-title">
-        <div className="mx-auto max-w-7xl overflow-hidden rounded-[2.5rem] bg-[#fff8ee] text-[#07120c]">
-          <div className="grid lg:grid-cols-[.92fr_1.08fr]">
-            <div className="relative overflow-hidden bg-[#153c27] p-7 text-white md:p-12 lg:p-16">
-              <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full border border-white/10" /><div className="absolute -right-10 -top-10 h-44 w-44 rounded-full border border-white/10" />
-              <p className="relative mb-7 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[.24em] text-[#cba792]"><Bot className="h-4 w-4" /> n8n automation studio</p>
-              <h2 id="automation-title" className="title relative text-4xl font-semibold leading-tight md:text-6xl">Intelligent operations, without unnecessary friction.</h2>
-              <p className="relative mt-7 max-w-xl text-lg leading-8 text-white/65">We design n8n workflows around the way your organisation actually works—from a single lead flow to connected operations across teams.</p>
-              <div className="relative mt-12 space-y-3">
-                {workflowSteps.map((step, index) => {
-                  const Icon = step.icon;
-                  return <div key={step.label} className="flex items-center gap-4 rounded-2xl border border-white/10 bg-black/10 p-4 backdrop-blur"><span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-white/10 text-[#cba792]"><Icon className="h-5 w-5" /></span><div className="min-w-0 flex-1"><p className="font-semibold">{step.label}</p><p className="truncate text-sm text-white/50">{step.detail}</p></div><span className="font-mono text-xs text-white/30">0{index + 1}</span></div>;
-                })}
-              </div>
-            </div>
-            <div className="p-7 md:p-12 lg:p-16">
-              <div className="grid gap-4 sm:grid-cols-2">
-                {automationUseCases.map((useCase, index) => <article key={useCase.title} className="rounded-2xl border border-[#07120c]/10 bg-white/45 p-6"><span className="font-mono text-xs text-[#245336]">0{index + 1}</span><h3 className="mt-5 text-xl font-bold">{useCase.title}</h3><p className="mt-3 text-sm leading-6 text-[#07120c]/60">{useCase.description}</p></article>)}
-              </div>
-              <div className="mt-8 rounded-2xl border border-[#245336]/20 bg-[#e9efe8] p-6"><p className="flex items-center gap-2 font-bold text-[#114422]"><ShieldCheck className="h-5 w-5" /> Designed for responsible ownership</p><p className="mt-3 leading-7 text-[#07120c]/60">Hosting choice, least-privilege credentials, clear failure paths, and documented handover are considered from the start—not added after launch.</p></div>
-              <Link href="/discovery" className="mt-8 inline-flex items-center gap-3 rounded-xl bg-[#114422] px-6 py-4 font-semibold text-white transition hover:-translate-y-0.5 hover:bg-[#07120c]">Explore an automation <ArrowUpRight className="h-5 w-5" /></Link>
-            </div>
-          </div>
-        </div>
-      </section>
+      <section className="px-5 pb-24 md:px-10 md:pb-36"><div className="mx-auto max-w-7xl overflow-hidden rounded-[2.5rem] bg-[#fff8ee] text-[#07120c]"><div className="grid lg:grid-cols-[.92fr_1.08fr]"><div className="relative overflow-hidden bg-[#153c27] p-7 text-white md:p-12 lg:p-16"><p className="mb-7 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[.2em] text-[#cba792]"><Bot className="h-4 w-4" />{copy.automationEyebrow}</p><h2 className="title text-4xl font-semibold md:text-6xl">{copy.automationTitle}</h2><p className="mt-7 text-lg leading-8 text-white/65">{copy.automationBody}</p><div className="mt-12 space-y-3">{workflow.map((step, index) => { const Icon = step.icon; return <div key={step.label} className="flex items-center gap-4 rounded-2xl border border-white/10 bg-black/10 p-4"><span className="grid h-11 w-11 place-items-center rounded-xl bg-white/10 text-[#cba792]"><Icon className="h-5 w-5" /></span><div className="flex-1"><p className="font-semibold">{step.label}</p><p className="text-sm text-white/50">{step.detail}</p></div><span className="font-mono text-xs text-white/30">0{index + 1}</span></div>; })}</div></div><div className="p-7 md:p-12 lg:p-16"><div className="grid gap-4 sm:grid-cols-2">{useCases.map((item, index) => <article key={item.title} className="rounded-2xl border border-[#07120c]/10 bg-white/45 p-6"><span className="font-mono text-xs text-[#245336]">0{index + 1}</span><h3 className="mt-5 text-xl font-bold">{item.title}</h3><p className="mt-3 text-sm leading-6 text-[#07120c]/60">{item.description}</p></article>)}</div><div className="mt-8 rounded-2xl border border-[#245336]/20 bg-[#e9efe8] p-6"><p className="flex items-center gap-2 font-bold text-[#114422]"><ShieldCheck className="h-5 w-5" />{copy.ownershipTitle}</p><p className="mt-3 leading-7 text-[#07120c]/60">{copy.ownershipBody}</p></div><Link href="/discovery" className="mt-8 inline-flex items-center gap-3 rounded-xl bg-[#114422] px-6 py-4 font-semibold text-white">{copy.automationCta}<ArrowUpRight className="h-5 w-5" /></Link></div></div></div></section>
 
-      <section className="border-y border-white/10 bg-[#0a1710] px-5 py-24 md:px-10 md:py-32" aria-labelledby="team-title">
-        <div className="mx-auto max-w-7xl"><div className="grid gap-12 lg:grid-cols-[.8fr_1.2fr]">
-          <div><p className="mb-4 text-xs font-bold uppercase tracking-[.24em] text-[#cba792]">A boutique multidisciplinary team</p><h2 id="team-title" className="title text-4xl font-semibold leading-tight md:text-6xl">Specialist minds. One exacting standard.</h2><p className="mt-6 max-w-lg text-lg leading-8 text-white/55">Your website, software, automation, brand, and marketing should reinforce each other. Our structure makes that coherence part of the process.</p></div>
-          <div className="grid gap-px overflow-hidden rounded-[2rem] border border-white/10 bg-white/10 sm:grid-cols-2">
-            {disciplines.map((discipline) => { const Icon = discipline.icon; return <article key={discipline.title} className="bg-[#0c1e14] p-7 md:p-9"><Icon className="h-6 w-6 text-[#86a58f]" /><h3 className="mt-8 text-xl font-bold">{discipline.title}</h3><p className="mt-3 leading-7 text-white/50">{discipline.detail}</p></article>; })}
-          </div>
-        </div></div>
-      </section>
+      <section className="border-y border-white/10 bg-[#0a1710] px-5 py-24 md:px-10 md:py-32"><div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[.8fr_1.2fr]"><div><p className="mb-4 text-xs font-bold uppercase tracking-[.2em] text-[#cba792]">{copy.teamEyebrow}</p><h2 className="title text-4xl font-semibold md:text-6xl">{copy.teamTitle}</h2><p className="mt-6 max-w-lg text-lg leading-8 text-white/55">{copy.teamBody}</p></div><div className="grid gap-px overflow-hidden rounded-[2rem] border border-white/10 bg-white/10 sm:grid-cols-2">{disciplines.map((item) => { const Icon = item.icon; return <article key={item.title} className="bg-[#0c1e14] p-7 md:p-9"><Icon className="h-6 w-6 text-[#86a58f]" /><h3 className="mt-8 text-xl font-bold">{item.title}</h3><p className="mt-3 leading-7 text-white/50">{item.detail}</p></article>; })}</div></div></section>
 
-      <section className="px-5 py-24 md:px-10 md:py-36" aria-labelledby="process-title">
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-14 max-w-3xl"><p className="mb-4 text-xs font-bold uppercase tracking-[.24em] text-[#cba792]">A composed collaboration</p><h2 id="process-title" className="title text-4xl font-semibold leading-tight md:text-6xl">From ambition to a system you are proud to own.</h2></div>
-          <ol className="border-t border-white/15">{process.map(([number, title, detail]) => <li key={number} className="grid gap-4 border-b border-white/10 py-7 transition hover:bg-white/[.025] md:grid-cols-[6rem_15rem_1fr] md:items-center md:px-5"><span className="font-mono text-sm text-[#86a58f]">{number}</span><h3 className="text-xl font-bold">{title}</h3><p className="max-w-2xl leading-7 text-white/50">{detail}</p></li>)}</ol>
-        </div>
-      </section>
+      <section className="px-5 py-24 md:px-10 md:py-36"><div className="mx-auto max-w-7xl"><p className="mb-4 text-xs font-bold uppercase tracking-[.2em] text-[#cba792]">{copy.processEyebrow}</p><h2 className="title mb-14 max-w-3xl text-4xl font-semibold md:text-6xl">{copy.processTitle}</h2><ol className="border-t border-white/15">{copy.process.map(([number, title, detail]) => <li key={number} className="grid gap-4 border-b border-white/10 py-7 md:grid-cols-[6rem_15rem_1fr] md:items-center md:px-5"><span className="font-mono text-sm text-[#86a58f]">{number}</span><h3 className="text-xl font-bold">{title}</h3><p className="max-w-2xl leading-7 text-white/50">{detail}</p></li>)}</ol></div></section>
 
-      <section className="bg-[#fff8ee] px-5 py-24 text-[#07120c] md:px-10 md:py-32" aria-labelledby="engagement-title">
-        <div className="mx-auto max-w-7xl"><div className="grid gap-8 lg:grid-cols-[.72fr_1.28fr]">
-          <div><p className="mb-4 text-xs font-bold uppercase tracking-[.24em] text-[#245336]">Ways to work together</p><h2 id="engagement-title" className="title text-4xl font-semibold leading-tight md:text-6xl">The right shape for the work.</h2></div>
-          <div className="grid gap-4 md:grid-cols-3">{engagementModels.map((model) => <article key={model.title} className="flex min-h-[21rem] flex-col justify-between rounded-[1.75rem] border border-[#07120c]/10 bg-white/55 p-6"><p className="text-xs font-bold uppercase tracking-[.18em] text-[#245336]">{model.eyebrow}</p><div><h3 className="text-2xl font-bold">{model.title}</h3><p className="mt-4 leading-7 text-[#07120c]/60">{model.description}</p></div></article>)}</div>
-        </div></div>
-      </section>
+      <section className="bg-[#fff8ee] px-5 py-24 text-[#07120c] md:px-10 md:py-32"><div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[.72fr_1.28fr]"><div><p className="mb-4 text-xs font-bold uppercase tracking-[.2em] text-[#245336]">{copy.engagementEyebrow}</p><h2 className="title text-4xl font-semibold md:text-6xl">{copy.engagementTitle}</h2></div><div className="grid gap-4 md:grid-cols-3">{copy.models.map(([eyebrow, title, description]) => <article key={title} className="flex min-h-[21rem] flex-col justify-between rounded-[1.75rem] border border-[#07120c]/10 bg-white/55 p-6"><p className="text-xs font-bold uppercase tracking-[.16em] text-[#245336]">{eyebrow}</p><div><h3 className="text-2xl font-bold">{title}</h3><p className="mt-4 leading-7 text-[#07120c]/60">{description}</p></div></article>)}</div></div></section>
 
-      <section className="px-5 py-24 md:px-10 md:py-32" aria-labelledby="faq-title">
-        <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[.7fr_1.3fr]">
-          <div><p className="mb-4 text-xs font-bold uppercase tracking-[.24em] text-[#cba792]">Useful answers</p><h2 id="faq-title" className="title text-4xl font-semibold leading-tight md:text-6xl">Before we begin.</h2></div>
-          <div className="border-t border-white/15">{serviceFaqs.map((faq, index) => <details key={faq.question} className="group border-b border-white/10 py-2"><summary className="flex cursor-pointer list-none items-center justify-between gap-5 py-6 text-lg font-semibold marker:content-none"><span><span className="mr-4 font-mono text-xs text-[#86a58f]">0{index + 1}</span>{faq.question}</span><span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-white/15 text-xl text-white/60 transition group-open:rotate-45">+</span></summary><p className="max-w-2xl pb-7 pl-10 leading-8 text-white/55">{faq.answer}</p></details>)}</div>
-        </div>
-      </section>
+      <section className="px-5 py-24 md:px-10 md:py-32"><div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[.7fr_1.3fr]"><div><p className="mb-4 text-xs font-bold uppercase tracking-[.2em] text-[#cba792]">{copy.faqEyebrow}</p><h2 className="title text-4xl font-semibold md:text-6xl">{copy.faqTitle}</h2></div><div className="border-t border-white/15">{faqs.map((faq, index) => <details key={faq.question} className="group border-b border-white/10 py-2"><summary className="flex cursor-pointer list-none items-center justify-between gap-5 py-6 text-lg font-semibold"><span><span className="me-4 font-mono text-xs text-[#86a58f]">0{index + 1}</span>{faq.question}</span><span className="grid h-9 w-9 place-items-center rounded-full border border-white/15 text-xl transition group-open:rotate-45">+</span></summary><p className="max-w-2xl pb-7 ps-10 leading-8 text-white/55">{faq.answer}</p></details>)}</div></div></section>
 
-      <section className="border-t border-white/10 bg-[#0c1e14] px-5 py-20 md:px-10 md:py-28" aria-label="Request a project consultation">
-        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[.8fr_1.2fr] lg:items-start">
-          <div className="lg:sticky lg:top-28"><p className="mb-4 text-xs font-bold uppercase tracking-[.24em] text-[#cba792]">A conversation worth having</p><h2 className="title text-4xl font-semibold leading-tight md:text-6xl">Let’s define the right next move.</h2><p className="mt-6 max-w-lg text-lg leading-8 text-white/55">Share the outcome, the current tools, or the process that should feel more capable. We will begin with the questions that make the investment clearer.</p></div>
-          <DiscoveryForm />
-        </div>
-      </section>
+      <section className="border-t border-white/10 bg-[#0c1e14] px-5 py-20 md:px-10 md:py-28"><div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[.8fr_1.2fr]"><div className="lg:sticky lg:top-28"><p className="mb-4 text-xs font-bold uppercase tracking-[.2em] text-[#cba792]">{copy.conversationEyebrow}</p><h2 className="title text-4xl font-semibold md:text-6xl">{copy.conversationTitle}</h2><p className="mt-6 max-w-lg text-lg leading-8 text-white/55">{copy.conversationBody}</p></div><DiscoveryForm /></div></section>
     </main>
   );
 }

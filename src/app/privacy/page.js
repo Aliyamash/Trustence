@@ -1,113 +1,33 @@
+import LegalPage from "@/components/LegalPage";
+import { getServerLocale } from "@/i18n/server";
 import { createMetadata } from "@/utils/seo";
 
 export const metadata = createMetadata({ title: "Privacy Policy", description: "Read the Trustence privacy policy and how website data is handled.", path: "/privacy" });
 
-export default function PrivacyPolicy() {
-  return (
-    <>
-      {/* Header + Main Wrapper with Gradient Background */}
-      <div className="gradiant-bg py-40">
-        {/* Header */}
-        <header className="text-white text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold">Privacy Policy</h1>
-          <p className="text-base md:text-lg mt-3 opacity-90">Last updated: November 06, 2025</p>
-        </header>
-
-        {/* Main Content */}
-        <main className="flex-1 py-8">
-          <div className="max-w-4xl mx-auto px-4 md:px-8">
-            <section className="mb-10 text-white">
-              <p className="leading-relaxed">
-                <strong>Trustence Inc.</strong> ("we", "us", or "our") operates <strong>trust-ence.com</strong> (the "Site").
-              </p>
-              <p className="mt-4 leading-relaxed">
-                This Privacy Policy is compliant with the <strong>General Data Protection Regulation (GDPR)</strong> and applies to all individuals in the European Union (EU) and European Economic Area (EEA).
-              </p>
-            </section>
-
-            <section className="mb-10">
-              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">1. Data Controller</h2>
-              <p className="text-white/90 text-lg leading-relaxed">
-                Trustence Inc. is the data controller responsible for your personal data. Contact us at:{' '}
-                <a href="mailto:privacy@trustenceagency.com" className="text-teal-300 underline hover:text-teal-200 transition">
-                  privacy@trustenceagency.com
-                </a>
-              </p>
-            </section>
-
-            <section className="mb-10">
-              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">2. Information We Collect</h2>
-              <ul className="list-disc pl-6 text-white/90 space-y-3 text-lg">
-                <li><strong>Personal Data:</strong> Name, email, phone, and any data submitted via contact forms.</li>
-                <li><strong>Usage Data:</strong> Pages visited, referring page, approximate country, device type/model, operating system, browser, and a random session identifier.</li>
-                <li><strong>IP Processing:</strong> The server processes the IP address briefly to estimate the country, then discards it. Raw IP addresses, precise location, city, and coordinates are not stored in analytics.</li>
-                <li><strong>Browser Storage:</strong> A session identifier used only to distinguish visits during the current browser session.</li>
-              </ul>
-            </section>
-
-            <section className="mb-10">
-              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">3. Legal Basis for Processing (GDPR Art. 6)</h2>
-              <ul className="list-disc pl-6 text-white/90 space-y-3 text-lg">
-                <li><strong>Consent:</strong> For newsletter signups and non-essential cookies.</li>
-                <li><strong>Contract:</strong> To provide requested services (e.g., consultation forms).</li>
-                <li><strong>Legitimate Interest:</strong> Site analytics and security (balanced against your rights).</li>
-              </ul>
-            </section>
-
-            <section className="mb-10">
-              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">4. Your GDPR Rights (Art. 15–22)</h2>
-              <p className="text-white/90 text-lg leading-relaxed">
-                You have the right to:
-              </p>
-              <ul className="list-disc pl-6 text-white/90 space-y-2 mt-3 text-lg">
-                <li>Access your personal data</li>
-                <li>Rectify inaccurate data</li>
-                <li>Erase your data ("right to be forgotten")</li>
-                <li>Restrict processing</li>
-                <li>Data portability</li>
-                <li>Object to processing</li>
-                <li>Withdraw consent at any time</li>
-              </ul>
-              <p className="mt-4 text-white/90 text-lg">
-                Exercise these rights by emailing <strong>privacy@trustenceagency.com</strong>. We respond within <strong>30 days</strong>.
-              </p>
-            </section>
-
-            <section className="mb-10">
-              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">5. Data Retention & Security</h2>
-              <p className="text-white/90 text-lg leading-relaxed">
-                We retain data only as long as necessary. We use encryption, access controls, and regular security audits to protect your information.
-              </p>
-              <p className="mt-4 text-white/90 text-lg leading-relaxed">
-                Country and device detection are approximate. VPNs, proxies, browser privacy controls, and modified user-agent strings may affect accuracy.
-              </p>
-            </section>
-
-            <section className="mb-10">
-              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">6. International Transfers</h2>
-              <p className="text-white/90 text-lg leading-relaxed">
-                Data may be transferred outside the EEA (e.g., to Canada or USA) using <strong>EU Standard Contractual Clauses (SCCs)</strong> or adequacy decisions.
-              </p>
-            </section>
-
-            <section className="mb-10">
-              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">7. Complaints</h2>
-              <p className="text-white/90 text-lg leading-relaxed">
-                If unsatisfied, lodge a complaint with your local <strong>Data Protection Authority (DPA)</strong>.
-              </p>
-            </section>
-
-            <a
-              href="mailto:privacy@trustenceagency.com"
-              className="inline-block bg-white text-[#1a3c34] px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition shadow-lg"
-            >
-              Exercise Your Rights
-            </a>
-          </div>
-        </main>
-      </div>
-
-      
-    </>
-  );
+export default async function PrivacyPolicy() {
+  const fa = (await getServerLocale()) === "fa";
+  const content = fa ? {
+    title: "سیاست حریم خصوصی", updated: "آخرین به‌روزرسانی: ۱۵ آبان ۱۴۰۴", intro: "تراستنس گرداننده trust-ence.com است. این سیاست با مقررات عمومی حفاظت از داده‌ها (GDPR) سازگار است و برای کاربران اتحادیه اروپا و منطقه اقتصادی اروپا کاربرد دارد.",
+    sections: [
+      { title: "۱. مسئول کنترل داده", body: "تراستنس مسئول کنترل داده‌های شخصی شماست. برای امور حریم خصوصی با privacy@trustenceagency.com تماس بگیرید." },
+      { title: "۲. اطلاعاتی که جمع‌آوری می‌کنیم", items: ["داده شخصی: نام، ایمیل، تلفن و اطلاعاتی که در فرم‌ها وارد می‌کنید.", "داده استفاده: صفحات بازدیدشده، منبع ورودی، کشور تقریبی، نوع دستگاه، سیستم‌عامل، مرورگر و شناسه تصادفی نشست.", "IP فقط برای تخمین کشور به‌طور موقت پردازش و سپس حذف می‌شود؛ IP خام، موقعیت دقیق، شهر و مختصات ذخیره نمی‌شوند.", "شناسه نشست فقط برای تفکیک بازدیدها در نشست جاری مرورگر استفاده می‌شود.", "انتخاب زبان در یک کوکی ضروری به‌مدت حداکثر یک سال ذخیره می‌شود تا ترجیح شما حفظ شود."] },
+      { title: "۳. مبنای قانونی پردازش", items: ["رضایت برای خبرنامه و کوکی‌های غیرضروری.", "قرارداد برای ارائه خدمات درخواست‌شده.", "منافع مشروع برای تحلیل عملکرد و امنیت سایت با رعایت حقوق شما."] },
+      { title: "۴. حقوق شما تحت GDPR", items: ["دسترسی و اصلاح داده‌ها", "حذف داده‌ها و محدودکردن پردازش", "انتقال‌پذیری داده", "اعتراض به پردازش", "پس‌گرفتن رضایت در هر زمان"] },
+      { title: "۵. نگهداری و امنیت", body: "داده را فقط تا زمانی که لازم باشد نگه می‌داریم و از رمزنگاری و کنترل دسترسی استفاده می‌کنیم. تشخیص کشور و دستگاه تقریبی است و VPN یا تنظیمات حریم خصوصی می‌تواند دقت را تغییر دهد." },
+      { title: "۶. انتقال بین‌المللی", body: "انتقال داده خارج از EEA با بندهای قراردادی استاندارد اتحادیه اروپا یا تصمیم‌های کفایت انجام می‌شود." },
+      { title: "۷. شکایت", body: "اگر از پاسخ ما رضایت ندارید، می‌توانید به مرجع حفاظت از داده محل خود شکایت کنید." },
+    ], action: "استفاده از حقوق حریم خصوصی",
+  } : {
+    title: "Privacy policy", updated: "Last updated: November 06, 2025", intro: "Trustence operates trust-ence.com. This policy complies with the General Data Protection Regulation (GDPR) and applies to individuals in the EU and EEA.",
+    sections: [
+      { title: "1. Data controller", body: "Trustence is responsible for your personal data. Contact privacy@trustenceagency.com for privacy enquiries." },
+      { title: "2. Information we collect", items: ["Personal data: name, email, phone, and information submitted through forms.", "Usage data: pages visited, referring page, approximate country, device, operating system, browser, and a random session identifier.", "The IP address is processed briefly to estimate country and then discarded. Raw IPs, precise location, city, and coordinates are not stored.", "A session identifier is used only to distinguish visits during the current browser session.", "Your language preference is stored in an essential cookie for up to one year so the site remembers your choice."] },
+      { title: "3. Legal basis", items: ["Consent for newsletter signups and non-essential cookies.", "Contract to provide requested services.", "Legitimate interest for site analytics and security, balanced against your rights."] },
+      { title: "4. Your GDPR rights", items: ["Access and rectify your data", "Erase data or restrict processing", "Data portability", "Object to processing", "Withdraw consent at any time"] },
+      { title: "5. Retention and security", body: "We retain data only as long as necessary and use encryption and access controls. Country and device detection are approximate; VPNs and privacy settings can affect accuracy." },
+      { title: "6. International transfers", body: "Transfers outside the EEA use EU Standard Contractual Clauses or relevant adequacy decisions." },
+      { title: "7. Complaints", body: "If you are not satisfied with our response, you may complain to your local data protection authority." },
+    ], action: "Exercise your rights",
+  };
+  return <LegalPage {...content} email="privacy@trustenceagency.com" />;
 }

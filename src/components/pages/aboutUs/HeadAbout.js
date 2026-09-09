@@ -4,11 +4,14 @@ import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { SplitText } from 'gsap/SplitText';
 import { ScrambleTextPlugin } from 'gsap/ScrambleTextPlugin';
+import { useLocale } from '@/i18n/LocaleProvider';
 
 
 gsap.registerPlugin(SplitText, ScrambleTextPlugin);
 
 export default function HeadAbout() {
+  const { locale } = useLocale();
+  const copy = locale === "fa" ? { title: "یک تیم دیجیتال بوتیک که بر پایه اعتماد ساخته شده است", body: "تراستنس، استراتژی، مهندسی نرم‌افزار، اتوماسیون، طراحی، بازاریابی و روایت بصری را کنار هم می‌آورد. ما به‌عنوان یک شریک متمرکز، سیستم‌های دیجیتالی می‌سازیم که متمایز دیده می‌شوند، قابل اتکا کار می‌کنند و از ارزش واقعی کسب‌وکار پشتیبانی می‌کنند." } : { title: "A Boutique Digital Team, Built Around Trust", body: "Trustence brings together strategy, software engineering, automation, design, marketing, and visual storytelling. We work as one focused partner to create digital systems that feel distinctive, operate reliably, and support meaningful business value." };
   const textBlockRef = useRef(null);
 
   useEffect(() => {
@@ -20,9 +23,11 @@ export default function HeadAbout() {
 
 
     const split = new SplitText(p, {
-      type: 'chars , words',
+      type: locale === "fa" ? "words" : "chars,words",
       charsClass: 'char',
     });
+
+    if (locale === "fa") return () => split.revert();
 
  
     split.chars.forEach(char => {
@@ -68,21 +73,18 @@ export default function HeadAbout() {
       block.removeEventListener('pointermove', handlePointerMove);
       split.revert(); 
     };
-  }, []);
+  }, [locale]);
 
   return (
     <div className="bg-[#060e09] py-52 md:py-60">
       <div className="container">
         <div className="flex flex-col items-center justify-between">
           <div className="text-white leading-[1.5] lg:leading-[1.2] text-center md:text-5xl lg:text-7xl title font-bold text-3xl mb-24">
-            <h1>A Boutique Digital Team, Built Around Trust</h1>
+            <h1>{copy.title}</h1>
           </div>
           <div ref={textBlockRef} className="text-white text-center font-medium text-pretty sm:w-3/5 my-5">
             <p className="text-lg md:text-xl select-none">
-              Trustence brings together strategy, software engineering,
-              automation, design, marketing, and visual storytelling. We work
-              as one focused partner to create digital systems that feel
-              distinctive, operate reliably, and support meaningful business value.
+              {copy.body}
             </p>
           </div>
         </div>

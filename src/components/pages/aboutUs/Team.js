@@ -11,24 +11,27 @@ import {
 import Link from "next/link";
 import { Suspense } from "react";
 import { getTeamMembers } from "@/utils/content";
+import { getServerLocale } from "@/i18n/server";
 
-async function fetchTeamData() {
-  return { data: await getTeamMembers(), error: null };
+async function fetchTeamData(locale) {
+  return { data: await getTeamMembers(locale), error: null };
 }
 
 export default async function Team() {
-  const { data: teams, error } = await fetchTeamData();
+  const locale = await getServerLocale();
+  const copy = locale === "fa" ? { eyebrow: "آدم‌های پشت این مسیر", title: "یک استاندارد؛ چند تخصص.", body: "هر همکاری با ترکیب درستی از مهندسی، طراحی، استراتژی، رشد و هنر بصری شکل می‌گیرد.", empty: "عضوی پیدا نشد.", extended: "تخصص‌های تکمیلی", extendedBody: "هر زمان دامنه پروژه نیاز داشته باشد، متخصصان تکمیلی به تیم اضافه می‌شوند.", hireTitle: "کار استثنایی، آدم‌های استثنایی می‌خواهد.", hireBody: "اگر به کیفیت سنجیده، ارتباط روشن و فناوری مسئولانه اهمیت می‌دهید، خوشحال می‌شویم شما را بشناسیم.", introduce: "خودتان را معرفی کنید", loading: "در حال بارگذاری…" } : { eyebrow: "The people behind the work", title: "One standard. Multiple disciplines.", body: "Every engagement is shaped by the right combination of engineering, design, strategy, growth, and visual craft.", empty: "No members found.", extended: "Extended expertise", extendedBody: "Additional specialist capability is involved when the scope calls for it.", hireTitle: "Exceptional work deserves exceptional people.", hireBody: "If you care about thoughtful craft, clear communication, and responsible technology, we would like to hear from you.", introduce: "Introduce yourself", loading: "Loading…" };
+  const { data: teams, error } = await fetchTeamData(locale);
 
   return (
     <div className="bg-[#0A1810] py-24 md:py-52 text-white" id="team">
       <div className="container">
         <div className="mb-32">
-          <p className="font-bold">The people behind the work</p>
-          <h2 className="text-6xl mt-4 mb-6 title font-bold">One standard. Multiple disciplines.</h2>
-          <p className="max-w-2xl text-lg leading-8 text-white/65">Every engagement is shaped by the right combination of engineering, design, strategy, growth, and visual craft.</p>
+          <p className="font-bold">{copy.eyebrow}</p>
+          <h2 className="text-6xl mt-4 mb-6 title font-bold">{copy.title}</h2>
+          <p className="max-w-2xl text-lg leading-8 text-white/65">{copy.body}</p>
         </div>
 
-        <Suspense fallback={<Spinner />}>
+        <Suspense fallback={<Spinner label={copy.loading} />}>
           {error ? (
             <div className="text-center text-red-500 text-lg py-10 font-bold">
               {error}
@@ -86,7 +89,7 @@ export default async function Team() {
                 ))
               ) : (
                 <div className="text-center text-gray-400 text-lg py-10">
-                  No members found.
+                  {copy.empty}
                 </div>
               )}
 
@@ -98,10 +101,10 @@ export default async function Team() {
                 </div>
                 <div className="text-center text-pretty mt-6">
                   <h3 className="text-white text-xl font-semibold mb-3 tracking-wide">
-                    Extended expertise
+                    {copy.extended}
                   </h3>
                   <p className="text-[#fff8ee] text-md leading-relaxed">
-                    Additional specialist capability is involved when the scope calls for it.
+                    {copy.extendedBody}
                   </p>
                 </div>
               </div>
@@ -111,9 +114,9 @@ export default async function Team() {
 
         {/* بخش استخدام */}
         <div className="mt-64">
-          <h2 className="text-4xl">Exceptional work deserves exceptional people.</h2>
+          <h2 className="text-4xl font-bold">{copy.hireTitle}</h2>
           <p className="mb-8 mt-4 text-lg">
-            If you care about thoughtful craft, clear communication, and responsible technology, we would like to hear from you.
+            {copy.hireBody}
           </p>
           <div className="flex overflow-hidden relative font-bold transition-shadow duration-700 text-white hover:text-black hover:shadow-xl hover:shadow-[#658672] p-btn items-center bg-btn2 px-8 py-4 w-fit rounded-xl">
             <div className="transition-all absolute duration-700 hover:scale-[25rem] top-1.5/3 left-4 z-0 dot bg-white h-1.5 w-1.5 rounded-full"></div>
@@ -121,7 +124,7 @@ export default async function Team() {
               className="z-10 text-lg transition-all duration-700"
               href="/discovery"
             >
-              Introduce yourself
+              {copy.introduce}
             </Link>
           </div>
         </div>
@@ -130,11 +133,11 @@ export default async function Team() {
   );
 }
 
-function Spinner() {
+function Spinner({ label }) {
   return (
     <div className="flex flex-col items-center justify-center py-16">
       <div className="w-12 h-12 border-4 border-t-green-500 border-gray-200 rounded-full animate-spin"></div>
-      <p className="mt-4 text-lg text-gray-300">Loading..</p>
+      <p className="mt-4 text-lg text-gray-300">{label}</p>
     </div>
   );
 }

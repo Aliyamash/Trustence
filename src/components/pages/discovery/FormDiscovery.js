@@ -7,8 +7,11 @@ import { useActionState, useRef, useEffect } from "react";
 import { toast } from "react-toastify";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useLocale } from "@/i18n/LocaleProvider";
 
 export default function FormDiscovery() {
+  const { locale, isRtl } = useLocale();
+  const copy = locale === "fa" ? { process: "یک فرایند ساده و سنجیده", steps: [["01", "زمینه را توضیح دهید", "بگویید چه چیزی را می‌خواهید بسازید، بهتر کنید یا خودکار کنید و چرا اکنون اهمیت دارد."], ["02", "با تیم گفت‌وگو کنید", "در یک تماس تصویری متمرکز، اهداف، محدودیت‌ها و تناسب همکاری را بررسی می‌کنیم."], ["03", "قدم بعدی روشن دریافت کنید", "اگر تناسب خوبی وجود داشته باشد، دامنه اختصاصی، زمان‌بندی و پیشنهاد تجاری آماده می‌کنیم."]], formTitle: "درخواست جلسه آشنایی", name: "نام و نام خانوادگی", namePlaceholder: "نام شما", email: "ایمیل", message: "پروژه، چالش یا فرصت", placeholder: "چه چیزی باید ساخته یا بهتر شود و یک نتیجه ارزشمند چه شکلی دارد؟", submit: "درخواست جلسه", sending: "در حال ارسال…" } : { process: "A simple, considered process", steps: [["01", "Share the context", "Tell us what you want to create, improve, or automate and why it matters now."], ["02", "Meet the team", "We hold a focused video conversation to examine goals, constraints, and fit."], ["03", "Receive a clear next step", "When there is a strong fit, we prepare a tailored scope, timeline, and commercial proposal."]], formTitle: "Request your discovery session", name: "Full name", namePlaceholder: "John Doe", email: "Email", message: "Project, challenge, or opportunity", placeholder: "What should be created or improved, and what would a valuable outcome look like?", submit: "Request session", sending: "Sending…" };
   const [state, formDiscoveryAction] = useActionState(formDiscover, null);
   const formRef = useRef(null);
   const containerRef = useRef(null);
@@ -21,11 +24,11 @@ export default function FormDiscovery() {
       const fields = containerRef.current.querySelectorAll(".form-field");
       const steps = containerRef.current.querySelectorAll(".step-card");
 
-      gsap.set([fields, steps], { y: 50, opacity: 0 });
+      gsap.set([fields, steps], { x: isRtl ? 20 : -20, y: 30, opacity: 0 });
 
       // مرحله‌ها
       gsap.to(steps, {
-        y: 0,
+        x: 0, y: 0,
         opacity: 1,
         duration: 0.8,
         ease: "power2.out",
@@ -38,7 +41,7 @@ export default function FormDiscovery() {
 
       // فیلدها
       gsap.to(fields, {
-        y: 0,
+        x: 0, y: 0,
         opacity: 1,
         duration: 0.6,
         ease: "power2.out",
@@ -51,18 +54,18 @@ export default function FormDiscovery() {
     });
 
     return () => ctx.revert();
-  }, []);
+  }, [isRtl, locale]);
 
   // Toast و Reset
   useEffect(() => {
     if (!state) return; 
     if(state?.status === 'error'){
-      toast.error(state.message)
+      toast.error(locale === "fa" ? "ارسال انجام نشد؛ لطفاً دوباره تلاش کنید." : state.message)
     }else{
-      toast.success(state.message);
+      toast.success(locale === "fa" ? "درخواست جلسه با موفقیت ثبت شد." : state.message);
       formRef.current?.reset();
     }
-  },[state])
+  },[state, locale])
 
 
   const gradientText = {
@@ -81,23 +84,19 @@ export default function FormDiscovery() {
       {/* مرحله‌ها */}
       <section className="space-y-10 text-center">
         <h2 className="text-5xl md:text-6xl font-bold text-center text-[#46c972]" >
-          A simple, considered process
+          {copy.process}
         </h2>
 
         <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-          {[
-            { icon: "01", title: "Share the context", desc: "Tell us what you want to create, improve, or automate and why it matters now." },
-            { icon: "02", title: "Meet the team", desc: "We hold a focused video conversation to examine goals, constraints, and fit." },
-            { icon: "03", title: "Receive a clear next step", desc: "When there is a strong fit, we prepare a tailored scope, timeline, and commercial proposal." },
-          ].map((step, i) => (
+          {copy.steps.map(([icon, title, desc], i) => (
             <div
               key={i}
               className="step-card group relative p-8 rounded-3xl bg-white border border-[#e8e8e8] shadow-lg hover:shadow-2xl hover:shadow-[#658672]/10 transition-all duration-500"
             >
               <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-[#1C422B]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-              <div className="text-5xl mb-4">{step.icon}</div>
-              <h3 className="text-2xl font-bold text-[#1C422B] mb-2">{step.title}</h3>
-              <p className="text-sm text-gray-600 leading-relaxed">{step.desc}</p>
+              <div className="text-5xl mb-4">{icon}</div>
+              <h3 className="text-2xl font-bold text-[#1C422B] mb-2">{title}</h3>
+              <p className="text-sm text-gray-600 leading-relaxed">{desc}</p>
             </div>
           ))}
         </div>
@@ -106,7 +105,7 @@ export default function FormDiscovery() {
       {/* فرم */}
       <section className="max-w-2xl mx-auto">
         <h2 className="text-5xl md:text-6xl font-bold text-center mb-12 text-[#46c972]" >
-          Request your discovery session
+          {copy.formTitle}
         </h2>
 
         <form
@@ -116,19 +115,19 @@ export default function FormDiscovery() {
         >
           {/* نام کامل */}
           <div className="form-field">
-            <label className="block text-sm font-medium text-[#1C422B] mb-2">Full Name</label>
+            <label className="block text-sm font-medium text-[#1C422B] mb-2">{copy.name}</label>
             <input
               type="text"
               name="Full_Name"
               required
-              placeholder="John Doe"
+              placeholder={copy.namePlaceholder}
               className="w-full px-5 py-4 rounded-xl outline-none border border-[#d0d0d0] focus:border-[#658672] focus:ring-4 focus:ring-[#658672]/20 transition-all duration-300 bg-gray-50/50"
             />
           </div>
 
           {/* ایمیل */}
           <div className="form-field">
-            <label className="block text-sm font-medium text-[#1C422B] mb-2">Email</label>
+            <label className="block text-sm font-medium text-[#1C422B] mb-2">{copy.email}</label>
             <input
               type="email"
               name="Email"
@@ -140,20 +139,20 @@ export default function FormDiscovery() {
 
           {/* پیام */}
           <div className="form-field">
-            <label className="block text-sm font-medium text-[#1C422B] mb-2">Project, challenge, or opportunity</label>
+            <label className="block text-sm font-medium text-[#1C422B] mb-2">{copy.message}</label>
             <textarea
               name="Inquiry"
               required
               rows={5}
-              placeholder="What should be created or improved, and what would a valuable outcome look like?"
+              placeholder={copy.placeholder}
               className="w-full px-5 py-4 rounded-xl border outline-none border-[#d0d0d0] focus:border-[#658672] focus:ring-4 focus:ring-[#658672]/20 transition-all duration-300 bg-gray-50/50 resize-none"
             />
           </div>
 
           {/* دکمه */}
           <SubmitButton
-            title="Request session"
-            loadingTitle="Sending..."
+            title={copy.submit}
+            loadingTitle={copy.sending}
             style="w-full text-lg py-5 rounded-2xl font-semibold bg-gradient-to-r from-[#1C422B] to-[#173520] text-white hover:shadow-xl hover:shadow-[#658672]/30 transform hover:scale-[1.02] transition-all duration-300"
           />
         </form>

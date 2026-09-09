@@ -7,8 +7,13 @@ import { gsap } from "gsap";
 import Logo from "./Logo";
 import Link from "next/link";
 import BtnDiscover from "../BtnDiscover";
+import LanguageSwitcher from "./LanguageSwitcher";
+import { useLocale } from "@/i18n/LocaleProvider";
+import { getCopy } from "@/i18n/copy";
 
 const NavLinks = ({ onLinkClick }) => {
+  const { locale } = useLocale();
+  const { nav } = getCopy(locale);
   const handleClick = () => {
     if (onLinkClick) onLinkClick();
   };
@@ -16,19 +21,19 @@ const NavLinks = ({ onLinkClick }) => {
   return (
     <>
       <Link href="/" onClick={handleClick} className="hover:text-[#CBA792] transition">
-        Home
+        {nav.home}
       </Link>
       <Link href="/aboutus" onClick={handleClick} className="hover:text-[#CBA792] transition">
-        About Us
+        {nav.about}
       </Link>
       <Link href="/service" onClick={handleClick} className="hover:text-[#CBA792] transition">
-        Services
+        {nav.services}
       </Link>
       <Link href="/contact" onClick={handleClick} className="hover:text-[#CBA792] transition">
-        Contact
+        {nav.contact}
       </Link>
       <Link href="/projects" onClick={handleClick} className="hover:text-[#CBA792] transition">
-        Work
+        {nav.work}
       </Link>
       <div onClick={handleClick}>
         <BtnDiscover />
@@ -38,6 +43,7 @@ const NavLinks = ({ onLinkClick }) => {
 };
 
 export default function Header() {
+  const { isRtl } = useLocale();
   const [isOpen, setIsOpen] = useState(false);
   const headerRef = useRef(null);
   const mobileMenuRef = useRef(null);
@@ -59,33 +65,28 @@ export default function Header() {
     if (isOpen && mobileMenuRef.current) {
       gsap.fromTo(
         mobileMenuRef.current,
-        { y: -50, opacity: 0, scale: 0.95 },
-        { y: 0, opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.7)" }
+        { x: isRtl ? 36 : -36, y: -16, opacity: 0, scale: 0.97 },
+        { x: 0, y: 0, opacity: 1, scale: 1, duration: 0.45, ease: "power3.out" }
       );
     }
-  }, [isOpen]);
+  }, [isOpen, isRtl]);
 
   return (
     <>
       {/* هدر اصلی - کارت گرد و انیمیشنی */}
       <header
         ref={headerRef}
-        className="fixed top-4 left-4 right-4 bg-black/80 backdrop-blur-xl rounded-xl shadow-2xl z-50 p-5 "
+        className="fixed left-4 right-4 top-4 z-50 rounded-2xl border border-white/10 bg-[#07120c]/90 p-3 shadow-2xl shadow-black/20 backdrop-blur-xl md:p-4"
       >
         <div className="flex justify-between items-center">
           <Logo />
 
-          <nav className="hidden md:flex items-center gap-6 lg:gap-10 text-zinc-200 text-shadow">
+          <nav className="hidden items-center gap-5 text-sm font-semibold text-zinc-200 text-shadow md:flex lg:gap-8">
             <NavLinks />
+            <LanguageSwitcher compact />
           </nav>
 
-          <button
-            onClick={toggleNavbar}
-            className="md:hidden text-[#658672] z-50"
-            aria-label="Toggle menu"
-          >
-            {isOpen ? <X size={28} /> : <Menu size={28} />}
-          </button>
+          <div className="flex items-center gap-2 md:hidden"><LanguageSwitcher compact /><button onClick={toggleNavbar} className="z-50 grid h-10 w-10 place-items-center rounded-xl bg-white/5 text-[#86a58f]" aria-label={isRtl ? "باز و بسته کردن منو" : "Toggle menu"}>{isOpen ? <X size={24} /> : <Menu size={24} />}</button></div>
         </div>
       </header>
 

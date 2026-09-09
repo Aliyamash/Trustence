@@ -1,6 +1,9 @@
 import Link from "next/link";
+import { getServerLocale } from "@/i18n/server";
 
-export default function DiscoverAbout() {
+export default async function DiscoverAbout() {
+  const locale = await getServerLocale();
+  const copy = locale === "fa" ? { title: "با یک جلسه آشنایی سنجیده آغاز کنید.", body: "گفت‌وگویی متمرکز برای شناخت اهداف، یافتن فرصت دیجیتال درست و تعریف قدم بعدی قابل اتکا.", services: "مشاهده خدمات", session: "درخواست جلسه" } : { title: "Begin with a considered discovery session.", body: "A focused conversation to understand your objectives, identify the right digital opportunity, and define a credible next step.", services: "Explore services", session: "Request a session" };
   return (
     <>
       <div className="py-24 md:py-44">
@@ -9,11 +12,10 @@ export default function DiscoverAbout() {
             {/* title */}
             <div>
               <h2 className="text-3xl md:text-5xl font-bold my-4">
-                Begin with a considered discovery session.
+                {copy.title}
               </h2>
               <p className="text-lg font-semibold">
-                A focused conversation to understand your objectives, identify
-                the right digital opportunity, and define a credible next step.
+                {copy.body}
               </p>
             </div>
 
@@ -26,7 +28,7 @@ export default function DiscoverAbout() {
                   className="z-10 text-lg transition-all duration-700"
                   href={"/service"}
                 >
-                  Explore services
+                  {copy.services}
                 </Link>
               </div>
 
@@ -37,7 +39,7 @@ export default function DiscoverAbout() {
                   className="z-10 text-lg transition-all duration-700"
                   href={"/discovery"}
                 >
-                  Request a session
+                  {copy.session}
                 </Link>
               </div>
             </div>

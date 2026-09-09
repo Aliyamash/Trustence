@@ -2,13 +2,15 @@ import Projects from "@/components/pages/projects/Projects";
 import StructuredData from "@/components/StructuredData";
 import { getProjects } from "@/utils/content";
 import { absoluteUrl, breadcrumbSchema, createMetadata, webPageSchema } from "@/utils/seo";
+import { getServerLocale } from "@/i18n/server";
 
 const description = "Explore selected Trustence case studies across bespoke web design, software development, digital products, and distinctive online experiences.";
 export const metadata = createMetadata({ title: "Selected Digital Work & Case Studies", description, path: "/projects" });
 export const revalidate = 300;
 
 export default async function ProjectsPage() {
-  const projects = await getProjects();
+  const locale = await getServerLocale();
+  const projects = await getProjects(undefined, locale);
   const serializableProjects = projects.map((project) => ({
     ...project,
     banner: typeof project.banner === "string" ? project.banner : project.banner?.src,

@@ -1,11 +1,14 @@
 import { Check } from "lucide-react";
-import { sessionBenefits } from "@/components/OptionsDiscover";
+import { getSessionBenefits } from "@/components/OptionsDiscover";
+import { getServerLocale } from "@/i18n/server";
 
-export default function WhatYouGet(){
+export default async function WhatYouGet(){
+    const locale = await getServerLocale();
+    const sessionBenefits = getSessionBenefits(locale);
     return(
         <div className="bg-transparent py-64">
             <div className="container">
-                <h2 className="text-5xl title font-bold text-white">What the conversation is designed to reveal.</h2>
+                <h2 className="text-5xl title font-bold text-white">{locale === "fa" ? "این گفت‌وگو قرار است چه چیزهایی را روشن کند؟" : "What the conversation is designed to reveal."}</h2>
                 <div className="mt-28">
                     {sessionBenefits.map((benefit) => (
                         <div key={benefit.id} className="my-12">

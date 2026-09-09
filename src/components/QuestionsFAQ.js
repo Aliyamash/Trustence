@@ -1,8 +1,10 @@
 "use client";
 import { CircleChevronDown, CircleChevronUp } from "lucide-react";
 import { useState } from "react";
+import { useLocale } from "@/i18n/LocaleProvider";
 
 export default function QuestionFAQ({ faqs }) {
+  const { locale } = useLocale();
   const [openId, setOpenId] = useState(null);
 
   const handleClick = (id) => {
@@ -32,7 +34,7 @@ export default function QuestionFAQ({ faqs }) {
               </h2>
               <button
                 type="button"
-                aria-label={isOpen ? "Collapse answer" : "Expand answer"}
+                aria-label={locale === "fa" ? (isOpen ? "بستن پاسخ" : "باز کردن پاسخ") : (isOpen ? "Collapse answer" : "Expand answer")}
                 aria-expanded={isOpen}
                 aria-controls={`faq-answer-${faq.id}`}
                 className="cursor-pointer"

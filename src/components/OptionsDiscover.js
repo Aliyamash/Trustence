@@ -20,3 +20,12 @@ export const sessionBenefits = [
       subtitle: "Ask the practical questions about technology, ownership, communication, risk, and what working together would involve."
     }
   ];
+
+const sessionBenefitsFa = [
+  { id: "1", title: "دیدی شفاف‌تر از فرصت پیش رو", subtitle: "جایگاه دیجیتال فعلی، اصطکاک‌های عملیاتی، مخاطب و مهم‌ترین نتیجه کسب‌وکار شما را بررسی می‌کنیم." },
+  { id: "2", title: "یک جهت‌گیری قابل اتکا", subtitle: "قدم بعدی مفید و تخصص‌های مورد نیاز آن را مشخص می‌کنیم؛ از وب و نرم‌افزار تا اتوماسیون و دیده‌شدن." },
+  { id: "3", title: "راهنمای اولیه برای دامنه کار", subtitle: "اگر اطلاعات کافی باشد، درباره دامنه احتمالی، وابستگی‌ها، بازه سرمایه‌گذاری و ملاحظات اجرا صحبت می‌کنیم." },
+  { id: "4", title: "پاسخ‌های مستقیم", subtitle: "پرسش‌های عملی خود درباره فناوری، مالکیت، ارتباط، ریسک و شیوه همکاری را مطرح کنید." },
+];
+
+export function getSessionBenefits(locale) { return locale === "fa" ? sessionBenefitsFa : sessionBenefits; }

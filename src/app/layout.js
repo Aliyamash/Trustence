@@ -1,6 +1,10 @@
 import "./globals.css";
+import "@fontsource-variable/vazirmatn";
+import { headers } from "next/headers";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
 import SiteChrome from "@/components/layout/SiteChrome";
+import LocaleProvider from "@/i18n/LocaleProvider";
+import { detectLocale, localeDirection } from "@/i18n/config";
 import { DEFAULT_DESCRIPTION, SITE_NAME, SITE_URL } from "@/utils/seo";
 
 
@@ -43,12 +47,18 @@ export const metadata = {
   },
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  const requestHeaders = await headers();
+  const locale = detectLocale({
+    acceptLanguage: requestHeaders.get("x-trustence-locale") || requestHeaders.get("accept-language"),
+  });
   return (
-    <html lang="en">
+    <html lang={locale} dir={localeDirection(locale)} suppressHydrationWarning>
       <body>
-        <AnalyticsTracker />
-        <SiteChrome>{children}</SiteChrome>
+        <LocaleProvider initialLocale={locale}>
+          <AnalyticsTracker />
+          <SiteChrome>{children}</SiteChrome>
+        </LocaleProvider>
       </body>
     </html>
   );

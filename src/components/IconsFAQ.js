@@ -7,3 +7,8 @@ export const categories = [
   { name: "Content", icon: FileText },
   { name: "Security", icon: ShieldCheck },
 ];
+
+export function getCategories(locale) {
+  if (locale !== "fa") return categories;
+  return categories.map((category, index) => ({ ...category, name: ["خدمات", "ویژگی‌ها", "پشتیبانی", "محتوا", "امنیت"][index] }));
+}

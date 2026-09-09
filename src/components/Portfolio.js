@@ -2,21 +2,25 @@ import { ChevronRight, Layers } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { getProjects } from "@/utils/content";
+import { getServerLocale } from "@/i18n/server";
+import { getCopy } from "@/i18n/copy";
 
 export default async function Portfolio() {
-  const projects = await getProjects(2);
+  const locale = await getServerLocale();
+  const content = getCopy(locale).home.portfolio;
+  const projects = await getProjects(2, locale);
   return (
     <div className="bg-[#E9EDEA]">
       <div className="py-24 container">
         <div className="text-center">
-          <p className="text-xl font-semibold">Selected work</p>
-          <h2 className="title text-5xl mt-8 mb-6">Digital experiences with a point of view.</h2>
+          <p className="text-xl font-semibold">{content.eyebrow}</p>
+          <h2 className="title text-5xl mt-8 mb-6">{content.title}</h2>
           <p className="text-lg tracking-wide mb-20">
-            A curated look at the websites and platforms we have shaped through strategy, design, and engineering.
+            {content.body}
           </p>
 
           {projects.length === 0 ? (
-            <p className="text-red-600 text-lg">هیچ پروژه‌ای برای نمایش موجود نیست</p>
+            <p className="text-red-600 text-lg">{content.empty}</p>
           ) : (
             projects.map((project) => (
               <div
@@ -45,7 +49,7 @@ export default async function Portfolio() {
                   rel={project.link ? "noopener noreferrer" : undefined}
                 >
                   <div className="btn-service pr-1 ml-2 text-lg transition-all duration-500">
-                    Explore the project
+                    {content.explore}
                   </div>
                   <ChevronRight className="icon-btn-size transition-all duration-500" />
                 </Link>
@@ -59,7 +63,7 @@ export default async function Portfolio() {
               className="pr-3 z-10 text-lg transition-all duration-300"
               href={"/projects"}
             >
-              View all work
+              {content.all}
             </Link>
             <Layers className="icon-btn-size2 z-10" />
           </div>
