@@ -82,7 +82,7 @@ export default function Footer() {
               width="auto"
               height="auto"
               src={logo}
-              alt="trustence-logo"
+              alt={locale === "fa" ? "نشان تراستنس" : "Trustence logo"}
             />
           </div>
 
@@ -137,17 +137,17 @@ export default function Footer() {
           </div>
 
           <div className="flex gap-4 mb-8 md:mb-0">
-            <Link aria-label="Trustence on Instagram" href={"https://www.instagram.com/trustence.official/"}>
+            <Link aria-label={locale === "fa" ? "تراستنس در اینستاگرام" : "Trustence on Instagram"} href={"https://www.instagram.com/trustence.official/"}>
               <Instagram className="icon-btn-size2" />
             </Link>
-            <Link aria-label="Contact Trustence on WhatsApp" href={"https://wa.me/989217332763"}>
-              <Image src={WhatsApp} className="icon-btn-size2" alt="whats app" />
+            <Link aria-label={locale === "fa" ? "تماس با تراستنس در واتس‌اپ" : "Contact Trustence on WhatsApp"} href={"https://wa.me/989217332763"}>
+              <Image src={WhatsApp} className="icon-btn-size2" alt="" aria-hidden="true" />
             </Link>
-            <Link aria-label="Trustence on LinkedIn" href={"https://www.linkedin.com/in/trustence-agency-b13a9038a"}>
+            <Link aria-label={locale === "fa" ? "تراستنس در لینکدین" : "Trustence on LinkedIn"} href={"https://www.linkedin.com/in/trustence-agency-b13a9038a"}>
               <Linkedin className="icon-btn-size2" />
             </Link>
-            <Link aria-label="Trustence on Telegram" href={"https://t.me/Real_MoOorGan"}>
-              <Image src={telegram} className="icon-btn-size2" alt="telegram" />
+            <Link aria-label={locale === "fa" ? "تراستنس در تلگرام" : "Trustence on Telegram"} href={"https://t.me/Real_MoOorGan"}>
+              <Image src={telegram} className="icon-btn-size2" alt="" aria-hidden="true" />
             </Link>
           </div>
         </div>

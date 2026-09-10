@@ -7,6 +7,7 @@ import { getFetch, resolveMediaUrl } from "@/utils/fetch";
 import StructuredData from "@/components/StructuredData";
 import { absoluteUrl, breadcrumbSchema, createMetadata, SITE_URL } from "@/utils/seo";
 import { getServerLocale } from "@/i18n/server";
+import { localizeProject } from "@/utils/content";
 
 const getProject = cache(async (id) => {
   try {
@@ -55,15 +56,17 @@ function BrowserFrame({ source, alt, priority = false, featured = false, label =
 }
 
 export async function generateMetadata({ params }) {
+  const locale = await getServerLocale();
   const { id } = await params;
-  const project = await getProject(id);
+  const fetchedProject = await getProject(id);
 
-  if (!project) return { title: "Project Not Found", robots: { index: false, follow: false } };
+  if (!fetchedProject) return { title: locale === "fa" ? "پروژه پیدا نشد" : "Project Not Found", robots: { index: false, follow: false } };
 
-  const title = project.title || "Project";
-  const description = project.description || project.intro || `A Trustence project: ${title}.`;
+  const project = localizeProject(fetchedProject, locale);
+  const title = project.title || (locale === "fa" ? "پروژه" : "Project");
+  const description = project.description || project.intro || (locale === "fa" ? `پروژه‌ای از تراستنس: ${title}.` : `A Trustence project: ${title}.`);
   const image = project.banner ? projectMedia(project.banner) : undefined;
-  const metadata = createMetadata({ title, description, path: `/projects/${id}` });
+  const metadata = createMetadata({ title, description, path: `/projects/${id}`, locale });
 
   return {
     ...metadata,
@@ -80,11 +83,7 @@ export default async function SoloProjectPage({ params }) {
 
   const fetchedProject = await getProject(id);
   if (!fetchedProject) notFound();
-  const knownFaProjects = {
-    "Animated Portfolio Website": { title: "وب‌سایت پورتفولیوی متحرک", category_name: "طراحی وب / پورتفولیو", intro: "یک تجربه سینمایی برای نمایش حرفه‌ای آثار، با حرکت‌های سنجیده و هویتی بصری که در ذهن می‌ماند.", description: "این پروژه با تمرکز بر هویت شخصی، روایت بصری و تعامل‌های روان طراحی شد تا نمونه‌کارها را به تجربه‌ای ماندگار برای مخاطب تبدیل کند." },
-    "Creative Portfolio & Shop Website": { title: "وب‌سایت خلاقانه پورتفولیو و فروشگاه", category_name: "پورتفولیو / تجارت الکترونیک / طراحی وب", intro: "تجربه‌ای یکپارچه برای روایت شخصی، نمایش آثار و فروش محصولات با هویتی متمایز و حرفه‌ای.", description: "یک وب‌سایت ترکیبی که معرفی خلاقانه آثار را با مسیر خرید ساده و منسجم کنار هم قرار می‌دهد." },
-  };
-  const project = fa && knownFaProjects[fetchedProject.title] ? { ...fetchedProject, ...knownFaProjects[fetchedProject.title] } : fetchedProject;
+  const project = localizeProject(fetchedProject, locale);
 
   const banner = projectMedia(project.banner);
   const gallery = galleryFor(project);
@@ -131,7 +130,7 @@ export default async function SoloProjectPage({ params }) {
                   <a href="#project-overview" className="inline-flex items-center gap-3 rounded-xl border border-white/15 px-5 py-3.5 font-semibold text-white/70 transition hover:border-[#86a58f] hover:text-white">{copy.read} <ArrowRight className={`h-4 w-4 ${fa ? "rotate-180" : ""}`} /></a>
                 </div>
               </div>
-              <div className="group"><BrowserFrame source={banner} alt={`${project.title} project preview`} priority featured label={copy.frame} /></div>
+              <div className="group"><BrowserFrame source={banner} alt={fa ? `پیش‌نمایش پروژه ${project.title}` : `${project.title} project preview`} priority featured label={copy.frame} /></div>
             </div>
           </div>
         </section>
@@ -150,7 +149,7 @@ export default async function SoloProjectPage({ params }) {
               <p className="text-xs font-bold uppercase tracking-[.22em] text-[#245336]">{copy.direction}</p>
               <h2 className="title mt-5 max-w-3xl text-3xl font-semibold leading-tight md:text-5xl">{copy.directionTitle}</h2>
               <p className="mt-7 max-w-3xl whitespace-pre-line text-lg leading-8 text-[#07120c]/65">{description}</p>
-              {tags.length > 0 && <ul className="mt-9 flex flex-wrap gap-2" aria-label="Project capabilities">{tags.map((tag) => <li key={tag} className="rounded-full border border-[#245336]/15 bg-[#e9efe8] px-3 py-2 text-xs font-semibold text-[#245336]">{tag}</li>)}</ul>}
+              {tags.length > 0 && <ul className="mt-9 flex flex-wrap gap-2" aria-label={fa ? "توانمندی‌های پروژه" : "Project capabilities"}>{tags.map((tag) => <li key={tag} className="rounded-full border border-[#245336]/15 bg-[#e9efe8] px-3 py-2 text-xs font-semibold text-[#245336]">{tag}</li>)}</ul>}
             </div>
           </div>
         </section>
@@ -159,7 +158,7 @@ export default async function SoloProjectPage({ params }) {
           <section className="px-5 py-20 md:px-10 md:py-28" aria-labelledby="gallery-title">
             <div className="mx-auto max-w-7xl">
               <div className="mb-12 flex flex-col justify-between gap-5 md:flex-row md:items-end"><div><p className="mb-4 text-xs font-bold uppercase tracking-[.22em] text-[#cba792]">{copy.galleryEyebrow}</p><h2 id="gallery-title" className="title text-4xl font-semibold leading-tight md:text-6xl">{copy.galleryTitle}</h2></div><p className="max-w-md leading-7 text-white/55">{copy.galleryBody}</p></div>
-              <div className="grid gap-5 md:grid-cols-2">{gallery.map((image, index) => <div key={image.id || image.path} className={`group ${index === 0 && gallery.length % 2 === 1 ? "md:col-span-2" : ""}`}><BrowserFrame source={image.path} alt={image.alt || `${project.title} project visual ${index + 1}`} featured={index === 0 && gallery.length % 2 === 1} /></div>)}</div>
+              <div className="grid gap-5 md:grid-cols-2">{gallery.map((image, index) => <div key={image.id || image.path} className={`group ${index === 0 && gallery.length % 2 === 1 ? "md:col-span-2" : ""}`}><BrowserFrame source={image.path} alt={image.alt || (fa ? `تصویر ${index + 1} پروژه ${project.title}` : `${project.title} project visual ${index + 1}`)} featured={index === 0 && gallery.length % 2 === 1} /></div>)}</div>
             </div>
           </section>
         )}

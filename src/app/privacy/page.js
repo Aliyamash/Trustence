@@ -2,7 +2,10 @@ import LegalPage from "@/components/LegalPage";
 import { getServerLocale } from "@/i18n/server";
 import { createMetadata } from "@/utils/seo";
 
-export const metadata = createMetadata({ title: "Privacy Policy", description: "Read the Trustence privacy policy and how website data is handled.", path: "/privacy" });
+export async function generateMetadata() {
+  const locale = await getServerLocale();
+  return createMetadata({ title: locale === "fa" ? "سیاست حریم خصوصی" : "Privacy Policy", description: locale === "fa" ? "سیاست حریم خصوصی تراستنس و شیوه پردازش، نگهداری و محافظت از داده‌های وب‌سایت را بخوانید." : "Read the Trustence privacy policy and how website data is handled.", path: "/privacy", locale });
+}
 
 export default async function PrivacyPolicy() {
   const fa = (await getServerLocale()) === "fa";

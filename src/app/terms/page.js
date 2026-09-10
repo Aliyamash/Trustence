@@ -2,7 +2,10 @@ import LegalPage from "@/components/LegalPage";
 import { getServerLocale } from "@/i18n/server";
 import { createMetadata } from "@/utils/seo";
 
-export const metadata = createMetadata({ title: "Terms of Use", description: "Read the terms governing use of the Trustence website.", path: "/terms" });
+export async function generateMetadata() {
+  const locale = await getServerLocale();
+  return createMetadata({ title: locale === "fa" ? "شرایط استفاده" : "Terms of Use", description: locale === "fa" ? "شرایط و ضوابط استفاده از وب‌سایت و خدمات دیجیتال تراستنس را بخوانید." : "Read the terms governing use of the Trustence website.", path: "/terms", locale });
+}
 
 export default async function TermsOfUse() {
   const fa = (await getServerLocale()) === "fa";

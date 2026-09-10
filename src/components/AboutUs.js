@@ -57,7 +57,7 @@ export default function AboutUs() {
           <Image
             src={aboutImg}
             className="w-full h-full aspect-[5/4] rounded-xl shadow-xl"
-            alt="Trustence team planning a website design project"
+            alt={isRtl ? "تیم تراستنس در حال برنامه‌ریزی یک پروژه دیجیتال" : "Trustence team planning a website design project"}
           />
         </div>
       </div>

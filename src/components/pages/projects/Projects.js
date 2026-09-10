@@ -12,7 +12,7 @@ function projectImage(source) {
   return resolveMediaUrl(source);
 }
 
-function ProjectPreview({ project, priority = false, featured = false, label }) {
+function ProjectPreview({ project, priority = false, featured = false, label, previewLabel }) {
   const source = projectImage(project.banner);
 
   return (
@@ -23,7 +23,7 @@ function ProjectPreview({ project, priority = false, featured = false, label }) 
       <div className="absolute inset-x-3 bottom-3 top-11 overflow-hidden rounded-b-xl border border-white/10 bg-[#07120c]/65 shadow-2xl shadow-black/40 md:inset-x-5 md:bottom-5 md:top-14">
         <Image
           src={source}
-          alt={`${project.title} project preview`}
+          alt={`${previewLabel} ${project.title}`}
           fill
           priority={priority}
           sizes={featured ? "(max-width: 1024px) 100vw, 58vw" : "(max-width: 1024px) 100vw, 45vw"}
@@ -42,7 +42,7 @@ function ProjectPreview({ project, priority = false, featured = false, label }) 
 
 export default function Projects({ initialProjects = [] }) {
   const { locale, isRtl } = useLocale();
-  const copy = locale === "fa" ? { label: "نمونه‌کار منتخب", eyebrow: "نمونه‌کارهای منتخب · ساخته‌شده با هدف", title: <>کاری که <span className="text-[#86a58f]">توجه</span> و اعتماد به‌دست می‌آورد.</>, intro: "نگاهی نزدیک‌تر به اینکه چگونه استراتژی را به تجربه‌های دیجیتال روشن، مفید و ماندگار تبدیل می‌کنیم.", published: "مطالعه موردی منتشرشده", all: "همه پروژه‌ها", filters: "فیلتر پروژه‌ها", publishedLabel: "پروژه‌های منتشرشده", digital: "پروژه دیجیتال", fallback: "یک تجربه دیجیتال متمرکز که توسط تراستنس طراحی و توسعه یافته است.", caseStudy: "مشاهده جزئیات", live: "پروژه آنلاین", empty: "هنوز پروژه‌ای در این دسته وجود ندارد.", viewAll: "نمایش همه نمونه‌کارها", next: "پروژه بعدی می‌تواند متعلق به شما باشد", ctaTitle: "تجربه‌ای دیجیتال بسازیم که در ذهن مخاطب بماند.", start: "شروع پروژه" } : { label: "selected work", eyebrow: "Selected work · Built with intent", title: <>Work that earns <span className="text-[#86a58f]">attention</span> and trust.</>, intro: "A closer look at how we translate strategy into clear, useful, and memorable digital experiences.", published: "published case studies", all: "All projects", filters: "Project filters", publishedLabel: "Published projects", digital: "Digital project", fallback: "A focused digital experience designed and developed by Trustence.", caseStudy: "View case study", live: "Live project", empty: "No projects in this category yet.", viewAll: "View all work", next: "Your project could be next", ctaTitle: "Let’s build a digital experience people choose to remember.", start: "Start a project" };
+  const copy = locale === "fa" ? { label: "نمونه‌کار منتخب", preview: "پیش‌نمایش پروژه", skills: "تخصص‌های پروژه", eyebrow: "نمونه‌کارهای منتخب · ساخته‌شده با هدف", title: <>کاری که <span className="text-[#86a58f]">توجه</span> و اعتماد به‌دست می‌آورد.</>, intro: "نگاهی نزدیک‌تر به اینکه چگونه استراتژی را به تجربه‌های دیجیتال روشن، مفید و ماندگار تبدیل می‌کنیم.", published: "مطالعه موردی منتشرشده", all: "همه پروژه‌ها", filters: "فیلتر پروژه‌ها", publishedLabel: "پروژه‌های منتشرشده", digital: "پروژه دیجیتال", fallback: "یک تجربه دیجیتال متمرکز که توسط تراستنس طراحی و توسعه یافته است.", caseStudy: "مشاهده جزئیات", live: "پروژه آنلاین", empty: "هنوز پروژه‌ای در این دسته وجود ندارد.", viewAll: "نمایش همه نمونه‌کارها", next: "پروژه بعدی می‌تواند متعلق به شما باشد", ctaTitle: "تجربه‌ای دیجیتال بسازیم که در ذهن مخاطب بماند.", start: "شروع پروژه" } : { label: "selected work", preview: "Project preview for", skills: "Project skills", eyebrow: "Selected work · Built with intent", title: <>Work that earns <span className="text-[#86a58f]">attention</span> and trust.</>, intro: "A closer look at how we translate strategy into clear, useful, and memorable digital experiences.", published: "published case studies", all: "All projects", filters: "Project filters", publishedLabel: "Published projects", digital: "Digital project", fallback: "A focused digital experience designed and developed by Trustence.", caseStudy: "View case study", live: "Live project", empty: "No projects in this category yet.", viewAll: "View all work", next: "Your project could be next", ctaTitle: "Let’s build a digital experience people choose to remember.", start: "Start a project" };
   const [selectedCategory, setSelectedCategory] = useState("All");
   const categories = ["All", ...new Set(initialProjects.map((project) => project.category_name).filter(Boolean))];
   const projects = selectedCategory === "All" ? initialProjects : initialProjects.filter((project) => project.category_name === selectedCategory);
@@ -86,7 +86,7 @@ export default function Projects({ initialProjects = [] }) {
                 return (
                   <article key={project.id} className={`group relative overflow-hidden rounded-[2rem] border border-white/10 bg-[#0c1e14] shadow-2xl shadow-black/20 transition duration-500 hover:-translate-y-1 hover:border-[#86a58f]/35 ${featured ? "lg:col-span-12" : "lg:col-span-6"}`}>
                     <div className={featured ? "lg:grid lg:grid-cols-12" : ""}>
-                      <div className={featured ? "lg:col-span-7" : ""}><ProjectPreview project={project} priority={index === 0} featured={featured} label={copy.label} /></div>
+                      <div className={featured ? "lg:col-span-7" : ""}><ProjectPreview project={project} priority={index === 0} featured={featured} label={copy.label} previewLabel={copy.preview} /></div>
                       <div className={`relative flex flex-col justify-between p-7 md:p-10 ${featured ? "min-h-[29rem] lg:col-span-5 lg:min-h-[38rem] lg:p-12" : "min-h-[27rem]"}`}>
                         <span className="pointer-events-none absolute -right-2 -top-8 title text-[7rem] leading-none text-white/[.025] md:text-[9rem]">{String(index + 1).padStart(2, "0")}</span>
                         <div className="relative">
@@ -96,7 +96,7 @@ export default function Projects({ initialProjects = [] }) {
                           </div>
                           <h2 className={`title mt-9 font-semibold leading-tight text-[#fff8ee] ${featured ? "text-3xl md:text-5xl" : "text-3xl md:text-4xl"}`}>{project.title}</h2>
                           <p className="mt-5 line-clamp-4 text-base leading-8 text-white/55">{project.intro || project.description || copy.fallback}</p>
-                          {tags.length > 0 && <ul className="mt-7 flex flex-wrap gap-2" aria-label="Project skills">{tags.slice(0, 5).map((tag) => <li key={tag} className="rounded-full border border-white/10 px-3 py-1.5 text-xs text-white/50">{tag}</li>)}</ul>}
+                          {tags.length > 0 && <ul className="mt-7 flex flex-wrap gap-2" aria-label={copy.skills}>{tags.slice(0, 5).map((tag) => <li key={tag} className="rounded-full border border-white/10 px-3 py-1.5 text-xs text-white/50">{tag}</li>)}</ul>}
                         </div>
                         <div className="relative mt-10 flex flex-wrap gap-3 border-t border-white/10 pt-6">
                           <Link href={`/projects/${project.id}`} className="inline-flex items-center gap-3 rounded-xl bg-[#fff8ee] px-5 py-3.5 font-semibold text-[#0b2117] transition hover:bg-white">{copy.caseStudy} <ArrowRight className={`h-4 w-4 ${isRtl ? "rotate-180" : ""}`} /></Link>

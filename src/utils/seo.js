@@ -2,6 +2,8 @@ export const SITE_URL = "https://trust-ence.com";
 export const SITE_NAME = "Trustence";
 export const DEFAULT_DESCRIPTION =
   "Trustence is a boutique digital studio creating bespoke websites, custom platforms, intelligent automations, and search-ready digital experiences for ambitious businesses.";
+export const DEFAULT_DESCRIPTION_FA =
+  "تراستنس یک استودیوی دیجیتال بوتیک برای طراحی وب‌سایت اختصاصی، پلتفرم سفارشی، اتوماسیون هوشمند و تجربه‌های دیجیتال آماده رشد است.";
 
 export const socialProfiles = [
   "https://www.linkedin.com/in/trustence-agency-b13a9038a",
@@ -13,27 +15,30 @@ export function absoluteUrl(path = "/") {
   return new URL(path, SITE_URL).toString();
 }
 
-export function createMetadata({ title, description = DEFAULT_DESCRIPTION, path = "/", noIndex = false }) {
+export function createMetadata({ title, description, path = "/", noIndex = false, locale = "en" }) {
+  const isFa = locale === "fa";
+  const resolvedDescription = description || (isFa ? DEFAULT_DESCRIPTION_FA : DEFAULT_DESCRIPTION);
   const fullTitle = title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`;
   const url = absoluteUrl(path);
 
   return {
     title: { absolute: fullTitle },
-    description,
+    description: resolvedDescription,
     alternates: { canonical: url },
     openGraph: {
       type: "website",
-      locale: "en_US",
+      locale: isFa ? "fa_IR" : "en_US",
+      alternateLocale: isFa ? ["en_US"] : ["fa_IR"],
       url,
       siteName: SITE_NAME,
       title: fullTitle,
-      description,
-      images: [{ url: absoluteUrl("/opengraph-image"), width: 1200, height: 630, alt: `${SITE_NAME} boutique digital studio for web, software and automation` }],
+      description: resolvedDescription,
+      images: [{ url: absoluteUrl("/opengraph-image"), width: 1200, height: 630, alt: isFa ? "استودیوی دیجیتال تراستنس برای وب، نرم‌افزار و اتوماسیون" : `${SITE_NAME} boutique digital studio for web, software and automation` }],
     },
     twitter: {
       card: "summary_large_image",
       title: fullTitle,
-      description,
+      description: resolvedDescription,
       images: [absoluteUrl("/opengraph-image")],
     },
     robots: noIndex
@@ -104,7 +109,7 @@ export function breadcrumbSchema(items) {
   };
 }
 
-export function webPageSchema({ name, description, path, type = "WebPage" }) {
+export function webPageSchema({ name, description, path, type = "WebPage", locale = "en" }) {
   return {
     "@context": "https://schema.org",
     "@type": type,
@@ -112,7 +117,7 @@ export function webPageSchema({ name, description, path, type = "WebPage" }) {
     url: absoluteUrl(path),
     name,
     description,
-    inLanguage: "en",
+    inLanguage: locale === "fa" ? "fa-IR" : "en",
     isPartOf: { "@id": `${SITE_URL}/#website` },
     about: { "@id": `${SITE_URL}/#organization` },
   };

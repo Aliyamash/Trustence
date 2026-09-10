@@ -8,19 +8,27 @@ import TeamSection from "@/components/TeamSection";
 import ExpertiseSummary from "@/components/ExpertiseSummary";
 import StructuredData from "@/components/StructuredData";
 import { createMetadata, organizationSchema, websiteSchema, webPageSchema } from "@/utils/seo";
+import { getServerLocale } from "@/i18n/server";
 
 const description = "Trustence is a boutique digital studio creating bespoke websites, custom platforms, intelligent automations, and search-ready digital experiences for ambitious businesses.";
 
-export const metadata = createMetadata({
-  title: "Bespoke Web Design, Development & Automation",
-  description,
-  path: "/",
-});
+export async function generateMetadata() {
+  const locale = await getServerLocale();
+  return createMetadata({
+    title: locale === "fa" ? "طراحی وب، توسعه نرم‌افزار و اتوماسیون اختصاصی" : "Bespoke Web Design, Development & Automation",
+    description: locale === "fa" ? "تراستنس، استراتژی، طراحی، مهندسی نرم‌افزار و اتوماسیون هوشمند را برای ساخت تجربه‌های دیجیتال متمایز کنار هم می‌آورد." : description,
+    path: "/",
+    locale,
+  });
+}
 
-export default function Home() {
+export default async function Home() {
+  const locale = await getServerLocale();
+  const fa = locale === "fa";
+  const pageDescription = fa ? "تراستنس، استراتژی، طراحی، مهندسی نرم‌افزار و اتوماسیون هوشمند را برای ساخت تجربه‌های دیجیتال متمایز کنار هم می‌آورد." : description;
   return (
   <>
-  <StructuredData data={[organizationSchema, websiteSchema, webPageSchema({ name: "Trustence bespoke web design, development and automation studio", description, path: "/" })]} />
+  <StructuredData data={[organizationSchema, { ...websiteSchema, inLanguage: fa ? "fa-IR" : "en" }, webPageSchema({ name: fa ? "استودیوی طراحی وب، توسعه و اتوماسیون تراستنس" : "Trustence bespoke web design, development and automation studio", description: pageDescription, path: "/", locale })]} />
   <Hero/>
   <ExpertiseSummary />
   <Portfilio/>

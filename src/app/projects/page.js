@@ -5,11 +5,16 @@ import { absoluteUrl, breadcrumbSchema, createMetadata, webPageSchema } from "@/
 import { getServerLocale } from "@/i18n/server";
 
 const description = "Explore selected Trustence case studies across bespoke web design, software development, digital products, and distinctive online experiences.";
-export const metadata = createMetadata({ title: "Selected Digital Work & Case Studies", description, path: "/projects" });
+export async function generateMetadata() {
+  const locale = await getServerLocale();
+  return createMetadata({ title: locale === "fa" ? "نمونه‌کارها و مطالعات موردی منتخب" : "Selected Digital Work & Case Studies", description: locale === "fa" ? "نمونه‌کارهای منتخب تراستنس در طراحی وب اختصاصی، توسعه نرم‌افزار، محصولات دیجیتال و تجربه‌های آنلاین متمایز را ببینید." : description, path: "/projects", locale });
+}
 export const revalidate = 300;
 
 export default async function ProjectsPage() {
   const locale = await getServerLocale();
+  const fa = locale === "fa";
+  const pageDescription = fa ? "نمونه‌کارهای منتخب تراستنس در طراحی وب اختصاصی، توسعه نرم‌افزار، محصولات دیجیتال و تجربه‌های آنلاین متمایز را ببینید." : description;
   const projects = await getProjects(undefined, locale);
   const serializableProjects = projects.map((project) => ({
     ...project,
@@ -18,7 +23,7 @@ export default async function ProjectsPage() {
   const projectListSchema = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: "Trustence projects",
+    name: fa ? "پروژه‌های تراستنس" : "Trustence projects",
     itemListElement: projects.map((project, index) => ({
       "@type": "ListItem",
       position: index + 1,
@@ -30,8 +35,8 @@ export default async function ProjectsPage() {
   return (
     <>
     <StructuredData data={[
-      webPageSchema({ name: "Selected Trustence digital work and case studies", description, path: "/projects", type: "CollectionPage" }),
-      breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Projects", path: "/projects" }]),
+      webPageSchema({ name: fa ? "نمونه‌کارها و مطالعات موردی منتخب تراستنس" : "Selected Trustence digital work and case studies", description: pageDescription, path: "/projects", type: "CollectionPage", locale }),
+      breadcrumbSchema([{ name: fa ? "خانه" : "Home", path: "/" }, { name: fa ? "نمونه‌کارها" : "Projects", path: "/projects" }]),
       projectListSchema,
     ]} />
      <Projects initialProjects={serializableProjects}/>

@@ -2,7 +2,10 @@ import LegalPage from "@/components/LegalPage";
 import { getServerLocale } from "@/i18n/server";
 import { createMetadata } from "@/utils/seo";
 
-export const metadata = createMetadata({ title: "Copyright Notice", description: "Copyright and intellectual-property information for Trustence website content.", path: "/copyright" });
+export async function generateMetadata() {
+  const locale = await getServerLocale();
+  return createMetadata({ title: locale === "fa" ? "اطلاعیه حقوق محتوا" : "Copyright Notice", description: locale === "fa" ? "اطلاعات حقوق محتوا و مالکیت فکری مطالب و دارایی‌های وب‌سایت تراستنس." : "Copyright and intellectual-property information for Trustence website content.", path: "/copyright", locale });
+}
 
 export default async function CopyrightNotice() {
   const fa = (await getServerLocale()) === "fa";

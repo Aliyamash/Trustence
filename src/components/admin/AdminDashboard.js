@@ -157,6 +157,17 @@ function ActivityChart({ activity = [], title = "فعالیت ۷ روز اخیر
 }
 
 const deviceLabels = { desktop: "دسکتاپ", mobile: "موبایل", tablet: "تبلت", smarttv: "تلویزیون هوشمند", wearable: "پوشیدنی", console: "کنسول", embedded: "دستگاه توکار", unknown: "نامشخص" };
+const formPageLabels = {
+  get_in_touch: "فرم تماس",
+  service: "فرم خدمات",
+  footer: "عضویت خبرنامه",
+  faq: "فرم پرسش‌های متداول",
+  discovery_section: "درخواست جلسه راهبردی",
+};
+
+function formPageLabel(value) {
+  return formPageLabels[value] || value || "نامشخص";
+}
 
 function countryLabel(code) {
   if (!code || code === "ZZ") return "کشور نامشخص";
@@ -245,7 +256,7 @@ function MessageTable({ messages, onStatus, onOpen }) {
           {messages.map((message) => (
             <tr key={message.id} className="border-b border-slate-50 transition hover:bg-slate-50/70">
               <td className="px-4 py-4"><p className="font-bold text-slate-800">{message.full_name || "عضو خبرنامه"}</p><p className="mt-1 text-xs text-slate-400">{message.email}</p></td>
-              <td className="px-4 py-4 text-slate-500">{message.form_page}</td>
+              <td className="px-4 py-4 text-slate-500">{formPageLabel(message.form_page)}</td>
               <td className="max-w-xs truncate px-4 py-4 text-slate-500">{message.inquiry || "—"}</td>
               <td className="px-4 py-4 text-xs text-slate-400">{formatDate(message.created_at)}</td>
               <td className="px-4 py-4">
@@ -273,7 +284,7 @@ function MessageDetails({ message, onClose, onStatus }) {
     ["شماره تماس", message.phone_number || "—"],
     ["سرویس انتخابی", message.select_service || "—"],
     ["بازه بودجه", message.budget_range || "—"],
-    ["فرم مبدأ", message.form_page],
+    ["فرم مبدأ", formPageLabel(message.form_page)],
   ];
   return (
     <div className="fixed inset-0 z-[150] flex items-end justify-center bg-[#03120b]/70 p-0 backdrop-blur-md sm:items-center sm:p-5" onMouseDown={(event) => event.target === event.currentTarget && onClose()}>
@@ -481,7 +492,7 @@ export default function AdminDashboard() {
   return (
     <main dir="rtl" className="fixed inset-0 z-[100] overflow-hidden bg-[#edf4f0] text-right text-slate-800" style={{ backgroundImage: "radial-gradient(circle at 10% 5%, rgba(16,185,129,.12), transparent 28%), radial-gradient(circle at 80% 100%, rgba(20,184,166,.08), transparent 32%)" }}>
       <aside className={`fixed inset-y-0 right-0 z-[120] flex w-72 flex-col border-l border-white/5 bg-gradient-to-b from-[#061a10] via-[#082217] to-[#04110b] p-5 text-white shadow-2xl transition-transform lg:translate-x-0 ${sidebarOpen ? "translate-x-0" : "translate-x-full"}`}>
-        <div className="flex items-center justify-between border-b border-white/10 pb-6"><div className="flex items-center gap-3"><div className="grid h-11 w-11 place-items-center rounded-2xl bg-emerald-500 font-black text-[#071b12]">T</div><div><p className="font-black">Trustence</p><p className="text-[10px] tracking-[.22em] text-emerald-300">ADMIN SPACE</p></div></div><button onClick={() => setSidebarOpen(false)} className="lg:hidden"><X /></button></div>
+        <div className="flex items-center justify-between border-b border-white/10 pb-6"><div className="flex items-center gap-3"><div className="grid h-11 w-11 place-items-center rounded-2xl bg-emerald-500 font-black text-[#071b12]">T</div><div><p className="font-black">Trustence</p><p className="text-[10px] text-emerald-300">فضای مدیریت</p></div></div><button onClick={() => setSidebarOpen(false)} className="lg:hidden" aria-label="بستن منو"><X /></button></div>
         <nav className="mt-8 space-y-2">{navigation.map(({ id, label, icon: Icon }) => <button key={id} onClick={() => { setActive(id); setSidebarOpen(false); setQuery(""); }} className={`flex w-full items-center gap-3 rounded-2xl px-4 py-3.5 text-sm font-bold transition ${active === id ? "bg-emerald-500 text-[#071b12] shadow-lg shadow-emerald-900/40" : "text-slate-300 hover:bg-white/5 hover:text-white"}`}><Icon size={20} />{label}{id === "messages" && stats.summary.newSubmissions > 0 && <span className="mr-auto rounded-full bg-rose-500 px-2 py-0.5 text-[10px] text-white">{formatNumber(stats.summary.newSubmissions)}</span>}</button>)}</nav>
         <div className="mt-auto rounded-2xl border border-white/10 bg-white/5 p-4"><div className="flex items-center gap-3"><CircleUserRound className="text-emerald-400" /><div><p className="text-sm font-bold">مدیر Trustence</p><p className="text-xs text-slate-400">دسترسی کامل</p></div></div><button onClick={logout} className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-white/5 py-2.5 text-xs text-slate-300 hover:bg-rose-500/20 hover:text-rose-300"><LogOut size={16} />خروج امن</button></div>
       </aside>
