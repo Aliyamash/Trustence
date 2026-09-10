@@ -12,6 +12,13 @@ export default function LocaleProvider({ initialLocale = "en", children }) {
     setLocaleState(normalizeLocale(initialLocale));
   }, [initialLocale]);
 
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    if (!url.searchParams.has("lang")) return;
+    url.searchParams.delete("lang");
+    window.history.replaceState(window.history.state, "", `${url.pathname}${url.search}${url.hash}`);
+  }, []);
+
   const setLocale = useCallback((nextLocale) => {
     const next = normalizeLocale(nextLocale);
     document.cookie = `${localeCookie}=${next}; path=/; max-age=31536000; samesite=lax`;

@@ -4,7 +4,7 @@ import { Languages } from "lucide-react";
 import { useLocale } from "@/i18n/LocaleProvider";
 
 export default function LanguageSwitcher({ compact = false }) {
-  const { locale, toggleLocale } = useLocale();
+  const { locale } = useLocale();
   const label = locale === "fa" ? "EN" : "فا";
   const description = locale === "fa" ? "Switch to English" : "نمایش فارسی";
 
@@ -12,8 +12,9 @@ export default function LanguageSwitcher({ compact = false }) {
     <button
       type="button"
       onClick={() => {
-        toggleLocale();
-        window.location.reload();
+        const url = new URL(window.location.href);
+        url.searchParams.set("lang", locale === "fa" ? "en" : "fa");
+        window.location.assign(url.toString());
       }}
       aria-label={description}
       title={description}
