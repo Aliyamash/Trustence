@@ -38,5 +38,5 @@ export default function TypewriterText({ text, className, speed = 0.15, delay = 
     return () => ctx.revert();
   }, [text, speed, delay, locale, isRtl]);
 
-  return <p ref={ref} className={className}>{text}</p>;
+  return <p key={locale} ref={ref} className={className}>{text}</p>;
 }

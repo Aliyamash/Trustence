@@ -27,9 +27,9 @@ import {
   Users,
   X,
 } from "lucide-react";
+import { resolveMediaUrl } from "@/utils/fetch";
 
 const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL?.replace(/\/$/, "") || "";
-const mediaBase = process.env.NEXT_PUBLIC_MEDIA_URL?.replace(/\/$/, "") || "";
 
 const navigation = [
   { id: "dashboard", label: "داشبورد", icon: LayoutDashboard },
@@ -42,8 +42,7 @@ const navigation = [
 const inputClass = "w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-sm text-slate-900 outline-none transition focus:border-emerald-500 focus:bg-white focus:ring-4 focus:ring-emerald-500/10";
 
 function mediaUrl(source) {
-  if (!source || source.startsWith("http")) return source;
-  return `${mediaBase}/${source.replace(/^\//, "")}`;
+  return resolveMediaUrl(source);
 }
 
 async function apiRequest(path, apiKey, options = {}) {

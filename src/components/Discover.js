@@ -78,6 +78,7 @@ export default function Discover() {
         <div className="mt-24 md:mt-36">
          
           <h2
+            key={locale}
             ref={titleRef}
             className="title-discover select-none title text-center md:text-7xl text-5xl text-[#fff8ee]"
           >

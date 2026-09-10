@@ -1,12 +1,16 @@
 "use client";
 
-import { createContext, useCallback, useContext, useMemo, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { localeCookie, localeDirection, normalizeLocale } from "./config";
 
 const LocaleContext = createContext(null);
 
 export default function LocaleProvider({ initialLocale = "en", children }) {
   const [locale, setLocaleState] = useState(normalizeLocale(initialLocale));
+
+  useEffect(() => {
+    setLocaleState(normalizeLocale(initialLocale));
+  }, [initialLocale]);
 
   const setLocale = useCallback((nextLocale) => {
     const next = normalizeLocale(nextLocale);
