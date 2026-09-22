@@ -3,6 +3,15 @@ import { SITE_URL } from "@/utils/seo";
 
 export const revalidate = 3600;
 
+function sitemapDate(value) {
+  if (!value) return undefined;
+  const dateOnly = String(value).match(/^\d{4}-\d{2}-\d{2}/)?.[0];
+  if (dateOnly) return dateOnly;
+
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? undefined : date.toISOString();
+}
+
 export default async function sitemap() {
   const pages = [
     ["/", "weekly", 1],
@@ -26,7 +35,7 @@ export default async function sitemap() {
   const projects = await getProjects();
   const projectPages = projects.map((project) => ({
     url: `${SITE_URL}/projects/${project.id}`,
-    lastModified: project.updated_at || project.created_at || undefined,
+    lastModified: sitemapDate(project.updated_at || project.created_at),
     changeFrequency: "monthly",
     priority: 0.7,
   }));
