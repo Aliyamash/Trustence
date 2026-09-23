@@ -59,10 +59,10 @@ function normalizeTeamMember(member, locale) {
   };
 }
 
-export async function getProjects(limit, locale = "en") {
+export async function getProjects(limit, locale = "en", fetchOptions = {}) {
   try {
     const endpoint = limit ? `/last-projects/${limit}` : "/projects";
-    const response = await getFetch(endpoint, { cache: "force-cache", next: { revalidate: 300 }, timeout: 3000 });
+    const response = await getFetch(endpoint, { cache: "no-store", timeout: 3000, ...fetchOptions });
     if (Array.isArray(response.data) && response.data.length) return response.data.map((project) => localizeProject(project, locale));
   } catch (error) {
     console.warn("Using local project fallback:", error.message);
@@ -72,7 +72,7 @@ export async function getProjects(limit, locale = "en") {
 
 export async function getTeamMembers(locale = "en") {
   try {
-    const response = await getFetch("/our-team", { cache: "force-cache", next: { revalidate: 300 }, timeout: 3000 });
+    const response = await getFetch("/our-team", { cache: "no-store", timeout: 3000 });
     if (Array.isArray(response.data) && response.data.length) return response.data.map((member) => normalizeTeamMember(member, locale));
   } catch (error) {
     console.warn("Using local team fallback:", error.message);

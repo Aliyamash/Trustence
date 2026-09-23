@@ -32,7 +32,7 @@ export default async function sitemap() {
     priority,
   }));
 
-  const projects = await getProjects();
+  const projects = await getProjects(undefined, "en", { cache: "force-cache", next: { revalidate: 3600 } });
   const projectPages = projects.map((project) => ({
     url: `${SITE_URL}/projects/${project.id}`,
     lastModified: sitemapDate(project.updated_at || project.created_at),
