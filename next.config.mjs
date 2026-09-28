@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  // Keep SEO/AEO metadata in <head> for HTML-only and lesser-known AI crawlers.
+  htmlLimitedBots: /.*/,
   async redirects() {
     return [
       {

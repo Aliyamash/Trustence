@@ -5,7 +5,7 @@ import { cache } from "react";
 import { ArrowLeft, ArrowRight, ArrowUpRight, Check, ExternalLink, Sparkles } from "lucide-react";
 import { getFetch, resolveMediaUrl } from "@/utils/fetch";
 import StructuredData from "@/components/StructuredData";
-import { absoluteUrl, breadcrumbSchema, createMetadata, SITE_URL } from "@/utils/seo";
+import { absoluteUrl, breadcrumbSchema, createMetadata, schemaDate, SITE_URL } from "@/utils/seo";
 import { getServerLocale } from "@/i18n/server";
 import { localizeProject } from "@/utils/content";
 
@@ -70,7 +70,7 @@ export async function generateMetadata({ params }) {
 
   return {
     ...metadata,
-    openGraph: { ...metadata.openGraph, type: "article", images: image ? [{ url: image, alt: title }] : [] },
+    openGraph: { ...metadata.openGraph, type: "article", publishedTime: schemaDate(fetchedProject.created_at), modifiedTime: schemaDate(fetchedProject.updated_at || fetchedProject.created_at), images: image ? [{ url: image, alt: title }] : [] },
   };
 }
 
@@ -98,6 +98,8 @@ export default async function SoloProjectPage({ params }) {
     "@id": `${absoluteUrl(projectUrl)}#project`,
     name: project.title,
     description,
+    datePublished: schemaDate(project.created_at),
+    dateModified: schemaDate(project.updated_at || project.created_at),
     url: absoluteUrl(projectUrl),
     image: [banner, ...gallery.map((image) => image.path)].filter(Boolean),
     keywords: tags.length ? tags.join(", ") : undefined,

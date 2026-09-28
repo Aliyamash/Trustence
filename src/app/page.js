@@ -7,6 +7,7 @@ import Service from "@/components/Service";
 import TeamSection from "@/components/TeamSection";
 import ExpertiseSummary from "@/components/ExpertiseSummary";
 import StructuredData from "@/components/StructuredData";
+import { getHomeFaqs } from "@/components/FaqsOptions";
 import { createMetadata, organizationSchema, websiteSchema, webPageSchema } from "@/utils/seo";
 import { getServerLocale } from "@/i18n/server";
 
@@ -25,10 +26,19 @@ export async function generateMetadata() {
 export default async function Home() {
   const locale = await getServerLocale();
   const fa = locale === "fa";
+  const homeFaqs = getHomeFaqs(locale);
   const pageDescription = fa ? "تراستنس، استراتژی، طراحی، مهندسی نرم‌افزار و اتوماسیون هوشمند را برای ساخت تجربه‌های دیجیتال متمایز کنار هم می‌آورد." : description;
   return (
   <>
-  <StructuredData data={[organizationSchema, { ...websiteSchema, inLanguage: fa ? "fa-IR" : "en" }, webPageSchema({ name: fa ? "استودیوی طراحی وب، توسعه و اتوماسیون تراستنس" : "Trustence bespoke web design, development and automation studio", description: pageDescription, path: "/", locale })]} />
+  <StructuredData data={[organizationSchema, { ...websiteSchema, inLanguage: fa ? "fa-IR" : "en" }, webPageSchema({ name: fa ? "استودیوی طراحی وب، توسعه و اتوماسیون تراستنس" : "Trustence bespoke web design, development and automation studio", description: pageDescription, path: "/", locale }), {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: homeFaqs.map(({ question, answer }) => ({
+      "@type": "Question",
+      name: question,
+      acceptedAnswer: { "@type": "Answer", text: answer },
+    })),
+  }]} />
   <Hero/>
   <ExpertiseSummary />
   <Portfilio/>
@@ -36,6 +46,6 @@ export default async function Home() {
   <AboutUs/>
   <Discover/>
   <Service/>
-  <FAQSection/>
+  <FAQSection faqs={homeFaqs}/>
   </>);
 }

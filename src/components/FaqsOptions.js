@@ -131,3 +131,8 @@ const faqsFa = [
 ].map(([category, question, answer], index) => ({ id: index + 1, category, question, answer }));
 
 export function getFaqs(locale) { return locale === "fa" ? faqsFa : faqs; }
+
+export function getHomeFaqs(locale) {
+  const items = getFaqs(locale);
+  return [items[0], items[1], items[5]].filter(Boolean);
+}

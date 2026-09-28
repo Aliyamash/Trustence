@@ -1,5 +1,7 @@
 export const SITE_URL = "https://trust-ence.com";
 export const SITE_NAME = "Trustence";
+export const SITE_PUBLISHED_DATE = "2025-08-25";
+export const CONTENT_LAST_MODIFIED = "2026-09-28";
 export const DEFAULT_DESCRIPTION =
   "Trustence is a boutique digital studio creating bespoke websites, custom platforms, intelligent automations, and search-ready digital experiences for ambitious businesses.";
 export const DEFAULT_DESCRIPTION_FA =
@@ -15,6 +17,15 @@ export function absoluteUrl(path = "/") {
   return new URL(path, SITE_URL).toString();
 }
 
+export function schemaDate(value, fallback = CONTENT_LAST_MODIFIED) {
+  if (!value) return fallback;
+  const dateOnly = String(value).match(/^\d{4}-\d{2}-\d{2}/)?.[0];
+  if (dateOnly) return dateOnly;
+
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? fallback : date.toISOString();
+}
+
 export function createMetadata({ title, description, path = "/", noIndex = false, locale = "en" }) {
   const isFa = locale === "fa";
   const resolvedDescription = description || (isFa ? DEFAULT_DESCRIPTION_FA : DEFAULT_DESCRIPTION);
@@ -25,6 +36,7 @@ export function createMetadata({ title, description, path = "/", noIndex = false
     title: { absolute: fullTitle },
     description: resolvedDescription,
     alternates: { canonical: url },
+    other: { "last-modified": CONTENT_LAST_MODIFIED },
     openGraph: {
       type: "website",
       locale: isFa ? "fa_IR" : "en_US",
@@ -117,6 +129,8 @@ export function webPageSchema({ name, description, path, type = "WebPage", local
     url: absoluteUrl(path),
     name,
     description,
+    datePublished: SITE_PUBLISHED_DATE,
+    dateModified: CONTENT_LAST_MODIFIED,
     inLanguage: locale === "fa" ? "fa-IR" : "en",
     isPartOf: { "@id": `${SITE_URL}/#website` },
     about: { "@id": `${SITE_URL}/#organization` },
