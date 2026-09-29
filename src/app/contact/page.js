@@ -23,8 +23,8 @@ export default async function ContactUs(){
           breadcrumbSchema([{ name: fa ? "خانه" : "Home", path: "/" }, { name: fa ? "تماس" : "Contact", path: "/contact" }]),
         ]} />
         <ContactHero/>
-        <WhyUS/>
         <FormContact/>
+        <WhyUS/>
         <DiscoverContact/>
         </>
     )

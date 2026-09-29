@@ -1,6 +1,3 @@
-import Discover from "@/components/Discover";
-import ContactUs from "@/components/pages/aboutUs/ContactUs";
-import Form from "@/components/pages/aboutUs/ContactUs";
 import DiscoverAbout from "@/components/pages/aboutUs/DiscoverAbout";
 import HeadAbout from "@/components/pages/aboutUs/HeadAbout";
 import PeopleAbout from "@/components/pages/aboutUs/peopleAbout";
@@ -47,9 +44,8 @@ export default async function AboutUsPage() {
                 peopleSchema,
             ]} />
             <HeadAbout/>
-            <Team/>
             <PeopleAbout/>
-            <ContactUs/>
+            <Team/>
             <DiscoverAbout />
         </>
     )

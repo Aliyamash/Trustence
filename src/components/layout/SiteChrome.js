@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import Header from "./Header";
 import Footer from "./Footer";
 import Toastify from "../library/Toastify";
+import MotionSystem from "../MotionSystem";
 
 export default function SiteChrome({ children }) {
   const pathname = usePathname();
@@ -12,6 +13,7 @@ export default function SiteChrome({ children }) {
   return (
     <>
       <Header />
+      <MotionSystem />
       {children}
       <Toastify />
       <Footer />

@@ -7,7 +7,7 @@ export default function ExpertiseSummary() {
   const { locale } = useLocale();
   const content = getCopy(locale).home.expertise;
   return (
-    <section className="bg-white py-24" aria-labelledby="what-trustence-does">
+    <section id="expertise" data-motion="section" className="bg-white py-20 md:py-28" aria-labelledby="what-trustence-does">
       <div className="container">
         <div className="mx-auto max-w-4xl text-center">
           <p className="mb-3 font-semibold uppercase tracking-[0.18em] text-[#245336]">{content.eyebrow}</p>
@@ -18,9 +18,9 @@ export default function ExpertiseSummary() {
             {content.body}
           </p>
         </div>
-        <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <div data-motion-group className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {content.items.map(([title, description]) => (
-            <article key={title} className="rounded-3xl border border-[#245336]/15 bg-[#fff8ee] p-7">
+            <article key={title} className="group rounded-3xl border border-[#245336]/15 bg-[#fff8ee] p-7 transition duration-500 hover:-translate-y-1 hover:border-[#245336]/35 hover:shadow-xl hover:shadow-[#245336]/5">
               <h3 className="title text-xl font-bold text-[#114422]">{title}</h3>
               <p className="mt-4 leading-7 text-zinc-700">{description}</p>
             </article>

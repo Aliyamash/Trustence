@@ -42,10 +42,10 @@ export default async function Home() {
   <Hero/>
   <ExpertiseSummary />
   <Portfilio/>
-  <TeamSection/>
   <AboutUs/>
-  <Discover/>
   <Service/>
+  <TeamSection/>
   <FAQSection faqs={homeFaqs}/>
+  <Discover/>
   </>);
 }

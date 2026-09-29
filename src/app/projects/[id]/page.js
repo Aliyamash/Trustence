@@ -38,6 +38,32 @@ function galleryFor(project) {
     .filter((image) => image.path && !seen.has(image.path) && seen.add(image.path));
 }
 
+function resultsFor(project) {
+  let source = project.results || project.metrics;
+  if (!source) return [];
+
+  if (typeof source === "string") {
+    try {
+      source = JSON.parse(source);
+    } catch {
+      source = source.split("\n").map((item) => item.trim()).filter(Boolean);
+    }
+  }
+
+  if (!Array.isArray(source)) return [];
+
+  return source.map((item) => {
+    if (typeof item === "string") {
+      const [value, ...label] = item.split(/[:|]/);
+      return { value: value.trim(), label: label.join(":").trim() };
+    }
+    return {
+      value: item.value || item.number || item.metric || "",
+      label: item.label || item.title || item.description || "",
+    };
+  }).filter((item) => item.value || item.label);
+}
+
 function BrowserFrame({ source, alt, priority = false, featured = false, label = "Trustence case study" }) {
   return (
     <div className={`relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#0b1811] shadow-2xl shadow-black/25 ${featured ? "aspect-[4/3] md:aspect-[16/10]" : "aspect-[4/3]"}`}>
@@ -77,6 +103,25 @@ export async function generateMetadata({ params }) {
 export default async function SoloProjectPage({ params }) {
   const locale = await getServerLocale();
   const fa = locale === "fa";
+  const evidenceCopy = fa ? {
+    challenge: "چالش",
+    solution: "راه‌حل",
+    outcome: "نتیجه",
+    evidenceEyebrow: "اثر قابل مشاهده",
+    evidenceTitle: "نتیجه‌ای فراتر از یک ظاهر زیبا.",
+    duration: "مدت همکاری",
+    teamRole: "نقش تراستنس",
+    testimonial: "از زبان همکار پروژه",
+  } : {
+    challenge: "Challenge",
+    solution: "Solution",
+    outcome: "Outcome",
+    evidenceEyebrow: "Measured impact",
+    evidenceTitle: "An outcome beyond a polished interface.",
+    duration: "Engagement length",
+    teamRole: "Trustence role",
+    testimonial: "From our project partner",
+  };
   const copy = fa ? { back: "بازگشت به نمونه‌کارها", live: "مشاهده پروژه آنلاین", read: "مطالعه جزئیات", frame: "مطالعه موردی تراستنس", snapshot: "نمای کلی پروژه", category: "دسته‌بندی", capability: "توانمندی‌ها", delivery: "شیوه تحویل", deliveryBody: "استراتژی، طراحی، مهندسی و پشتیبانی سنجیده برای انتشار", direction: "مسئله و جهت‌گیری", directionTitle: "تجربه‌ای دیجیتال که حول یک نیاز واقعی طراحی شده است.", galleryEyebrow: "درون پروژه", galleryTitle: "نگاهی نزدیک‌تر به جزئیات.", galleryBody: "تصاویر تکمیلی پروژه که از استودیوی محتوای تراستنس مدیریت می‌شوند.", processEyebrow: "چگونگی شکل‌گیری کار", processTitle: "مسیری سنجیده از مسئله تا انتشار.", process: [["01", "شفاف‌سازی", "هدف، مخاطب و محدودیت‌ها را تعریف می‌کنیم."], ["02", "شکل‌دهی", "تجربه، محتوا و جهت بصری را مشخص می‌کنیم."], ["03", "مهندسی", "سیستم واکنش‌گرا و اتصال‌های لازم را می‌سازیم."], ["04", "پالایش", "جریان‌های اصلی، جزئیات و زیرساخت فنی را می‌آزماییم."], ["05", "انتشار", "با مالکیت روشن و قدم بعدی عملی، پروژه را تحویل می‌دهیم."]], next: "پروژه بعدی می‌تواند متعلق به شما باشد", cta: "چیزی بسازیم که سازمان شما با افتخار مالک آن باشد.", discuss: "گفت‌وگو درباره پروژه" } : { back: "Back to selected work", live: "Experience the live project", read: "Read the case study", frame: "Trustence case study", snapshot: "Project snapshot", category: "Category", capability: "Capability", delivery: "Delivery", deliveryBody: "Strategy, design, engineering, and considered launch support", direction: "The brief and direction", directionTitle: "A digital experience designed around a real operational need.", galleryEyebrow: "Inside the project", galleryTitle: "A closer look at the details.", galleryBody: "Additional project visuals selected and managed from the Trustence content studio.", processEyebrow: "How the work comes together", processTitle: "A considered path from brief to launch.", process: [["01", "Clarify", "Define the objective, audience, and constraints."], ["02", "Shape", "Set the experience, content, and visual direction."], ["03", "Engineer", "Build the responsive system and required integrations."], ["04", "Refine", "Test the essential flows, details, and technical foundations."], ["05", "Launch", "Hand over with clear ownership and a practical next step."]], next: "Your project could be next", cta: "Let’s create something your organisation is proud to own.", discuss: "Discuss your project" };
   const { id } = await params;
   if (!id || Number.isNaN(Number(id))) notFound();
@@ -91,6 +136,13 @@ export default async function SoloProjectPage({ params }) {
   const tags = typeof project.tags === "string" ? project.tags.split(",").map((tag) => tag.trim()).filter(Boolean) : [];
   const category = project.category_name || project.category || (fa ? "پروژه دیجیتال" : "Digital project");
   const externalUrl = project.link || project.project_url;
+  const narratives = [
+    [evidenceCopy.challenge, project.challenge],
+    [evidenceCopy.solution, project.solution],
+    [evidenceCopy.outcome, project.outcome],
+  ].filter(([, body]) => body);
+  const results = resultsFor(project);
+  const hasEvidence = results.length > 0 || project.testimonial_quote;
   const projectUrl = `/projects/${id}`;
   const projectSchema = {
     "@context": "https://schema.org",
@@ -104,6 +156,7 @@ export default async function SoloProjectPage({ params }) {
     image: [banner, ...gallery.map((image) => image.path)].filter(Boolean),
     keywords: tags.length ? tags.join(", ") : undefined,
     genre: category,
+    abstract: project.outcome || undefined,
     creator: { "@id": `${SITE_URL}/#organization` },
     publisher: { "@id": `${SITE_URL}/#organization` },
     mainEntityOfPage: absoluteUrl(projectUrl),
@@ -137,7 +190,7 @@ export default async function SoloProjectPage({ params }) {
           </div>
         </section>
 
-        <section id="project-overview" className="bg-[#fff8ee] px-5 py-20 text-[#07120c] md:px-10 md:py-28">
+        <section id="project-overview" data-motion="section" className="bg-[#fff8ee] px-5 py-20 text-[#07120c] md:px-10 md:py-28">
           <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[.72fr_1.28fr]">
             <aside className="rounded-[2rem] bg-[#0c1e14] p-7 text-[#fff8ee] md:p-9">
               <p className="text-xs font-bold uppercase tracking-[.22em] text-[#cba792]">{copy.snapshot}</p>
@@ -145,6 +198,8 @@ export default async function SoloProjectPage({ params }) {
                 <div><dt className="text-xs uppercase tracking-[.15em] text-white/40">{copy.category}</dt><dd className="mt-2 text-lg font-semibold">{category}</dd></div>
                 <div><dt className="text-xs uppercase tracking-[.15em] text-white/40">{copy.capability}</dt><dd className="mt-2 text-lg font-semibold">{tags.length ? tags.join(" · ") : (fa ? "راهبرد دیجیتال · طراحی · توسعه" : "Digital strategy · Design · Development")}</dd></div>
                 <div><dt className="text-xs uppercase tracking-[.15em] text-white/40">{copy.delivery}</dt><dd className="mt-2 text-lg font-semibold">{copy.deliveryBody}</dd></div>
+                {project.duration && <div><dt className="text-xs uppercase tracking-[.15em] text-white/40">{evidenceCopy.duration}</dt><dd className="mt-2 text-lg font-semibold">{project.duration}</dd></div>}
+                {project.team_role && <div><dt className="text-xs uppercase tracking-[.15em] text-white/40">{evidenceCopy.teamRole}</dt><dd className="mt-2 text-lg font-semibold">{project.team_role}</dd></div>}
               </dl>
             </aside>
             <div className="rounded-[2rem] border border-[#07120c]/10 bg-white/55 p-7 md:p-11">
@@ -156,20 +211,49 @@ export default async function SoloProjectPage({ params }) {
           </div>
         </section>
 
-        {gallery.length > 0 && (
-          <section className="px-5 py-20 md:px-10 md:py-28" aria-labelledby="gallery-title">
-            <div className="mx-auto max-w-7xl">
-              <div className="mb-12 flex flex-col justify-between gap-5 md:flex-row md:items-end"><div><p className="mb-4 text-xs font-bold uppercase tracking-[.22em] text-[#cba792]">{copy.galleryEyebrow}</p><h2 id="gallery-title" className="title text-4xl font-semibold leading-tight md:text-6xl">{copy.galleryTitle}</h2></div><p className="max-w-md leading-7 text-white/55">{copy.galleryBody}</p></div>
-              <div className="grid gap-5 md:grid-cols-2">{gallery.map((image, index) => <div key={image.id || image.path} className={`group ${index === 0 && gallery.length % 2 === 1 ? "md:col-span-2" : ""}`}><BrowserFrame source={image.path} alt={image.alt || (fa ? `تصویر ${index + 1} پروژه ${project.title}` : `${project.title} project visual ${index + 1}`)} featured={index === 0 && gallery.length % 2 === 1} /></div>)}</div>
+        {narratives.length > 0 && (
+          <section data-motion="section" className="border-t border-white/10 px-5 py-20 md:px-10 md:py-28" aria-label={fa ? "روایت پروژه" : "Project story"}>
+            <div data-motion-group className="mx-auto grid max-w-7xl gap-px overflow-hidden rounded-[2rem] border border-white/10 bg-white/10 lg:grid-cols-3">
+              {narratives.map(([title, body], index) => <article key={title} className="bg-[#0b1b12] p-7 md:p-10">
+                <span className="font-mono text-xs text-[#86a58f]">0{index + 1}</span>
+                <h2 className="title mt-8 text-3xl text-[#fff8ee]">{title}</h2>
+                <p className="mt-5 whitespace-pre-line text-base leading-8 text-white/58">{body}</p>
+              </article>)}
             </div>
           </section>
         )}
 
-        <section className="border-y border-white/10 bg-[#0a1710] px-5 py-20 md:px-10 md:py-28" aria-labelledby="process-title">
+        {gallery.length > 0 && (
+          <section data-motion="section" className="px-5 py-20 md:px-10 md:py-28" aria-labelledby="gallery-title">
+            <div className="mx-auto max-w-7xl">
+              <div className="mb-12 flex flex-col justify-between gap-5 md:flex-row md:items-end"><div><p className="mb-4 text-xs font-bold uppercase tracking-[.22em] text-[#cba792]">{copy.galleryEyebrow}</p><h2 id="gallery-title" className="title text-4xl font-semibold leading-tight md:text-6xl">{copy.galleryTitle}</h2></div><p className="max-w-md leading-7 text-white/55">{copy.galleryBody}</p></div>
+              <div data-motion-group className="grid gap-5 md:grid-cols-2">{gallery.map((image, index) => <div key={image.id || image.path} className={`group ${index === 0 && gallery.length % 2 === 1 ? "md:col-span-2" : ""}`}><BrowserFrame source={image.path} alt={image.alt || (fa ? `تصویر ${index + 1} پروژه ${project.title}` : `${project.title} project visual ${index + 1}`)} featured={index === 0 && gallery.length % 2 === 1} /></div>)}</div>
+            </div>
+          </section>
+        )}
+
+        {hasEvidence && (
+          <section data-motion="section" className="bg-[#fff8ee] px-5 py-20 text-[#07120c] md:px-10 md:py-28" aria-labelledby="project-results-title">
+            <div className="mx-auto max-w-7xl">
+              <p className="text-xs font-bold uppercase tracking-[.22em] text-[#245336]">{evidenceCopy.evidenceEyebrow}</p>
+              <h2 id="project-results-title" className="title mt-5 max-w-4xl text-4xl font-semibold leading-tight md:text-6xl">{evidenceCopy.evidenceTitle}</h2>
+              {results.length > 0 && <dl data-motion-group className="mt-12 grid gap-px overflow-hidden rounded-[2rem] border border-[#245336]/12 bg-[#245336]/12 sm:grid-cols-2 lg:grid-cols-4">
+                {results.map((result, index) => <div key={`${result.value}-${result.label}-${index}`} className="bg-white/70 p-7 md:p-9"><dt className="text-sm leading-6 text-[#173326]/58">{result.label}</dt><dd className="title mt-5 text-4xl font-semibold text-[#123d27]">{result.value}</dd></div>)}
+              </dl>}
+              {project.testimonial_quote && <figure className="mt-8 rounded-[2rem] bg-[#123d27] p-7 text-white md:p-11">
+                <figcaption className="text-xs font-bold uppercase tracking-[.22em] text-[#cba792]">{evidenceCopy.testimonial}</figcaption>
+                <blockquote className="title mt-6 max-w-5xl text-2xl leading-relaxed text-[#fff8ee] md:text-4xl">“{project.testimonial_quote}”</blockquote>
+                {(project.testimonial_name || project.testimonial_role) && <p className="mt-7 text-sm text-white/55">{[project.testimonial_name, project.testimonial_role].filter(Boolean).join(" · ")}</p>}
+              </figure>}
+            </div>
+          </section>
+        )}
+
+        <section data-motion="section" className="border-y border-white/10 bg-[#0a1710] px-5 py-20 md:px-10 md:py-28" aria-labelledby="process-title">
           <div className="mx-auto max-w-7xl"><div className="grid gap-10 lg:grid-cols-[.7fr_1.3fr]"><div><p className="mb-4 text-xs font-bold uppercase tracking-[.22em] text-[#cba792]">{copy.processEyebrow}</p><h2 id="process-title" className="title text-4xl font-semibold leading-tight md:text-6xl">{copy.processTitle}</h2></div><ol className="grid gap-3 sm:grid-cols-2">{copy.process.map(([number, title, detail]) => <li key={number} className="rounded-2xl border border-white/10 bg-white/[.035] p-5"><span className="font-mono text-xs text-[#86a58f]">{number}</span><h3 className="mt-6 text-lg font-bold">{title}</h3><p className="mt-2 leading-7 text-white/50">{detail}</p></li>)}</ol></div></div>
         </section>
 
-        <section className="bg-[#fff8ee] px-5 py-20 text-[#07120c] md:px-10 md:py-28">
+        <section data-motion="section" className="bg-[#fff8ee] px-5 py-20 text-[#07120c] md:px-10 md:py-28">
           <div className="mx-auto flex max-w-7xl flex-col justify-between gap-9 md:flex-row md:items-end"><div><p className="mb-4 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[.22em] text-[#245336]"><Check className="h-4 w-4" /> {copy.next}</p><h2 className="title max-w-4xl text-4xl font-semibold leading-tight md:text-6xl">{copy.cta}</h2></div><Link href="/discovery" className="inline-flex w-fit shrink-0 items-center gap-3 rounded-2xl bg-[#114422] px-6 py-4 font-semibold text-white transition hover:-translate-y-1 hover:bg-[#07120c]">{copy.discuss} <ArrowUpRight className="h-5 w-5" /></Link></div>
         </section>
       </article>

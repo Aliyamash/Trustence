@@ -1,112 +1,35 @@
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Linkedin } from "lucide-react";
 import Link from "next/link";
 import { getTeamMembers } from "@/utils/content";
 import { getServerLocale } from "@/i18n/server";
 import { getCopy } from "@/i18n/copy";
 
-async function fetchTeamData(locale) {
-  return { data: await getTeamMembers(locale), error: null };
-}
-
 export default async function TeamSection() {
   const locale = await getServerLocale();
   const content = getCopy(locale).home.team;
-  const { data: teamMembers, error } = await fetchTeamData(locale);
-  const visibleMembers = teamMembers.slice(0, 2);
-  const previewMember = teamMembers[2];
+  const teamMembers = await getTeamMembers(locale);
+  const visibleMembers = teamMembers.slice(0, 4);
+  const isRtl = locale === "fa";
 
   return (
-    <section className="py-60 px-6 bg-[#fff8ee]">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16 ">
-          <h2 className="text-4xl font-bold text-[#060e09] mb-4 tracking-tight title">
-            {content.titleBefore}{" "}
-            <span className="text-6xl text-[#245336]">Trustence</span>
-          </h2>
-          <p className="text-lg text-[#1C422B]/70">
-            {content.body}
-          </p>
+    <section data-motion="section" className="overflow-hidden bg-[#fff8ee] py-20 md:py-28" aria-labelledby="home-team-title">
+      <div className="container">
+        <div className="grid gap-8 md:grid-cols-[1fr_.65fr] md:items-end">
+          <div><p className="mb-4 text-xs font-bold uppercase tracking-[.2em] text-[#658672]">{isRtl ? "آدم‌های پشت کار" : "The people behind the work"}</p><h2 id="home-team-title" className="title max-w-4xl text-4xl leading-tight text-[#07120c] md:text-6xl">{content.titleBefore} <span className="text-[#245336]">Trustence</span></h2></div>
+          <p className="max-w-xl text-lg leading-8 text-[#1c422b]/65 md:justify-self-end">{content.body}</p>
         </div>
 
-        <div className="flex items-center justify-center gap-8 flex-wrap lg:flex-nowrap ">
-          <div className="flex gap-8 flex-wrap justify-center lg:flex-nowrap">
-            {visibleMembers.length > 0 ? (
-              visibleMembers.map((member, index) => (
-                <div
-                  key={member.id} // بهتر است از id یکتا استفاده شود
-                  className="flex flex-col items-center group transition-transform duration-300 hover:-translate-y-2"
-                >
-                  <div className="relative mb-4 overflow-hidden rounded-2xl shadow-lg shadow-[#818080] w-80 h-80">
-                    <Image
-                      src={member.image}
-                      alt={member.name}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 300px"
-                      className="object-cover object-[center_10%] hover:scale-110 transition-transform duration-500"
-                      priority={index === 0}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#060e09]/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    <div className="absolute bottom-4 left-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <p className="font-bold text-lg">{member.name}</p>
-                    </div>
-                  </div>
-                  <p className="text-base title font-medium text-[#060e09] mt-2">
-                    {member.position}
-                  </p>
-                </div>
-              ))
-            ) : (
-              <div className="col-span-full text-center text-gray-500">
-                {error || content.missing}
-              </div>
-            )}
-
-            {previewMember && (
-              <div className="flex flex-col items-center relative">
-                <div className="relative mb-4 overflow-hidden rounded-2xl w-80 h-80">
-                  <Image
-                    fill
-                    sizes="(max-width: 768px) 100vw, 300px"
-                    src={previewMember.image}
-                    alt={`${previewMember.name}, one of the Trustence team members`}
-                    className="object-cover object-top blur-sm opacity-40"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#fff8ee]/50 to-[#fff8ee]" />
-                </div>
-                <p className="text-base font-black mt-2 text-[#060e09] opacity-40">
-                  {content.more}
-                </p>
-              </div>
-            )}
+        {visibleMembers.length ? (
+          <div data-motion-group className="mt-12 flex snap-x snap-mandatory gap-5 overflow-x-auto pb-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:grid lg:grid-cols-4 lg:overflow-visible">
+            {visibleMembers.map((member) => <article key={member.id} className="group relative min-w-[82%] snap-center overflow-hidden rounded-[1.75rem] bg-[#10291c] sm:min-w-[46%] lg:min-w-0">
+              <div className="relative aspect-[4/5] overflow-hidden"><Image src={member.image} alt={member.name} fill sizes="(max-width: 640px) 82vw, (max-width: 1024px) 46vw, 25vw" className="object-cover object-top transition duration-700 group-hover:scale-[1.035]" /><div className="absolute inset-0 bg-gradient-to-t from-[#061009] via-transparent to-transparent" /></div>
+              <div className="absolute inset-x-0 bottom-0 p-5 text-white"><div className="flex items-end justify-between gap-3"><div><h3 className="text-xl font-bold">{member.name}</h3><p className="mt-1 text-sm text-white/62">{member.position}</p></div>{member.linkedin && member.linkedin !== "#" && <a href={member.linkedin} target="_blank" rel="noopener noreferrer" aria-label={`${member.name} LinkedIn`} className="grid h-10 w-10 place-items-center rounded-full border border-white/15 bg-white/10 backdrop-blur"><Linkedin className="h-4 w-4" /></a>}</div></div>
+            </article>)}
           </div>
+        ) : <p className="mt-12 text-[#1c422b]/60">{content.missing}</p>}
 
-          {/* دکمه See full team */}
-          <div className="relative group/button mt-12 md:mb-8 lg:mt-0">
-            <Link href="/aboutus#team" className="relative inline-block">
-              <div className="absolute inset-0 bg-[#1C422B] rounded-3xl blur-xl opacity-70 group-hover/button:opacity-100 group-hover/button:scale-110 transition-all duration-700" />
-              <div className="relative px-10 py-12 bg-gradient-to-br from-[#1C422B] to-[#060e09] rounded-3xl shadow-2xl border border-white/10 overflow-hidden transition-all duration-500 group-hover/button:shadow-3xl group-hover/button:shadow-[#1C422B]/50 group-hover/button:-translate-y-1">
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover/button:translate-x-full transition-transform duration-1000" />
-                <div className="relative flex flex-col items-center gap-5 text-white">
-                  <span className="text-xl font-bold tracking-wider uppercase relative">
-                    {content.meet}
-                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-white/60 group-hover/button:w-full transition-all duration-500" />
-                  </span>
-                  <div className="relative w-16 h-16">
-                    <div className="absolute inset-0 rounded-full border-2 border-white/20 group-hover/button:border-white/40 transition-colors duration-500" />
-                    <div className="absolute inset-2 rounded-full bg-white/10 group-hover/button:bg-white/20 animate-pulse" />
-                    <ArrowRight className="absolute inset-0 m-auto w-7 h-7 text-white transition-all duration-500 group-hover/button:translate-x-2 group-hover/button:scale-110" />
-                  </div>
-                </div>
-                <div className="absolute inset-0 opacity-30">
-                  <div className="absolute top-4 left-6 w-1 h-1 bg-white/40 rounded-full animate-ping" />
-                  <div className="absolute top-10 right-8 w-0.5 h-0.5 bg-white/30 rounded-full animate-ping delay-300" />
-                  <div className="absolute bottom-8 left-10 w-0.5 h-0.5 bg-white/30 rounded-full animate-ping delay-700" />
-                </div>
-              </div>
-            </Link>
-          </div>
-        </div>
+        <div className="mt-8 flex items-center justify-between border-t border-[#245336]/15 pt-7"><p className="text-sm text-[#1c422b]/55">{isRtl ? "مهندسی، طراحی، استراتژی، رشد و هنر بصری" : "Engineering, design, strategy, growth, and visual craft"}</p><Link href="/aboutus#team" className="inline-flex items-center gap-2 rounded-full border border-[#245336]/20 px-5 py-3 font-bold text-[#123d27] transition hover:bg-[#123d27] hover:text-white">{content.meet}<ArrowRight className={`h-4 w-4 ${isRtl ? "rotate-180" : ""}`} /></Link></div>
       </div>
     </section>
   );

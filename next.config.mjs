@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  // Keep development and production output isolated when both run on the VPS/workstation.
+  distDir: process.env.NEXT_DIST_DIR || '.next',
   // Keep SEO/AEO metadata in <head> for HTML-only and lesser-known AI crawlers.
   htmlLimitedBots: /.*/,
   async redirects() {

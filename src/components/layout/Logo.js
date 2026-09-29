@@ -5,8 +5,8 @@ import { useLocale } from "@/i18n/LocaleProvider";
 export default function Logo(){
     const { locale } = useLocale();
     return(
-        <div className="overflow-hidden w-[3rem] h-full">
-            <Image className= "object-fit rounded-xl scale-[2.25]" priority width="150" height="190" src={logo} alt={locale === "fa" ? "نشان تراستنس" : "Trustence logo"}/>
+        <div className="grid h-12 w-12 place-items-center overflow-hidden rounded-xl">
+            <Image className="h-12 w-12 scale-[1.85] object-contain" priority width={48} height={48} sizes="48px" src={logo} alt={locale === "fa" ? "نشان تراستنس" : "Trustence logo"}/>
         </div>
     )
 }

@@ -37,16 +37,14 @@ const postFetch = async (url, body) => {
 
 const getPublicMediaBase = () => {
   const configured = process.env.NEXT_PUBLIC_MEDIA_URL?.replace(/\/$/, "") || "";
-  const pointsToLocalhost = /^https?:\/\/(127\.0\.0\.1|localhost)(:\d+)?$/i.test(configured);
-  if (process.env.NODE_ENV === "production" && (!configured || pointsToLocalhost)) return PRODUCTION_MEDIA_URL;
-  return configured;
+  return configured || PRODUCTION_MEDIA_URL;
 };
 
 const resolveMediaUrl = (source) => {
   if (!source || typeof source !== "string" || source.startsWith("data:")) return source;
   if (source.startsWith("http")) {
     const localAbsolute = /^https?:\/\/(127\.0\.0\.1|localhost)(:\d+)?(\/.*)$/i.exec(source);
-    if (process.env.NODE_ENV === "production" && localAbsolute) return createUrl(getPublicMediaBase(), localAbsolute[3]);
+    if (localAbsolute && !/^https?:\/\/(127\.0\.0\.1|localhost)(:\d+)?$/i.test(getPublicMediaBase())) return createUrl(getPublicMediaBase(), localAbsolute[3]);
     return source;
   }
   return createUrl(getPublicMediaBase(), source);

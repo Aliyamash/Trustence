@@ -75,12 +75,11 @@ export default function Footer() {
         </div>
 
         <div className="flex flex-col flex-wrap justify-between md:flex-row items-stretch">
-          <div className="overflow-hidden w-[9rem] h-[9rem] md:mt-8 ">
+          <div className="relative h-32 w-32 shrink-0 overflow-hidden rounded-2xl md:mt-8">
             <Image
-              className="object-fit rounded-xl scale-150 "
-              priority
-              width="auto"
-              height="auto"
+              className="object-cover"
+              fill
+              sizes="128px"
               src={logo}
               alt={locale === "fa" ? "نشان تراستنس" : "Trustence logo"}
             />

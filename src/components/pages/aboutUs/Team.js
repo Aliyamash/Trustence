@@ -1,143 +1,23 @@
-// app/team/page.js
 import Image from "next/image";
-import {
-  Github,
-  Twitter,
-  Linkedin,
-  User,
-  Users,
-  UserRound,
-} from "lucide-react";
+import { ArrowUpRight, Github, Linkedin, Twitter } from "lucide-react";
 import Link from "next/link";
-import { Suspense } from "react";
 import { getTeamMembers } from "@/utils/content";
 import { getServerLocale } from "@/i18n/server";
 
-async function fetchTeamData(locale) {
-  return { data: await getTeamMembers(locale), error: null };
-}
-
 export default async function Team() {
   const locale = await getServerLocale();
-  const copy = locale === "fa" ? { eyebrow: "آدم‌های پشت این مسیر", title: "یک استاندارد؛ چند تخصص.", body: "هر همکاری با ترکیب درستی از مهندسی، طراحی، استراتژی، رشد و هنر بصری شکل می‌گیرد.", empty: "عضوی پیدا نشد.", extended: "تخصص‌های تکمیلی", extendedBody: "هر زمان دامنه پروژه نیاز داشته باشد، متخصصان تکمیلی به تیم اضافه می‌شوند.", hireTitle: "کار استثنایی، آدم‌های استثنایی می‌خواهد.", hireBody: "اگر به کیفیت سنجیده، ارتباط روشن و فناوری مسئولانه اهمیت می‌دهید، خوشحال می‌شویم شما را بشناسیم.", introduce: "خودتان را معرفی کنید", loading: "در حال بارگذاری…" } : { eyebrow: "The people behind the work", title: "One standard. Multiple disciplines.", body: "Every engagement is shaped by the right combination of engineering, design, strategy, growth, and visual craft.", empty: "No members found.", extended: "Extended expertise", extendedBody: "Additional specialist capability is involved when the scope calls for it.", hireTitle: "Exceptional work deserves exceptional people.", hireBody: "If you care about thoughtful craft, clear communication, and responsible technology, we would like to hear from you.", introduce: "Introduce yourself", loading: "Loading…" };
-  const { data: teams, error } = await fetchTeamData(locale);
+  const fa = locale === "fa";
+  const teams = await getTeamMembers(locale);
+  const copy = fa ? { eyebrow: "آدم‌های پشت کار", title: "یک استاندارد؛ چند تخصص.", body: "برای هر همکاری، ترکیب درستی از مهندسی، طراحی، استراتژی، رشد و هنر بصری شکل می‌گیرد.", empty: "عضوی برای نمایش پیدا نشد.", extended: "شبکه تخصصی ما", extendedBody: "هر زمان دامنه پروژه نیاز داشته باشد، متخصصان تکمیلی و همکاران مورد اعتماد به تیم اصلی اضافه می‌شوند.", talk: "گفت‌وگو با تیم" } : { eyebrow: "The people behind the work", title: "One standard. Multiple disciplines.", body: "Every engagement is shaped by the right combination of engineering, design, strategy, growth, and visual craft.", empty: "No members found.", extended: "Our specialist network", extendedBody: "When the scope calls for it, trusted specialists and collaborators join the core team with the same standard of craft.", talk: "Talk to the team" };
 
-  return (
-    <div className="bg-[#0A1810] py-24 md:py-52 text-white" id="team">
-      <div className="container">
-        <div className="mb-32">
-          <p className="font-bold">{copy.eyebrow}</p>
-          <h2 className="text-6xl mt-4 mb-6 title font-bold">{copy.title}</h2>
-          <p className="max-w-2xl text-lg leading-8 text-white/65">{copy.body}</p>
-        </div>
-
-        <Suspense fallback={<Spinner label={copy.loading} />}>
-          {error ? (
-            <div className="text-center text-red-500 text-lg py-10 font-bold">
-              {error}
-            </div>
-          ) : (
-            <div className="grid auto-cols-auto grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-center justify-items-center gap-24 gap-y-24 md:gap-4 md:gap-y-24">
-              {teams.length > 0 ? (
-                teams.map((member) => (
-                  <div key={member.id} className="flex flex-col items-center">
-                    <div className="w-80 mx-auto md:w-[19rem] h-[25rem] mb-4">
-                      <Image
-                        className="max-h-full max-w-full rounded-2xl object-cover mx-auto shadow-2xl shadow-[#fdfdfd42]"
-                        src={member.image}
-                        alt={member.name}
-                        width={304}
-                        height={304}
-                      />
-                    </div>
-                    <div className="py-2">
-                      <h3 className="font-bold text-2xl text-center">
-                        {member.name}
-                      </h3>
-                      <p className="text-lg text-center">{member.position}</p>
-                    </div>
-                    <p className="w-[80%] my-4 text-center text-pretty">
-                      {member.bio}
-                    </p>
-                    <div className="flex pt-1 gap-8">
-                      {member.github && member.github !== "#" && (
-                        <Link
-                          href={member.github}
-                          className="hover:-translate-y-1 transition duration-300"
-                        >
-                          <Github className="icon-btn-size" />
-                        </Link>
-                      )}
-                      {member.twitter && member.twitter !== "#" && (
-                        <Link
-                          href={member.twitter}
-                          className="hover:-translate-y-1 transition duration-300"
-                        >
-                          <Twitter className="icon-btn-size" />
-                        </Link>
-                      )}
-                      {member.linkedin && member.linkedin !== "#" && (
-                        <Link
-                          href={member.linkedin}
-                          className="hover:-translate-y-1 transition duration-300"
-                        >
-                          <Linkedin className="icon-btn-size" />
-                        </Link>
-                      )}
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <div className="text-center text-gray-400 text-lg py-10">
-                  {copy.empty}
-                </div>
-              )}
-
-              <div className="w-[300px]">
-                <div className="bg-[#99999911] rounded-2xl backdrop-blur-sm p-8 flex flex-col items-center justify-center text-center shadow-2xl transition duration-200 w-[300px] h-[25rem]">
-                  <div className="flex gap-3 opacity-80">
-                    <Users className="w-16 h-16 text-white" />
-                  </div>
-                </div>
-                <div className="text-center text-pretty mt-6">
-                  <h3 className="text-white text-xl font-semibold mb-3 tracking-wide">
-                    {copy.extended}
-                  </h3>
-                  <p className="text-[#fff8ee] text-md leading-relaxed">
-                    {copy.extendedBody}
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
-        </Suspense>
-
-        {/* بخش استخدام */}
-        <div className="mt-64">
-          <h2 className="text-4xl font-bold">{copy.hireTitle}</h2>
-          <p className="mb-8 mt-4 text-lg">
-            {copy.hireBody}
-          </p>
-          <div className="flex overflow-hidden relative font-bold transition-shadow duration-700 text-white hover:text-black hover:shadow-xl hover:shadow-[#658672] p-btn items-center bg-btn2 px-8 py-4 w-fit rounded-xl">
-            <div className="transition-all absolute duration-700 hover:scale-[25rem] top-1.5/3 left-4 z-0 dot bg-white h-1.5 w-1.5 rounded-full"></div>
-            <Link
-              className="z-10 text-lg transition-all duration-700"
-              href="/discovery"
-            >
-              {copy.introduce}
-            </Link>
-          </div>
-        </div>
-      </div>
+  return <section data-motion="section" className="bg-[#0a1810] py-20 text-white md:py-28" id="team">
+    <div className="container">
+      <div className="grid gap-6 md:grid-cols-[1fr_.65fr] md:items-end"><div><p className="text-xs font-bold uppercase tracking-[.2em] text-[#cba792]">{copy.eyebrow}</p><h2 className="title mt-5 text-4xl leading-tight md:text-6xl">{copy.title}</h2></div><p className="max-w-xl text-lg leading-8 text-white/58 md:justify-self-end">{copy.body}</p></div>
+      {teams.length ? <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{teams.map((member, index) => <article key={member.id} className={`group overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#10291c] ${index === 0 ? "sm:col-span-2 lg:grid lg:grid-cols-2" : ""}`}>
+        <div className={`relative overflow-hidden ${index === 0 ? "min-h-[28rem]" : "aspect-[4/5]"}`}><Image src={member.image} alt={member.name} fill sizes={index === 0 ? "(max-width:1024px) 100vw, 45vw" : "(max-width:640px) 100vw, 33vw"} className="object-cover object-top transition duration-700 group-hover:scale-[1.03]" /><div className="absolute inset-0 bg-gradient-to-t from-[#07120c]/60 via-transparent to-transparent" /></div>
+        <div className={`flex flex-col p-6 ${index === 0 ? "justify-end md:p-9" : ""}`}><p className="font-mono text-xs text-[#cba792]">{String(index + 1).padStart(2, "0")}</p><h3 className="mt-5 text-2xl font-bold">{member.name}</h3><p className="mt-1 text-sm text-[#86a58f]">{member.position}</p>{member.bio && <p className={`mt-5 leading-7 text-white/55 ${index !== 0 ? "line-clamp-3" : ""}`}>{member.bio}</p>}<div className="mt-auto flex gap-3 pt-7">{[[member.github, Github, "GitHub"], [member.linkedin, Linkedin, "LinkedIn"], [member.twitter, Twitter, "X"]].map(([href, Icon, label]) => href && href !== "#" ? <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={`${member.name} ${label}`} className="grid h-10 w-10 place-items-center rounded-full border border-white/12 text-white/65 transition hover:bg-white hover:text-[#07120c]"><Icon className="h-4 w-4" /></a> : null)}</div></div>
+      </article>)}</div> : <p className="mt-12 text-white/50">{copy.empty}</p>}
+      <div className="mt-7 grid gap-6 rounded-[1.75rem] border border-white/10 bg-white/[.035] p-7 md:grid-cols-[1fr_auto] md:items-center md:p-9"><div><h3 className="title text-2xl text-[#fff8ee]">{copy.extended}</h3><p className="mt-3 max-w-3xl leading-7 text-white/52">{copy.extendedBody}</p></div><Link href="/discovery" className="inline-flex w-fit items-center gap-2 rounded-xl bg-[#fff8ee] px-5 py-3 font-bold text-[#07120c]">{copy.talk}<ArrowUpRight className={fa ? "-rotate-90" : ""} /></Link></div>
     </div>
-  );
-}
-
-function Spinner({ label }) {
-  return (
-    <div className="flex flex-col items-center justify-center py-16">
-      <div className="w-12 h-12 border-4 border-t-green-500 border-gray-200 rounded-full animate-spin"></div>
-      <p className="mt-4 text-lg text-gray-300">{label}</p>
-    </div>
-  );
+  </section>;
 }

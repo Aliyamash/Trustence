@@ -19,6 +19,10 @@ function localizeTerms(value) {
   return value.split(/([,/·])/).map((part) => projectTermFa.get(part.trim()) || part.trim()).join(" ").replace(/\s+([,/·])\s+/g, " $1 ");
 }
 
+function localizedField(project, field, locale) {
+  return project[`${field}_${locale}`] ?? project[field];
+}
+
 export function localizeProject(project, locale) {
   const localized = locale === "fa" ? projectFa[project.title] : null;
   return {
@@ -31,6 +35,15 @@ export function localizeProject(project, locale) {
       ? (project.category_name_fa || localized?.category_name || localizeTerms(project.category_name || project.category) || "سایر")
       : (project.category_name_en || project.category_name || project.category || "Other"),
     tags: locale === "fa" ? (project.tags_fa || localizeTerms(project.tags)) : (project.tags_en || project.tags),
+    challenge: localizedField(project, "challenge", locale),
+    solution: localizedField(project, "solution", locale),
+    outcome: localizedField(project, "outcome", locale),
+    duration: localizedField(project, "duration", locale),
+    team_role: localizedField(project, "team_role", locale),
+    testimonial_quote: localizedField(project, "testimonial_quote", locale),
+    testimonial_name: localizedField(project, "testimonial_name", locale),
+    testimonial_role: localizedField(project, "testimonial_role", locale),
+    results: localizedField(project, "results", locale) ?? project.metrics,
     banner: typeof project.banner === "string" ? resolveMediaUrl(project.banner) : project.banner,
     link: project.link || project.project_url || "",
   };
