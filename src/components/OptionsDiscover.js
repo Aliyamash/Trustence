@@ -7,7 +7,7 @@ export const sessionBenefits = [
     {
       id: "2",
       title: "A credible direction",
-      subtitle: "We outline the most useful next move and the disciplines it may require—from web and software to automation and visibility."
+      subtitle: "We outline the most useful next move and the disciplines it may require, including web, software, automation, and visibility."
     },
     {
       id: "3",

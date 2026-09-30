@@ -32,7 +32,7 @@ export const faqs = [
   {
     id: 7, category: "Features",
     question: "Will the experience work across mobile, tablet, and desktop?",
-    answer: "Responsive behaviour is considered throughout design and development. We test key layouts and interactions across representative viewport sizes and prioritise accessibility, readability, and task completion—not merely visual similarity.",
+    answer: "Responsive behaviour is considered throughout design and development. We test key layouts and interactions across representative viewport sizes and prioritise accessibility, readability, and task completion rather than mere visual similarity.",
   },
   {
     id: 8, category: "Features",

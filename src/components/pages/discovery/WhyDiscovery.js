@@ -1,17 +1,27 @@
+import { Compass, Handshake, Lightbulb, Target } from "lucide-react";
 import { getServerLocale } from "@/i18n/server";
 
 export default async function WhyDiscovery() {
   const locale = await getServerLocale();
-  const copy = locale === "fa" ? { title: "شفافیت، پیش از تعیین دامنه.", body: "یک جلسه شناخت مفید باید شما را با تصمیم‌هایی دقیق‌تر تنها بگذارد، نه یک ارائه فروش از پیش آماده.", items: [["🎯", "هدف واقعی را تعریف کنید", "نتیجه مطلوب کسب‌وکار را از فرضیات مربوط به راه‌حل جدا کنید."], ["💡", "از سرمایه‌گذاری محافظت کنید", "پیچیدگی، وابستگی و ریسک‌های قابل اجتناب را پیش از پرهزینه‌شدن شناسایی کنید."], ["🔍", "سیستم درست را پیدا کنید", "ترکیب مناسب وب، نرم‌افزار، اتوماسیون و توانمندی رشد را بررسی کنید."], ["🤝", "همکاری را بسنجید", "پیش از تعهد دو طرف، با شیوه فکرکردن، ارتباط و کار ما آشنا شوید."]] } : { title: "Clarity before scope.", body: "A useful discovery session should leave you with sharper decisions—not a rehearsed sales pitch.", items: [["🎯", "Define the real objective", "Separate the desired business outcome from assumptions about the solution."], ["💡", "Protect the investment", "Identify avoidable complexity, dependencies, and risks before they become expensive."], ["🔍", "Explore the right system", "Consider the right combination of web, software, automation, and growth capability."], ["🤝", "Assess the partnership", "Understand how we think, communicate, and work before either side makes a commitment."]] };
+  const copy = locale === "fa" ? {
+    eyebrow: "چرا از شناخت شروع می‌کنیم؟", title: "وضوح، ارزشمندتر از شروع عجولانه است.", body: "قبل از انتخاب راه‌حل باید بدانیم چه چیزی واقعاً باید تغییر کند. این جلسه برای رسیدن به همان وضوح طراحی شده است.",
+    items: [["هدف واقعی", "نتیجه کسب‌وکار را از فرضیات اولیه درباره راه‌حل جدا می‌کنیم."], ["سرمایه‌گذاری سنجیده", "ریسک، پیچیدگی و وابستگی‌ها را پیش از پرهزینه‌شدن می‌بینیم."], ["سیستم درست", "ترکیب درست طراحی، فناوری، اتوماسیون و رشد را بررسی می‌کنیم."], ["همکاری مناسب", "پیش از هر تعهدی، تناسب شیوه فکرکردن و کارکردن‌مان را می‌سنجیم."]]
+  } : {
+    eyebrow: "Why begin with discovery?", title: "Clarity is more valuable than a rushed start.", body: "Before choosing a solution, we need to understand what should genuinely change. This session is designed to create that clarity.",
+    items: [["The real objective", "We separate the business outcome from early assumptions about the solution."], ["A considered investment", "We surface risk, complexity, and dependencies before they become expensive."], ["The right system", "We examine the right mix of design, technology, automation, and growth."], ["The right partnership", "Before commitment, we assess how well our ways of thinking and working align."]]
+  };
+  const icons = [Target, Lightbulb, Compass, Handshake];
   return (
-    <div className="bg-transparent py-44">
-      <div className="container">
-        <h2 className="text-5xl title font-bold mb-4 text-white">{copy.title}</h2>
-        <p className="text-xl font-black text-zinc-300">{copy.body}</p>
-        <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {copy.items.map(([icon, title, body]) => <article key={title} className="p-6 bg-gray-200 rounded-2xl shadow-xl hover:shadow-md transition duration-200"><div className="text-3xl mb-4">{icon}</div><h3 className="text-xl font-semibold mb-2">{title}</h3><p className="text-gray-600 text-base">{body}</p></article>)}
+    <section className="bg-[#fff8ee] px-5 py-24 text-[#07120c] md:px-10 md:py-32">
+      <div className="mx-auto max-w-7xl">
+        <div className="grid gap-8 lg:grid-cols-[.8fr_1.2fr] lg:items-end">
+          <div><p className="text-xs font-bold uppercase tracking-[.2em] text-[#245336]">{copy.eyebrow}</p><h2 className="title mt-5 max-w-3xl text-4xl font-semibold leading-tight md:text-6xl">{copy.title}</h2></div>
+          <p className="max-w-2xl border-s border-[#07120c]/15 ps-6 text-lg leading-8 text-[#07120c]/58 lg:justify-self-end">{copy.body}</p>
+        </div>
+        <div className="mt-16 grid gap-px overflow-hidden rounded-[2rem] border border-[#07120c]/10 bg-[#07120c]/10 md:grid-cols-2 xl:grid-cols-4">
+          {copy.items.map(([title, body], index) => { const Icon = icons[index]; return <article key={title} className="group relative min-h-72 bg-[#fffaf3] p-7 transition hover:bg-white md:p-8"><div className="flex items-center justify-between"><span className="grid h-12 w-12 place-items-center rounded-2xl bg-[#e8efe8] text-[#245336] transition group-hover:-translate-y-1"><Icon className="h-5 w-5" /></span><span className="font-mono text-xs text-[#07120c]/25">0{index + 1}</span></div><h3 className="mt-12 text-xl font-bold">{title}</h3><p className="mt-4 text-sm leading-7 text-[#07120c]/55">{body}</p></article>; })}
         </div>
       </div>
-    </div>
+    </section>
   );
 }

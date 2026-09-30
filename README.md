@@ -35,7 +35,7 @@ Use `deploy/nginx-frontend.conf.example` as the starting Nginx configuration. Ad
 
 ## Commands
 
-- `pnpm dev` — development server on port 1010
-- `pnpm build` — production build
-- `pnpm start` — production server
-- `pnpm lint` — ESLint
+- `pnpm dev`: development server on port 1010
+- `pnpm build`: production build
+- `pnpm start`: production server
+- `pnpm lint`: ESLint

@@ -18,7 +18,7 @@ export default async function PeopleAbout() {
     title: "Exceptional digital work begins with clarity and responsibility.",
     body: "Trustence is built for organisations that see digital as more than a shop window. We find quality in the right questions, precise scope, considered design, and technology that remains maintainable for years.",
     principles: [["Clarity before execution", "We define the commercial objective, audience, and measure of success before design and development."], ["Coherent decisions", "Strategy, experience, technology, and growth are considered through one connected process."], ["Genuine ownership", "The final solution, source, and knowledge required to move forward belong to you."], ["Trust in the details", "Clear communication, discretion, and honest explanation of decisions are part of the delivery."]],
-    method: "How we collaborate", methodBody: "The team is shaped around the problem—never larger than necessary and never smaller than the outcome demands.", cta: "Explore our services",
+    method: "How we collaborate", methodBody: "The team is shaped around the problem. It is never larger than necessary or smaller than the outcome demands.", cta: "Explore our services",
   };
   const icons = [Compass, Layers3, HandHeart, ShieldCheck];
 

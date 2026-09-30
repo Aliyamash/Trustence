@@ -11,6 +11,7 @@ import {
   CloudUpload,
   FolderKanban,
   Eye,
+  EyeOff,
   ImageIcon,
   LayoutDashboard,
   LogOut,
@@ -48,17 +49,22 @@ function mediaUrl(source) {
 
 async function apiRequest(path, apiKey, options = {}) {
   if (!apiBase) throw new Error("آدرس API تنظیم نشده است.");
+  const normalizedKey = typeof apiKey === "string" ? apiKey.trim() : "";
   const response = await fetch(`${apiBase}${path}`, {
     ...options,
     headers: {
-      "x-admin-api-key": apiKey,
+      "x-admin-api-key": normalizedKey,
       ...(options.body instanceof FormData ? {} : { "Content-Type": "application/json" }),
       ...options.headers,
     },
   });
   if (response.status === 204) return null;
   const payload = await response.json().catch(() => null);
-  if (!response.ok) throw new Error(payload?.message || "درخواست انجام نشد.");
+  if (!response.ok) {
+    if (response.status === 401) throw new Error("کلید مدیریت صحیح نیست. زبان صفحه‌کلید و فاصله‌های ابتدا یا انتهای رمز را بررسی کنید.");
+    if (response.status === 503) throw new Error("کلید مدیریت هنوز روی سرور تنظیم نشده است.");
+    throw new Error(payload?.message || `ارتباط با API انجام نشد (${response.status}).`);
+  }
   return payload?.data;
 }
 
@@ -75,11 +81,12 @@ function formatNumber(value) {
 function formatDate(value) {
   return value
     ? new Intl.DateTimeFormat("fa-IR", { dateStyle: "medium", timeStyle: "short" }).format(new Date(`${value.replace(" ", "T")}Z`))
-    : "—";
+    : "ثبت نشده";
 }
 
 function Login({ onLogin, loading, error }) {
   const [value, setValue] = useState("");
+  const [showKey, setShowKey] = useState(false);
   return (
     <main dir="rtl" className="fixed inset-0 z-[100] grid place-items-center overflow-auto bg-[#06140d] p-5 text-right">
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -87,7 +94,7 @@ function Login({ onLogin, loading, error }) {
         <div className="absolute -bottom-32 -left-20 h-[30rem] w-[30rem] rounded-full bg-teal-400/10 blur-3xl" />
       </div>
       <form
-        onSubmit={(event) => { event.preventDefault(); onLogin(value); }}
+        onSubmit={(event) => { event.preventDefault(); onLogin(value.trim()); }}
         className="relative w-full max-w-md overflow-hidden rounded-[2rem] border border-white/10 bg-white/95 p-8 shadow-2xl shadow-emerald-950/50 backdrop-blur-xl"
       >
         <div className="mb-8 flex items-center gap-4">
@@ -102,7 +109,12 @@ function Login({ onLogin, loading, error }) {
         <p className="mb-6 text-sm leading-7 text-slate-500">برای دسترسی به داشبورد، کلید مدیریت تعریف‌شده در بک‌اند را وارد کنید.</p>
         <label className="text-sm font-bold text-slate-700">
           کلید API مدیریت
-          <input className={`${inputClass} mt-2`} type="password" value={value} onChange={(event) => setValue(event.target.value)} autoFocus required />
+          <span className="mt-2 grid grid-cols-[minmax(0,1fr)_auto] gap-2">
+            <input className={inputClass} type={showKey ? "text" : "password"} value={value} onChange={(event) => setValue(event.target.value)} autoComplete="current-password" spellCheck={false} dir="ltr" autoFocus required />
+            <button type="button" onClick={() => setShowKey((visible) => !visible)} aria-label={showKey ? "پنهان‌کردن کلید" : "نمایش کلید"} className="grid w-12 shrink-0 place-items-center rounded-2xl border border-slate-200 bg-slate-50 text-slate-400 transition hover:border-emerald-400 hover:bg-emerald-50 hover:text-emerald-700">
+              {showKey ? <EyeOff size={18} /> : <Eye size={18} />}
+            </button>
+          </span>
         </label>
         {error && <p className="mt-4 rounded-xl bg-rose-50 p-3 text-sm text-rose-700">{error}</p>}
         <button disabled={loading} className="mt-6 flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-l from-emerald-600 to-emerald-800 px-5 py-4 font-bold text-white shadow-xl shadow-emerald-700/20 transition hover:-translate-y-0.5 disabled:opacity-60">
@@ -237,7 +249,7 @@ function AnalyticsOverview({ stats }) {
       </div>
       <div className="overflow-hidden rounded-[1.8rem] bg-white p-5 shadow-sm sm:p-7">
         <div><h3 className="text-lg font-black text-slate-900">آخرین دستگاه‌های بازدیدکننده</h3><p className="mt-1 text-xs text-slate-400">مشخصات تقریبی استخراج‌شده از User-Agent</p></div>
-        <div className="mt-5 overflow-x-auto"><table className="w-full min-w-[850px] text-right text-sm"><thead><tr className="border-b border-slate-100 text-xs text-slate-400"><th className="px-4 py-4">صفحه</th><th className="px-4 py-4">کشور</th><th className="px-4 py-4">دستگاه</th><th className="px-4 py-4">سیستم‌عامل</th><th className="px-4 py-4">مرورگر</th><th className="px-4 py-4">زمان</th></tr></thead><tbody>{(stats.recentVisits || []).map((visit, index) => <tr key={`${visit.created_at}-${index}`} className="border-b border-slate-50 transition hover:bg-slate-50"><td className="px-4 py-4 font-bold text-slate-800" dir="ltr">{visit.path}</td><td className="px-4 py-4">{countryFlag(visit.country_code)} {countryLabel(visit.country_code)}</td><td className="px-4 py-4"><p className="font-bold text-slate-700">{deviceLabels[visit.device_type] || visit.device_type || "نامشخص"}</p><p className="mt-1 text-xs text-slate-400">{visit.device_name || "—"}</p></td><td className="px-4 py-4 text-slate-500">{visit.operating_system || "—"}</td><td className="px-4 py-4 text-slate-500">{visit.browser || "—"}</td><td className="px-4 py-4 text-xs text-slate-400">{formatDate(visit.created_at)}</td></tr>)}</tbody></table>{!stats.recentVisits?.length && <p className="py-14 text-center text-sm text-slate-400">اطلاعات دستگاه از بازدید بعدی ثبت می‌شود.</p>}</div>
+        <div className="mt-5 overflow-x-auto"><table className="w-full min-w-[850px] text-right text-sm"><thead><tr className="border-b border-slate-100 text-xs text-slate-400"><th className="px-4 py-4">صفحه</th><th className="px-4 py-4">کشور</th><th className="px-4 py-4">دستگاه</th><th className="px-4 py-4">سیستم‌عامل</th><th className="px-4 py-4">مرورگر</th><th className="px-4 py-4">زمان</th></tr></thead><tbody>{(stats.recentVisits || []).map((visit, index) => <tr key={`${visit.created_at}-${index}`} className="border-b border-slate-50 transition hover:bg-slate-50"><td className="px-4 py-4 font-bold text-slate-800" dir="ltr">{visit.path}</td><td className="px-4 py-4">{countryFlag(visit.country_code)} {countryLabel(visit.country_code)}</td><td className="px-4 py-4"><p className="font-bold text-slate-700">{deviceLabels[visit.device_type] || visit.device_type || "نامشخص"}</p><p className="mt-1 text-xs text-slate-400">{visit.device_name || "ثبت نشده"}</p></td><td className="px-4 py-4 text-slate-500">{visit.operating_system || "ثبت نشده"}</td><td className="px-4 py-4 text-slate-500">{visit.browser || "ثبت نشده"}</td><td className="px-4 py-4 text-xs text-slate-400">{formatDate(visit.created_at)}</td></tr>)}</tbody></table>{!stats.recentVisits?.length && <p className="py-14 text-center text-sm text-slate-400">اطلاعات دستگاه از بازدید بعدی ثبت می‌شود.</p>}</div>
       </div>
     </section>
   );
@@ -257,7 +269,7 @@ function MessageTable({ messages, onStatus, onOpen }) {
             <tr key={message.id} className="border-b border-slate-50 transition hover:bg-slate-50/70">
               <td className="px-4 py-4"><p className="font-bold text-slate-800">{message.full_name || "عضو خبرنامه"}</p><p className="mt-1 text-xs text-slate-400">{message.email}</p></td>
               <td className="px-4 py-4 text-slate-500">{formPageLabel(message.form_page)}</td>
-              <td className="max-w-xs truncate px-4 py-4 text-slate-500">{message.inquiry || "—"}</td>
+              <td className="max-w-xs truncate px-4 py-4 text-slate-500">{message.inquiry || "ثبت نشده"}</td>
               <td className="px-4 py-4 text-xs text-slate-400">{formatDate(message.created_at)}</td>
               <td className="px-4 py-4">
                 <select value={message.status} onChange={(event) => onStatus(message.id, event.target.value)} className={`rounded-xl border-0 px-3 py-2 text-xs font-bold outline-none ${statusStyle[message.status] || statusStyle.new}`}>
@@ -281,9 +293,9 @@ function MessageDetails({ message, onClose, onStatus }) {
   const fields = [
     ["نام", message.full_name || "عضو خبرنامه"],
     ["ایمیل", message.email],
-    ["شماره تماس", message.phone_number || "—"],
-    ["سرویس انتخابی", message.select_service || "—"],
-    ["بازه بودجه", message.budget_range || "—"],
+    ["شماره تماس", message.phone_number || "ثبت نشده"],
+    ["سرویس انتخابی", message.select_service || "ثبت نشده"],
+    ["بازه بودجه", message.budget_range || "ثبت نشده"],
     ["فرم مبدأ", formPageLabel(message.form_page)],
   ];
   return (
@@ -487,14 +499,15 @@ export default function AdminDashboard() {
   const [notificationsOpen, setNotificationsOpen] = useState(false);
 
   const loadData = useCallback(async (key = apiKey) => {
+    const normalizedKey = typeof key === "string" ? key.trim() : "";
     setLoading(true);
     setError("");
     try {
       const [statsData, projectsData, teamData, messagesData] = await Promise.all([
-        apiRequest("/admin/stats", key), apiRequest("/admin/projects", key), apiRequest("/admin/team", key), apiRequest("/admin/submissions", key),
+        apiRequest("/admin/stats", normalizedKey), apiRequest("/admin/projects", normalizedKey), apiRequest("/admin/team", normalizedKey), apiRequest("/admin/submissions", normalizedKey),
       ]);
       setStats(statsData); setProjects(projectsData); setTeam(teamData); setMessages(messagesData);
-      setApiKey(key); sessionStorage.setItem("trustence-admin-key", key);
+      setApiKey(normalizedKey); sessionStorage.setItem("trustence-admin-key", normalizedKey);
       return true;
     } catch (loadError) {
       setError(loadError.message);

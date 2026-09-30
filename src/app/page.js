@@ -5,7 +5,7 @@ import Hero from "@/components/Hero";
 import Portfilio from "@/components/Portfolio";
 import Service from "@/components/Service";
 import TeamSection from "@/components/TeamSection";
-import ExpertiseSummary from "@/components/ExpertiseSummary";
+import TrustSignals from "@/components/TrustSignals";
 import StructuredData from "@/components/StructuredData";
 import { getHomeFaqs } from "@/components/FaqsOptions";
 import { createMetadata, organizationSchema, websiteSchema, webPageSchema } from "@/utils/seo";
@@ -40,7 +40,7 @@ export default async function Home() {
     })),
   }]} />
   <Hero/>
-  <ExpertiseSummary />
+  <TrustSignals />
   <Portfilio/>
   <AboutUs/>
   <Service/>

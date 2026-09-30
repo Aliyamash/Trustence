@@ -51,6 +51,7 @@ export default function Projects({ initialProjects = [] }) {
     <main className="overflow-hidden bg-[#07120c] text-[#fff8ee]">
       <section className="relative border-b border-white/10 px-5 pb-20 pt-40 md:px-10 md:pb-28 md:pt-56" aria-labelledby="projects-title">
         <div className="pointer-events-none absolute inset-0 opacity-70" style={{ backgroundImage: "radial-gradient(circle at 15% 22%, rgba(101,134,114,.34), transparent 30%), radial-gradient(circle at 85% 12%, rgba(203,167,146,.18), transparent 25%)" }} />
+        <div className="pointer-events-none absolute inset-x-0 bottom-[-.2em] overflow-hidden text-center title text-[clamp(7rem,22vw,20rem)] leading-none tracking-[-.08em] text-white/[.018]" aria-hidden="true">WORK</div>
         <div className="relative mx-auto max-w-7xl">
           <div className="grid items-end gap-12 lg:grid-cols-[1fr_22rem]">
             <div>
@@ -77,30 +78,35 @@ export default function Projects({ initialProjects = [] }) {
       <section className="px-4 pb-28 pt-10 md:px-10 md:pb-40 md:pt-16" aria-label={copy.publishedLabel}>
         <div className="mx-auto max-w-7xl">
           {projects.length ? (
-            <div className="grid gap-6 lg:grid-cols-12 lg:gap-8">
+            <div className="space-y-8 md:space-y-12">
               {projects.map((project, index) => {
                 const tags = project.tags ? project.tags.split(",").map((tag) => tag.trim()).filter(Boolean) : [];
                 const externalUrl = project.link && project.link !== "#" ? project.link : null;
-                const featured = index % 5 === 0;
+                const reverse = index % 2 === 1;
 
                 return (
-                  <article key={project.id} className={`group relative overflow-hidden rounded-[2rem] border border-white/10 bg-[#0c1e14] shadow-2xl shadow-black/20 transition duration-500 hover:-translate-y-1 hover:border-[#86a58f]/35 ${featured ? "lg:col-span-12" : "lg:col-span-6"}`}>
-                    <div className={featured ? "lg:grid lg:grid-cols-12" : ""}>
-                      <div className={featured ? "lg:col-span-7" : ""}><ProjectPreview project={project} priority={index === 0} featured={featured} label={copy.label} previewLabel={copy.preview} /></div>
-                      <div className={`relative flex flex-col justify-between p-7 md:p-10 ${featured ? "min-h-[29rem] lg:col-span-5 lg:min-h-[38rem] lg:p-12" : "min-h-[27rem]"}`}>
-                        <span className="pointer-events-none absolute -right-2 -top-8 title text-[7rem] leading-none text-white/[.025] md:text-[9rem]">{String(index + 1).padStart(2, "0")}</span>
+                  <article key={project.id} className="group relative overflow-hidden rounded-[2rem] border border-white/10 bg-[#0a1911] shadow-[0_35px_100px_-45px_rgba(0,0,0,.85)] transition duration-500 hover:border-[#86a58f]/40">
+                    <div className="pointer-events-none absolute inset-0 opacity-0 transition duration-700 group-hover:opacity-100" style={{ backgroundImage: `radial-gradient(circle at ${reverse ? "80%" : "20%"} 20%, rgba(101,134,114,.2), transparent 38%)` }} />
+                    <div className="relative grid lg:min-h-[36rem] lg:grid-cols-12">
+                      <div className={`relative lg:col-span-7 ${reverse ? "lg:order-2" : ""}`}>
+                        <ProjectPreview project={project} priority={index === 0} featured label={copy.label} previewLabel={copy.preview} />
+                        <div className="pointer-events-none absolute bottom-4 start-4 rounded-full border border-white/10 bg-[#07120c]/70 px-4 py-2 font-mono text-[10px] uppercase tracking-[.2em] text-white/55 backdrop-blur md:bottom-7 md:start-7">{String(index + 1).padStart(2, "0")} / {String(projects.length).padStart(2, "0")}</div>
+                      </div>
+                      <div className={`relative flex min-h-[30rem] flex-col justify-between p-7 md:p-10 lg:col-span-5 lg:min-h-[36rem] lg:p-12 ${reverse ? "lg:order-1" : ""}`}>
+                        <span className={`pointer-events-none absolute -top-10 title text-[11rem] leading-none text-white/[.025] ${isRtl ? "left-3" : "right-3"}`}>{String(index + 1).padStart(2, "0")}</span>
                         <div className="relative">
-                          <div className="flex items-center justify-between gap-4">
-                            <span className="rounded-full border border-[#86a58f]/25 bg-[#86a58f]/10 px-3 py-1.5 text-xs font-bold uppercase tracking-[.14em] text-[#a9c2b0]">{project.category_name || copy.digital}</span>
-                            <span className="inline-flex shrink-0 items-center gap-2 text-xs font-semibold text-white/35"><ShieldCheck className="h-4 w-4 text-[#86a58f]" /> Trustence</span>
+                          <div className="flex items-center justify-between gap-4 border-b border-white/10 pb-5">
+                            <span className="text-[11px] font-bold uppercase tracking-[.16em] text-[#a9c2b0]">{project.category_name || copy.digital}</span>
+                            <span className="inline-flex shrink-0 items-center gap-2 text-[10px] font-semibold uppercase tracking-[.14em] text-white/35"><ShieldCheck className="h-4 w-4 text-[#86a58f]" /> Trustence</span>
                           </div>
-                          <h2 className={`title mt-9 font-semibold leading-tight text-[#fff8ee] ${featured ? "text-3xl md:text-5xl" : "text-3xl md:text-4xl"}`}>{project.title}</h2>
-                          <p className="mt-5 line-clamp-4 text-base leading-8 text-white/55">{project.intro || project.description || copy.fallback}</p>
-                          {tags.length > 0 && <ul className="mt-7 flex flex-wrap gap-2" aria-label={copy.skills}>{tags.slice(0, 5).map((tag) => <li key={tag} className="rounded-full border border-white/10 px-3 py-1.5 text-xs text-white/50">{tag}</li>)}</ul>}
+                          <div className="mt-10 h-px w-14 bg-[#cba792] transition-all duration-500 group-hover:w-28" />
+                          <h2 className="title mt-7 text-4xl font-semibold leading-[1.08] text-[#fff8ee] md:text-5xl">{project.title}</h2>
+                          <p className="mt-6 line-clamp-4 text-base leading-8 text-white/55">{project.intro || project.description || copy.fallback}</p>
+                          {tags.length > 0 && <ul className="mt-8 flex flex-wrap gap-x-5 gap-y-2" aria-label={copy.skills}>{tags.slice(0, 5).map((tag) => <li key={tag} className="relative ps-3 text-xs text-white/48 before:absolute before:start-0 before:top-1/2 before:h-1 before:w-1 before:-translate-y-1/2 before:rounded-full before:bg-[#86a58f]">{tag}</li>)}</ul>}
                         </div>
-                        <div className="relative mt-10 flex flex-wrap gap-3 border-t border-white/10 pt-6">
-                          <Link href={`/projects/${project.id}`} className="inline-flex items-center gap-3 rounded-xl bg-[#fff8ee] px-5 py-3.5 font-semibold text-[#0b2117] transition hover:bg-white">{copy.caseStudy} <ArrowRight className={`h-4 w-4 ${isRtl ? "rotate-180" : ""}`} /></Link>
-                          {externalUrl && <a href={externalUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl border border-white/15 px-5 py-3.5 font-semibold text-white/70 transition hover:border-[#86a58f] hover:text-white">{copy.live} <ArrowUpRight className="h-4 w-4" /></a>}
+                        <div className="relative mt-10 flex flex-wrap items-center gap-3 border-t border-white/10 pt-6">
+                          <Link href={`/projects/${project.id}`} className="inline-flex items-center gap-3 rounded-full bg-[#fff8ee] px-5 py-3.5 font-semibold text-[#0b2117] transition hover:-translate-y-0.5 hover:bg-white">{copy.caseStudy} <ArrowRight className={`h-4 w-4 ${isRtl ? "rotate-180" : ""}`} /></Link>
+                          {externalUrl && <a href={externalUrl} target="_blank" rel="noopener noreferrer" aria-label={`${copy.live}: ${project.title}`} className="grid h-12 w-12 place-items-center rounded-full border border-white/15 text-white/65 transition hover:border-[#86a58f] hover:bg-[#86a58f] hover:text-[#07120c]"><ArrowUpRight className="h-4 w-4" /></a>}
                         </div>
                       </div>
                     </div>

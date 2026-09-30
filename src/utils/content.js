@@ -52,7 +52,7 @@ export function localizeProject(project, locale) {
 const teamFa = {
   "Maziar Dehghani": ["مازیار دهقانی", "مهندس نرم‌افزار", "ایده‌های بلندپروازانه را با تمرکز بر معماری تمیز، عملکرد و مالکیت آسان به نرم‌افزار قابل اتکا تبدیل می‌کند."],
   "Ali Ashrafi": ["علی اشرفی", "مهندس نرم‌افزار", "مهندسی نرم‌افزار را با نگاه بصری قوی ترکیب می‌کند تا تجربه‌های وب متمایز، تعامل سنجیده و محصولات دیجیتال دقیق بسازد."],
-  "Mohammad Shekarchian": ["محمد شکارچیان", "متخصص بازاریابی", "با تحلیل مخاطب و داده‌های عملکرد، مسیر بازاریابی و کمپین‌هایی را شکل می‌دهد که ارتباط و حرکت تجاری برند را تقویت می‌کنند."],
+  "Mohammad Shekarchian": ["محمد شکرچیان", "متخصص بازاریابی", "با تحلیل مخاطب و داده‌های عملکرد، مسیر بازاریابی و کمپین‌هایی را شکل می‌دهد که ارتباط و حرکت تجاری برند را تقویت می‌کنند."],
   "Sina Norozi": ["سینا نوروزی", "دستیار بازاریابی", "با توجه دقیق به مخاطب و یکپارچگی، از اجرای کمپین و عملیات محتوا پشتیبانی می‌کند."],
   "Elias Kiloua": ["الیاس کیلوا", "طراح گرافیک", "سیستم‌های بصری سنجیده‌ای می‌سازد که به ایده‌ها وضوح، شخصیت و حضوری منسجم می‌دهند."],
   "Arian Shahrestani": ["آرین شهرستانی", "شریک راهبردی", "جهت‌گیری کسب‌وکار را به اجرا متصل می‌کند و به تیم برای ارزیابی فرصت‌ها و تصمیم‌گیری روشن کمک می‌کند."],
@@ -61,9 +61,12 @@ const teamFa = {
 
 function normalizeTeamMember(member, locale) {
   const localized = locale === "fa" ? teamFa[member.name] : null;
+  const localizedName = locale === "fa" ? (member.name_fa || localized?.[0] || member.name) : (member.name_en || member.name);
   return {
     ...member,
-    name: locale === "fa" ? (member.name_fa || localized?.[0] || member.name) : (member.name_en || member.name),
+    // Keep the public profile correct even when an older API record still
+    // contains the former misspelling.
+    name: locale === "fa" ? localizedName.replace("محمد شکارچیان", "محمد شکرچیان") : localizedName,
     position: locale === "fa" ? (member.position_fa || localized?.[1] || member.position) : (member.position_en || member.position),
     bio: locale === "fa" ? (member.bio_fa || localized?.[2] || member.bio) : (member.bio_en || member.bio),
     image: typeof (member.profile || member.image) === "string"

@@ -37,7 +37,7 @@ export default function AboutUs() {
           {/* btns */}
           <div className="mt-8 flex flex-wrap items-center gap-5">
             <Link
-              className="rounded-2xl bg-[#fff8ee] px-6 py-4 font-bold text-[#07120c] transition hover:-translate-y-1"
+              className="button-primary"
               href={"/aboutus"}
             >
               {content.studio}
@@ -59,7 +59,7 @@ export default function AboutUs() {
             className="aspect-[5/4] h-full w-full rounded-[1.4rem] object-cover"
             alt={isRtl ? "تیم تراستنس در حال برنامه‌ریزی یک پروژه دیجیتال" : "Trustence team planning a website design project"}
           />
-          <div className="absolute inset-x-7 bottom-7 rounded-2xl border border-white/15 bg-[#07120c]/80 p-4 text-sm text-white/75 backdrop-blur-xl">{locale === "fa" ? "تفکر تجاری، طراحی سنجیده و مهندسی قابل اتکا؛ در یک فرایند منسجم." : "Commercial thinking, considered design, and dependable engineering—in one coherent process."}</div>
+          <div className="absolute inset-x-7 bottom-7 rounded-2xl border border-white/15 bg-[#07120c]/80 p-4 text-sm text-white/75 backdrop-blur-xl">{locale === "fa" ? "تفکر تجاری، طراحی سنجیده و مهندسی قابل اتکا؛ در یک فرایند منسجم." : "Commercial thinking, considered design, and dependable engineering, all within one coherent process."}</div>
         </div>
       </div>
     </section>

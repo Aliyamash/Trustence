@@ -8,6 +8,7 @@ import StructuredData from "@/components/StructuredData";
 import { absoluteUrl, breadcrumbSchema, createMetadata, schemaDate, SITE_URL } from "@/utils/seo";
 import { getServerLocale } from "@/i18n/server";
 import { localizeProject } from "@/utils/content";
+import GalleryLightbox from "@/components/pages/projects/GalleryLightbox";
 
 const getProject = cache(async (id) => {
   try {
@@ -227,7 +228,7 @@ export default async function SoloProjectPage({ params }) {
           <section data-motion="section" className="px-5 py-20 md:px-10 md:py-28" aria-labelledby="gallery-title">
             <div className="mx-auto max-w-7xl">
               <div className="mb-12 flex flex-col justify-between gap-5 md:flex-row md:items-end"><div><p className="mb-4 text-xs font-bold uppercase tracking-[.22em] text-[#cba792]">{copy.galleryEyebrow}</p><h2 id="gallery-title" className="title text-4xl font-semibold leading-tight md:text-6xl">{copy.galleryTitle}</h2></div><p className="max-w-md leading-7 text-white/55">{copy.galleryBody}</p></div>
-              <div data-motion-group className="grid gap-5 md:grid-cols-2">{gallery.map((image, index) => <div key={image.id || image.path} className={`group ${index === 0 && gallery.length % 2 === 1 ? "md:col-span-2" : ""}`}><BrowserFrame source={image.path} alt={image.alt || (fa ? `تصویر ${index + 1} پروژه ${project.title}` : `${project.title} project visual ${index + 1}`)} featured={index === 0 && gallery.length % 2 === 1} /></div>)}</div>
+              <GalleryLightbox images={gallery} projectTitle={project.title} fa={fa} />
             </div>
           </section>
         )}
