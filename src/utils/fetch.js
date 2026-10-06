@@ -1,6 +1,15 @@
 const REQUEST_TIMEOUT_MS = 10000;
 const PRODUCTION_MEDIA_URL = "https://api.trust-ence.com";
 
+function getApiBaseUrl() {
+  // Server-rendered requests should stay inside the VPS when an internal URL
+  // is configured. Browser requests must continue to use the public API URL.
+  if (typeof window === "undefined" && process.env.API_INTERNAL_BASE_URL) {
+    return process.env.API_INTERNAL_BASE_URL;
+  }
+  return process.env.NEXT_PUBLIC_API_BASE_URL;
+}
+
 function createUrl(baseUrl, pathname) {
   if (!baseUrl) throw new Error("API base URL is not configured");
   return `${baseUrl.replace(/\/$/, "")}/${pathname.replace(/^\//, "")}`;
@@ -14,7 +23,7 @@ async function parseResponse(res) {
 }
 
 const getFetch = async (url, options = {}) => {
-  const res = await fetch(createUrl(process.env.NEXT_PUBLIC_API_BASE_URL, url), {
+  const res = await fetch(createUrl(getApiBaseUrl(), url), {
     headers: { "Content-Type": "application/json", Accept: "application/json" },
     cache: options.cache || "no-store",
     next: options.next,
@@ -25,7 +34,7 @@ const getFetch = async (url, options = {}) => {
 };
 
 const postFetch = async (url, body) => {
-  const res = await fetch(createUrl(process.env.NEXT_PUBLIC_API_BASE_URL, url), {
+  const res = await fetch(createUrl(getApiBaseUrl(), url), {
     cache: "no-store",
     method: "POST",
     headers: { "Content-Type": "application/json", Accept: "application/json" },
