@@ -62,16 +62,32 @@ async function apiRequest(path, apiKey, options = {}) {
   const payload = await response.json().catch(() => null);
   if (!response.ok) {
     if (response.status === 401) throw new Error("کلید مدیریت صحیح نیست. زبان صفحه‌کلید و فاصله‌های ابتدا یا انتهای رمز را بررسی کنید.");
+    if (response.status === 413) throw new Error("حجم تصویر بیشتر از حد مجاز سرور است. تصویر را به کمتر از ۸ مگابایت کاهش دهید و تنظیم client_max_body_size در Nginx را بررسی کنید.");
     if (response.status === 503) throw new Error("کلید مدیریت هنوز روی سرور تنظیم نشده است.");
-    throw new Error(payload?.message || `ارتباط با API انجام نشد (${response.status}).`);
+    const fieldErrors = payload?.errors?.fieldErrors;
+    const details = fieldErrors && typeof fieldErrors === "object"
+      ? Object.entries(fieldErrors).flatMap(([field, messages]) => (messages || []).map((message) => `${field}: ${message}`)).join("، ")
+      : "";
+    throw new Error(details || payload?.message || `ارتباط با API انجام نشد (${response.status}).`);
   }
   return payload?.data;
 }
 
 async function uploadImage(file, apiKey) {
+  const allowedTypes = new Set(["image/jpeg", "image/png", "image/webp", "image/gif"]);
+  if (!allowedTypes.has(file.type)) throw new Error("فرمت تصویر مجاز نیست. فقط JPG، PNG، WebP یا GIF انتخاب کنید.");
+  if (file.size > 8 * 1024 * 1024) throw new Error("حجم تصویر باید کمتر از ۸ مگابایت باشد.");
   const body = new FormData();
   body.append("image", file);
   return apiRequest("/admin/uploads", apiKey, { method: "POST", body });
+}
+
+function normalizeOptionalUrl(value) {
+  const normalized = String(value || "").trim();
+  if (!normalized) return "";
+  if (/^https:\/\//i.test(normalized)) return normalized;
+  if (/^http:\/\//i.test(normalized)) return normalized.replace(/^http:\/\//i, "https://");
+  return `https://${normalized.replace(/^\/+/, "")}`;
 }
 
 function formatNumber(value) {
@@ -337,7 +353,7 @@ function CreatePanel({ type, item, apiKey, onClose, onCreated }) {
       if (!imagePath) throw new Error("لطفاً یک تصویر انتخاب کنید.");
       const body = isProject
         ? { title: form.get("title_en"), title_en: form.get("title_en"), title_fa: form.get("title_fa"), category_name: form.get("category_name_en"), category_name_en: form.get("category_name_en"), category_name_fa: form.get("category_name_fa"), intro: form.get("intro_en"), intro_en: form.get("intro_en"), intro_fa: form.get("intro_fa"), description: form.get("description_en"), description_en: form.get("description_en"), description_fa: form.get("description_fa"), link: form.get("link"), tags: form.get("tags_en"), tags_en: form.get("tags_en"), tags_fa: form.get("tags_fa"), banner: imagePath, is_published: form.get("is_published") === "on" }
-        : { name: form.get("name_en"), name_en: form.get("name_en"), name_fa: form.get("name_fa"), position: form.get("position_en"), position_en: form.get("position_en"), position_fa: form.get("position_fa"), bio: form.get("bio_en"), bio_en: form.get("bio_en"), bio_fa: form.get("bio_fa"), github: form.get("github"), twitter: form.get("twitter"), linkedin: form.get("linkedin"), sort_order: Number(form.get("sort_order") || 0), profile: imagePath, is_published: form.get("is_published") === "on" };
+        : { name: form.get("name_en"), name_en: form.get("name_en"), name_fa: form.get("name_fa"), position: form.get("position_en"), position_en: form.get("position_en"), position_fa: form.get("position_fa"), bio: form.get("bio_en"), bio_en: form.get("bio_en"), bio_fa: form.get("bio_fa"), github: normalizeOptionalUrl(form.get("github")), twitter: normalizeOptionalUrl(form.get("twitter")), linkedin: normalizeOptionalUrl(form.get("linkedin")), sort_order: Number(form.get("sort_order") || 0), profile: imagePath, is_published: form.get("is_published") === "on" };
       if (isProject) Object.assign(body, {
         challenge_en: form.get("challenge_en"), challenge_fa: form.get("challenge_fa"),
         solution_en: form.get("solution_en"), solution_fa: form.get("solution_fa"),
@@ -395,14 +411,14 @@ function CreatePanel({ type, item, apiKey, onClose, onCreated }) {
             <input className={inputClass} name="name_en" placeholder="Full name (English)" defaultValue={item?.name_en || item?.name || ""} dir="ltr" required /><input className={inputClass} name="name_fa" placeholder="نام کامل فارسی" defaultValue={item?.name_fa || ""} />
             <input className={inputClass} name="position_en" placeholder="Position (English)" defaultValue={item?.position_en || item?.position || ""} dir="ltr" required /><input className={inputClass} name="position_fa" placeholder="سمت فارسی" defaultValue={item?.position_fa || ""} />
             <textarea className={`${inputClass} min-h-28 sm:col-span-2`} name="bio_en" placeholder="Biography (English)" defaultValue={item?.bio_en || item?.bio || ""} dir="ltr" /><textarea className={`${inputClass} min-h-28 sm:col-span-2`} name="bio_fa" placeholder="بیوگرافی فارسی" defaultValue={item?.bio_fa || ""} />
-            <input className={inputClass} name="github" type="url" placeholder="لینک GitHub" defaultValue={item?.github || ""} dir="ltr" /><input className={inputClass} name="linkedin" type="url" placeholder="لینک LinkedIn" defaultValue={item?.linkedin || ""} dir="ltr" /><input className={inputClass} name="twitter" type="url" placeholder="لینک X/Twitter" defaultValue={item?.twitter || ""} dir="ltr" /><input className={inputClass} name="sort_order" type="number" min="0" defaultValue={item?.sort_order ?? 0} placeholder="ترتیب" />
+            <input className={inputClass} name="github" type="text" inputMode="url" placeholder="github.com/username" defaultValue={item?.github || ""} dir="ltr" /><input className={inputClass} name="linkedin" type="text" inputMode="url" placeholder="linkedin.com/in/username" defaultValue={item?.linkedin || ""} dir="ltr" /><input className={inputClass} name="twitter" type="text" inputMode="url" placeholder="x.com/username" defaultValue={item?.twitter || ""} dir="ltr" /><input className={inputClass} name="sort_order" type="number" min="0" defaultValue={item?.sort_order ?? 0} placeholder="ترتیب" />
           </>}
           {isEditing && currentImage && <div className="flex items-center gap-4 rounded-2xl border border-slate-100 bg-slate-50 p-3 sm:col-span-2"><div className="h-20 w-24 shrink-0 rounded-xl bg-slate-200 bg-cover bg-center" style={{ backgroundImage: `url("${mediaUrl(currentImage)}")` }} /><div><p className="text-sm font-black text-slate-800">تصویر فعلی</p><p className="mt-1 text-xs leading-5 text-slate-500">اگر تصویر جدید انتخاب نکنید، همین تصویر حفظ می‌شود.</p></div></div>}
           <label className="flex cursor-pointer items-center gap-3 rounded-2xl border-2 border-dashed border-emerald-200 bg-emerald-50/60 p-5 text-sm font-bold text-emerald-800 sm:col-span-2"><CloudUpload /><span>{imageName || `${isEditing ? "تغییر" : "انتخاب"} ${isProject ? "تصویر اصلی پروژه" : "تصویر عضو تیم"} (حداکثر ۸ مگابایت)`}</span><input className="hidden" name="image" type="file" accept="image/jpeg,image/png,image/webp,image/gif" required={!isEditing} onChange={(event) => setImageName(event.target.files?.[0]?.name || "")} /></label>
           {isProject && <label className="flex cursor-pointer items-center gap-3 rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 p-5 text-sm font-bold text-slate-700 sm:col-span-2"><ImageIcon className="text-emerald-700" /><span>{isEditing ? "افزودن تصاویر جدید به گالری" : "تصاویر تکمیلی گالری"} {galleryCount ? `(${formatNumber(galleryCount)} تصویر انتخاب شده)` : "(اختیاری)"}</span><input className="hidden" name="gallery_images" type="file" accept="image/jpeg,image/png,image/webp,image/gif" multiple onChange={(event) => setGalleryCount(event.target.files?.length || 0)} /></label>}
           <label className="flex cursor-pointer items-center gap-3 rounded-2xl border border-slate-200 bg-white p-4 text-sm font-bold text-slate-700 sm:col-span-2"><input className="h-5 w-5 accent-emerald-700" name="is_published" type="checkbox" defaultChecked={isEditing ? Boolean(item?.is_published) : true} /><span>در سایت نمایش داده شود</span></label>
         </div>
-        {error && <p className="mt-4 rounded-xl bg-rose-50 p-3 text-sm text-rose-700">{error}</p>}
+        {error && <p role="alert" aria-live="assertive" className="mt-4 rounded-xl border border-rose-100 bg-rose-50 p-3 text-sm leading-6 text-rose-700">{error}</p>}
         <button disabled={busy} className="mt-6 flex w-full items-center justify-center gap-2 rounded-2xl bg-emerald-700 px-5 py-4 font-bold text-white shadow-lg shadow-emerald-700/20 disabled:opacity-60">{busy ? <RefreshCw className="animate-spin" size={18} /> : isEditing ? <Pencil size={18} /> : <CloudUpload size={18} />}{busy ? "در حال ذخیره..." : isEditing ? "ذخیره تغییرات" : "آپلود و انتشار"}</button>
       </form>
     </div>
