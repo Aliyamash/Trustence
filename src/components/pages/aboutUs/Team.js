@@ -31,6 +31,7 @@ export default async function Team() {
                     src={member.image}
                     alt={member.name}
                     fill
+                    unoptimized
                     sizes="(max-width:640px) 100vw, (max-width:1280px) 50vw, 33vw"
                     className="object-cover object-top saturate-[.78] contrast-[1.04] transition duration-700 ease-out group-hover:scale-[1.025] group-hover:saturate-100"
                   />
