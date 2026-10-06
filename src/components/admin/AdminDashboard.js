@@ -346,6 +346,16 @@ function CreatePanel({ type, item, apiKey, onClose, onCreated }) {
     setError("");
     try {
       const form = new FormData(event.currentTarget);
+      const teamContent = !isProject ? {
+        nameEn: String(form.get("name_en") || "").trim(),
+        nameFa: String(form.get("name_fa") || "").trim(),
+        positionEn: String(form.get("position_en") || "").trim(),
+        positionFa: String(form.get("position_fa") || "").trim(),
+        bioEn: String(form.get("bio_en") || "").trim(),
+        bioFa: String(form.get("bio_fa") || "").trim(),
+      } : null;
+      if (teamContent && !teamContent.nameEn && !teamContent.nameFa) throw new Error("نام عضو تیم را حداقل در یکی از زبان‌های فارسی یا انگلیسی وارد کنید.");
+      if (teamContent && !teamContent.positionEn && !teamContent.positionFa) throw new Error("سمت عضو تیم را حداقل در یکی از زبان‌های فارسی یا انگلیسی وارد کنید.");
       const imageFile = form.get("image");
       const hasNewImage = imageFile instanceof File && imageFile.size > 0;
       const uploaded = hasNewImage ? await uploadImage(imageFile, apiKey) : null;
@@ -353,7 +363,7 @@ function CreatePanel({ type, item, apiKey, onClose, onCreated }) {
       if (!imagePath) throw new Error("لطفاً یک تصویر انتخاب کنید.");
       const body = isProject
         ? { title: form.get("title_en"), title_en: form.get("title_en"), title_fa: form.get("title_fa"), category_name: form.get("category_name_en"), category_name_en: form.get("category_name_en"), category_name_fa: form.get("category_name_fa"), intro: form.get("intro_en"), intro_en: form.get("intro_en"), intro_fa: form.get("intro_fa"), description: form.get("description_en"), description_en: form.get("description_en"), description_fa: form.get("description_fa"), link: form.get("link"), tags: form.get("tags_en"), tags_en: form.get("tags_en"), tags_fa: form.get("tags_fa"), banner: imagePath, is_published: form.get("is_published") === "on" }
-        : { name: form.get("name_en"), name_en: form.get("name_en"), name_fa: form.get("name_fa"), position: form.get("position_en"), position_en: form.get("position_en"), position_fa: form.get("position_fa"), bio: form.get("bio_en"), bio_en: form.get("bio_en"), bio_fa: form.get("bio_fa"), github: normalizeOptionalUrl(form.get("github")), twitter: normalizeOptionalUrl(form.get("twitter")), linkedin: normalizeOptionalUrl(form.get("linkedin")), sort_order: Number(form.get("sort_order") || 0), profile: imagePath, is_published: form.get("is_published") === "on" };
+        : { name: teamContent.nameEn || teamContent.nameFa, name_en: teamContent.nameEn, name_fa: teamContent.nameFa, position: teamContent.positionEn || teamContent.positionFa, position_en: teamContent.positionEn, position_fa: teamContent.positionFa, bio: teamContent.bioEn || teamContent.bioFa, bio_en: teamContent.bioEn, bio_fa: teamContent.bioFa, github: normalizeOptionalUrl(form.get("github")), twitter: normalizeOptionalUrl(form.get("twitter")), linkedin: normalizeOptionalUrl(form.get("linkedin")), sort_order: Number(form.get("sort_order") || 0), profile: imagePath, is_published: form.get("is_published") === "on" };
       if (isProject) Object.assign(body, {
         challenge_en: form.get("challenge_en"), challenge_fa: form.get("challenge_fa"),
         solution_en: form.get("solution_en"), solution_fa: form.get("solution_fa"),
@@ -407,9 +417,9 @@ function CreatePanel({ type, item, apiKey, onClose, onCreated }) {
             <textarea className={`${inputClass} sm:col-span-2`} name="testimonial_quote_fa" placeholder="نقل‌قول تأییدشده کارفرما (اختیاری)" defaultValue={item?.testimonial_quote_fa || ""} /><input className={inputClass} name="testimonial_name_fa" placeholder="نام کارفرما" defaultValue={item?.testimonial_name_fa || ""} /><input className={inputClass} name="testimonial_role_fa" placeholder="سمت / شرکت کارفرما" defaultValue={item?.testimonial_role_fa || ""} />
             <input className={inputClass} name="link" type="url" placeholder="https://project.example" defaultValue={item?.link || ""} dir="ltr" />
           </> : <>
-            <p className="sm:col-span-2 text-xs font-black text-emerald-700">پروفایل دوزبانه</p>
-            <input className={inputClass} name="name_en" placeholder="Full name (English)" defaultValue={item?.name_en || item?.name || ""} dir="ltr" required /><input className={inputClass} name="name_fa" placeholder="نام کامل فارسی" defaultValue={item?.name_fa || ""} />
-            <input className={inputClass} name="position_en" placeholder="Position (English)" defaultValue={item?.position_en || item?.position || ""} dir="ltr" required /><input className={inputClass} name="position_fa" placeholder="سمت فارسی" defaultValue={item?.position_fa || ""} />
+            <div className="sm:col-span-2"><p className="text-xs font-black text-emerald-700">پروفایل دوزبانه</p><p className="mt-1 text-xs leading-5 text-slate-400">برای نام و سمت، تکمیل حداقل یکی از زبان‌های فارسی یا انگلیسی کافی است.</p></div>
+            <input className={inputClass} name="name_en" placeholder="Full name (English)" defaultValue={item?.name_en || item?.name || ""} dir="ltr" /><input className={inputClass} name="name_fa" placeholder="نام کامل فارسی" defaultValue={item?.name_fa || ""} />
+            <input className={inputClass} name="position_en" placeholder="Position (English)" defaultValue={item?.position_en || item?.position || ""} dir="ltr" /><input className={inputClass} name="position_fa" placeholder="سمت فارسی" defaultValue={item?.position_fa || ""} />
             <textarea className={`${inputClass} min-h-28 sm:col-span-2`} name="bio_en" placeholder="Biography (English)" defaultValue={item?.bio_en || item?.bio || ""} dir="ltr" /><textarea className={`${inputClass} min-h-28 sm:col-span-2`} name="bio_fa" placeholder="بیوگرافی فارسی" defaultValue={item?.bio_fa || ""} />
             <input className={inputClass} name="github" type="text" inputMode="url" placeholder="github.com/username" defaultValue={item?.github || ""} dir="ltr" /><input className={inputClass} name="linkedin" type="text" inputMode="url" placeholder="linkedin.com/in/username" defaultValue={item?.linkedin || ""} dir="ltr" /><input className={inputClass} name="twitter" type="text" inputMode="url" placeholder="x.com/username" defaultValue={item?.twitter || ""} dir="ltr" /><input className={inputClass} name="sort_order" type="number" min="0" defaultValue={item?.sort_order ?? 0} placeholder="ترتیب" />
           </>}
