@@ -25,6 +25,14 @@ function localizedField(project, field, locale) {
 
 export function localizeProject(project, locale) {
   const localized = locale === "fa" ? projectFa[project.title] : null;
+  const gallery = Array.isArray(project.gallery)
+    ? project.gallery.map((image) => ({
+        ...image,
+        alt_text: locale === "fa"
+          ? (image.alt_text_fa || image.alt_text || "")
+          : (image.alt_text_en || image.alt_text || ""),
+      }))
+    : project.gallery;
   return {
     ...project,
     ...localized,
@@ -44,6 +52,7 @@ export function localizeProject(project, locale) {
     testimonial_name: localizedField(project, "testimonial_name", locale),
     testimonial_role: localizedField(project, "testimonial_role", locale),
     results: localizedField(project, "results", locale) ?? project.metrics,
+    gallery,
     banner: typeof project.banner === "string" ? resolveMediaUrl(project.banner) : project.banner,
     link: project.link || project.project_url || "",
   };

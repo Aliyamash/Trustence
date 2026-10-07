@@ -1,12 +1,15 @@
 "use client";
 
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import { localeCookie, localeDirection, normalizeLocale } from "./config";
 
 const LocaleContext = createContext(null);
 
 export default function LocaleProvider({ initialLocale = "en", children }) {
+  const router = useRouter();
   const [locale, setLocaleState] = useState(normalizeLocale(initialLocale));
+  const [, startTransition] = useTransition();
 
   useEffect(() => {
     setLocaleState(normalizeLocale(initialLocale));
@@ -25,7 +28,10 @@ export default function LocaleProvider({ initialLocale = "en", children }) {
     document.documentElement.lang = next;
     document.documentElement.dir = localeDirection(next);
     setLocaleState(next);
-  }, []);
+    // Project and team content is localized in Server Components. Refreshing
+    // re-runs them with the updated locale cookie without a full page reload.
+    startTransition(() => router.refresh());
+  }, [router]);
 
   const value = useMemo(() => ({
     locale,

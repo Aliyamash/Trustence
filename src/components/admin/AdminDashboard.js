@@ -336,6 +336,7 @@ function CreatePanel({ type, item, apiKey, onClose, onCreated }) {
   const [error, setError] = useState("");
   const [galleryCount, setGalleryCount] = useState(0);
   const [imageName, setImageName] = useState("");
+  const [contentLanguage, setContentLanguage] = useState("fa");
   const isProject = type === "project";
   const isEditing = Boolean(item?.id);
   const currentImage = isProject ? item?.banner : item?.profile;
@@ -346,24 +347,38 @@ function CreatePanel({ type, item, apiKey, onClose, onCreated }) {
     setError("");
     try {
       const form = new FormData(event.currentTarget);
-      const teamContent = !isProject ? {
-        nameEn: String(form.get("name_en") || "").trim(),
-        nameFa: String(form.get("name_fa") || "").trim(),
-        positionEn: String(form.get("position_en") || "").trim(),
-        positionFa: String(form.get("position_fa") || "").trim(),
-        bioEn: String(form.get("bio_en") || "").trim(),
-        bioFa: String(form.get("bio_fa") || "").trim(),
+      const readText = (name) => String(form.get(name) || "").trim();
+      const isPublished = form.get("is_published") === "on";
+      const failOnLanguage = (language, message) => { setContentLanguage(language); throw new Error(message); };
+      const projectContent = isProject ? {
+        titleEn: readText("title_en"), titleFa: readText("title_fa"),
+        categoryEn: readText("category_name_en"), categoryFa: readText("category_name_fa"),
+        introEn: readText("intro_en"), introFa: readText("intro_fa"),
+        descriptionEn: readText("description_en"), descriptionFa: readText("description_fa"),
+        tagsEn: readText("tags_en"), tagsFa: readText("tags_fa"),
       } : null;
+      const teamContent = !isProject ? {
+        nameEn: readText("name_en"), nameFa: readText("name_fa"),
+        positionEn: readText("position_en"), positionFa: readText("position_fa"),
+        bioEn: readText("bio_en"), bioFa: readText("bio_fa"),
+      } : null;
+      if (projectContent && !projectContent.titleEn && !projectContent.titleFa) throw new Error("عنوان پروژه را حداقل در یکی از زبان‌ها وارد کنید.");
+      if (projectContent && !projectContent.categoryEn && !projectContent.categoryFa) throw new Error("دسته‌بندی پروژه را حداقل در یکی از زبان‌ها وارد کنید.");
+      if (projectContent && !projectContent.introEn && !projectContent.introFa) throw new Error("معرفی کوتاه پروژه را حداقل در یکی از زبان‌ها وارد کنید.");
+      if (projectContent && isPublished && (!projectContent.titleEn || !projectContent.categoryEn || !projectContent.introEn)) failOnLanguage("en", "برای انتشار پروژه، عنوان، دسته‌بندی و معرفی کوتاه انگلیسی را کامل کنید.");
+      if (projectContent && isPublished && (!projectContent.titleFa || !projectContent.categoryFa || !projectContent.introFa)) failOnLanguage("fa", "برای انتشار پروژه، عنوان، دسته‌بندی و معرفی کوتاه فارسی را کامل کنید.");
       if (teamContent && !teamContent.nameEn && !teamContent.nameFa) throw new Error("نام عضو تیم را حداقل در یکی از زبان‌های فارسی یا انگلیسی وارد کنید.");
       if (teamContent && !teamContent.positionEn && !teamContent.positionFa) throw new Error("سمت عضو تیم را حداقل در یکی از زبان‌های فارسی یا انگلیسی وارد کنید.");
+      if (teamContent && isPublished && (!teamContent.nameEn || !teamContent.positionEn)) failOnLanguage("en", "برای انتشار عضو تیم، نام و سمت انگلیسی را کامل کنید.");
+      if (teamContent && isPublished && (!teamContent.nameFa || !teamContent.positionFa)) failOnLanguage("fa", "برای انتشار عضو تیم، نام و سمت فارسی را کامل کنید.");
       const imageFile = form.get("image");
       const hasNewImage = imageFile instanceof File && imageFile.size > 0;
       const uploaded = hasNewImage ? await uploadImage(imageFile, apiKey) : null;
       const imagePath = uploaded?.path || currentImage;
       if (!imagePath) throw new Error("لطفاً یک تصویر انتخاب کنید.");
       const body = isProject
-        ? { title: form.get("title_en"), title_en: form.get("title_en"), title_fa: form.get("title_fa"), category_name: form.get("category_name_en"), category_name_en: form.get("category_name_en"), category_name_fa: form.get("category_name_fa"), intro: form.get("intro_en"), intro_en: form.get("intro_en"), intro_fa: form.get("intro_fa"), description: form.get("description_en"), description_en: form.get("description_en"), description_fa: form.get("description_fa"), link: form.get("link"), tags: form.get("tags_en"), tags_en: form.get("tags_en"), tags_fa: form.get("tags_fa"), banner: imagePath, is_published: form.get("is_published") === "on" }
-        : { name: teamContent.nameEn || teamContent.nameFa, name_en: teamContent.nameEn, name_fa: teamContent.nameFa, position: teamContent.positionEn || teamContent.positionFa, position_en: teamContent.positionEn, position_fa: teamContent.positionFa, bio: teamContent.bioEn || teamContent.bioFa, bio_en: teamContent.bioEn, bio_fa: teamContent.bioFa, github: normalizeOptionalUrl(form.get("github")), twitter: normalizeOptionalUrl(form.get("twitter")), linkedin: normalizeOptionalUrl(form.get("linkedin")), sort_order: Number(form.get("sort_order") || 0), profile: imagePath, is_published: form.get("is_published") === "on" };
+        ? { title: projectContent.titleEn || projectContent.titleFa, title_en: projectContent.titleEn, title_fa: projectContent.titleFa, category_name: projectContent.categoryEn || projectContent.categoryFa, category_name_en: projectContent.categoryEn, category_name_fa: projectContent.categoryFa, intro: projectContent.introEn || projectContent.introFa, intro_en: projectContent.introEn, intro_fa: projectContent.introFa, description: projectContent.descriptionEn || projectContent.descriptionFa, description_en: projectContent.descriptionEn, description_fa: projectContent.descriptionFa, link: readText("link"), tags: projectContent.tagsEn || projectContent.tagsFa, tags_en: projectContent.tagsEn, tags_fa: projectContent.tagsFa, banner: imagePath, is_published: isPublished }
+        : { name: teamContent.nameEn || teamContent.nameFa, name_en: teamContent.nameEn, name_fa: teamContent.nameFa, position: teamContent.positionEn || teamContent.positionFa, position_en: teamContent.positionEn, position_fa: teamContent.positionFa, bio: teamContent.bioEn || teamContent.bioFa, bio_en: teamContent.bioEn, bio_fa: teamContent.bioFa, github: normalizeOptionalUrl(form.get("github")), twitter: normalizeOptionalUrl(form.get("twitter")), linkedin: normalizeOptionalUrl(form.get("linkedin")), sort_order: Number(form.get("sort_order") || 0), profile: imagePath, is_published: isPublished };
       if (isProject) Object.assign(body, {
         challenge_en: form.get("challenge_en"), challenge_fa: form.get("challenge_fa"),
         solution_en: form.get("solution_en"), solution_fa: form.get("solution_fa"),
@@ -385,7 +400,7 @@ function CreatePanel({ type, item, apiKey, onClose, onCreated }) {
         const galleryOffset = Number(item?.gallery_count || 0);
         await Promise.all(galleryUploads.map((image, index) => apiRequest(`/admin/projects/${saved.id}/images`, apiKey, {
           method: "POST",
-          body: JSON.stringify({ path: image.path, alt_text: `${body.title} – project image ${galleryOffset + index + 1}`, sort_order: galleryOffset + index }),
+          body: JSON.stringify({ path: image.path, alt_text: `${body.title} - project image ${galleryOffset + index + 1}`, alt_text_en: `${body.title_en || body.title} - project image ${galleryOffset + index + 1}`, alt_text_fa: `${body.title_fa || body.title} - تصویر پروژه ${galleryOffset + index + 1}`, sort_order: galleryOffset + index }),
         })));
       }
       await onCreated();
@@ -402,25 +417,38 @@ function CreatePanel({ type, item, apiKey, onClose, onCreated }) {
       <form onSubmit={submit} className="max-h-[92vh] w-full max-w-2xl overflow-y-auto rounded-t-[2rem] bg-white p-6 shadow-2xl sm:rounded-[2rem] sm:p-8">
         <div className="mb-7 flex items-center justify-between"><div><p className="text-xs font-bold text-emerald-600">{isEditing ? "ویرایش محتوا" : "محتوای جدید"}</p><h2 className="mt-1 text-2xl font-black text-slate-900">{isEditing ? (isProject ? "ویرایش پروژه" : "ویرایش عضو تیم") : (isProject ? "افزودن پروژه" : "افزودن عضو تیم")}</h2></div><button type="button" onClick={onClose} className="grid h-10 w-10 place-items-center rounded-xl bg-slate-100 text-slate-500"><X size={20} /></button></div>
         <div className="grid gap-4 sm:grid-cols-2">
+          <div className="sm:col-span-2 rounded-2xl border border-slate-200 bg-slate-50 p-2">
+            <div className="grid grid-cols-2 gap-2">
+              <button type="button" onClick={() => setContentLanguage("fa")} className={`rounded-xl px-4 py-3 text-sm font-black transition ${contentLanguage === "fa" ? "bg-emerald-700 text-white shadow-md" : "text-slate-500 hover:bg-white"}`}>محتوای فارسی</button>
+              <button type="button" onClick={() => setContentLanguage("en")} className={`rounded-xl px-4 py-3 text-sm font-black transition ${contentLanguage === "en" ? "bg-emerald-700 text-white shadow-md" : "text-slate-500 hover:bg-white"}`}>English content</button>
+            </div>
+            <p className="px-3 pb-1 pt-3 text-xs leading-5 text-slate-400">اطلاعات هر دو زبان در همین فرم حفظ می‌شود. برای انتشار، فیلدهای اصلی فارسی و انگلیسی باید کامل باشند.</p>
+          </div>
           {isProject ? <>
-            <p className="sm:col-span-2 text-xs font-black text-emerald-700">محتوای انگلیسی</p>
-            <input className={inputClass} name="title_en" placeholder="Project title" defaultValue={item?.title_en || item?.title || ""} dir="ltr" required /><input className={inputClass} name="category_name_en" placeholder="Category" defaultValue={item?.category_name_en || item?.category_name || ""} dir="ltr" required />
-            <textarea className={`${inputClass} sm:col-span-2`} name="intro_en" placeholder="Short introduction" defaultValue={item?.intro_en || item?.intro || ""} dir="ltr" required /><textarea className={`${inputClass} min-h-32 sm:col-span-2`} name="description_en" placeholder="Full case-study description" defaultValue={item?.description_en || item?.description || ""} dir="ltr" /><input className={inputClass} name="tags_en" placeholder="Tags, comma separated" defaultValue={item?.tags_en || item?.tags || ""} dir="ltr" />
+            <div className={`${contentLanguage === "en" ? "grid" : "hidden"} gap-4 sm:col-span-2 sm:grid-cols-2`} dir="ltr">
+            <input className={inputClass} name="title_en" placeholder="Project title" defaultValue={item?.title_en || item?.title || ""} dir="ltr" /><input className={inputClass} name="category_name_en" placeholder="Category" defaultValue={item?.category_name_en || item?.category_name || ""} dir="ltr" />
+            <textarea className={`${inputClass} sm:col-span-2`} name="intro_en" placeholder="Short introduction" defaultValue={item?.intro_en || item?.intro || ""} dir="ltr" /><textarea className={`${inputClass} min-h-32 sm:col-span-2`} name="description_en" placeholder="Full case-study description" defaultValue={item?.description_en || item?.description || ""} dir="ltr" /><input className={inputClass} name="tags_en" placeholder="Tags, comma separated" defaultValue={item?.tags_en || item?.tags || ""} dir="ltr" />
             <textarea className={`${inputClass} sm:col-span-2`} name="challenge_en" placeholder="The client challenge" defaultValue={item?.challenge_en || ""} dir="ltr" /><textarea className={`${inputClass} sm:col-span-2`} name="solution_en" placeholder="The solution and key decisions" defaultValue={item?.solution_en || ""} dir="ltr" /><textarea className={`${inputClass} sm:col-span-2`} name="outcome_en" placeholder="The outcome (use verified claims only)" defaultValue={item?.outcome_en || ""} dir="ltr" />
             <input className={inputClass} name="duration_en" placeholder="Engagement length" defaultValue={item?.duration_en || ""} dir="ltr" /><input className={inputClass} name="team_role_en" placeholder="Trustence role" defaultValue={item?.team_role_en || ""} dir="ltr" /><textarea className={`${inputClass} sm:col-span-2`} name="results_en" placeholder={"Verified results, one per line: value | label\n35% | Faster processing"} defaultValue={item?.results_en || ""} dir="ltr" />
             <textarea className={`${inputClass} sm:col-span-2`} name="testimonial_quote_en" placeholder="Approved client quote (optional)" defaultValue={item?.testimonial_quote_en || ""} dir="ltr" /><input className={inputClass} name="testimonial_name_en" placeholder="Client name" defaultValue={item?.testimonial_name_en || ""} dir="ltr" /><input className={inputClass} name="testimonial_role_en" placeholder="Client role / company" defaultValue={item?.testimonial_role_en || ""} dir="ltr" />
-            <p className="mt-2 sm:col-span-2 text-xs font-black text-emerald-700">محتوای فارسی</p>
+            </div>
+            <div className={`${contentLanguage === "fa" ? "grid" : "hidden"} gap-4 sm:col-span-2 sm:grid-cols-2`} dir="rtl">
             <input className={inputClass} name="title_fa" placeholder="عنوان فارسی پروژه" defaultValue={item?.title_fa || ""} /><input className={inputClass} name="category_name_fa" placeholder="دسته‌بندی فارسی" defaultValue={item?.category_name_fa || ""} />
             <textarea className={`${inputClass} sm:col-span-2`} name="intro_fa" placeholder="معرفی کوتاه فارسی" defaultValue={item?.intro_fa || ""} /><textarea className={`${inputClass} min-h-32 sm:col-span-2`} name="description_fa" placeholder="شرح کامل فارسی" defaultValue={item?.description_fa || ""} /><input className={inputClass} name="tags_fa" placeholder="تگ‌های فارسی با کاما" defaultValue={item?.tags_fa || ""} />
             <textarea className={`${inputClass} sm:col-span-2`} name="challenge_fa" placeholder="چالش واقعی کارفرما" defaultValue={item?.challenge_fa || ""} /><textarea className={`${inputClass} sm:col-span-2`} name="solution_fa" placeholder="راه‌حل و تصمیم‌های کلیدی" defaultValue={item?.solution_fa || ""} /><textarea className={`${inputClass} sm:col-span-2`} name="outcome_fa" placeholder="نتیجه پروژه (فقط ادعاهای قابل تأیید)" defaultValue={item?.outcome_fa || ""} />
             <input className={inputClass} name="duration_fa" placeholder="مدت همکاری" defaultValue={item?.duration_fa || ""} /><input className={inputClass} name="team_role_fa" placeholder="نقش تراستنس" defaultValue={item?.team_role_fa || ""} /><textarea className={`${inputClass} sm:col-span-2`} name="results_fa" placeholder={"نتایج واقعی، هر مورد یک خط: مقدار | عنوان\n۳۵٪ | پردازش سریع‌تر"} defaultValue={item?.results_fa || ""} />
             <textarea className={`${inputClass} sm:col-span-2`} name="testimonial_quote_fa" placeholder="نقل‌قول تأییدشده کارفرما (اختیاری)" defaultValue={item?.testimonial_quote_fa || ""} /><input className={inputClass} name="testimonial_name_fa" placeholder="نام کارفرما" defaultValue={item?.testimonial_name_fa || ""} /><input className={inputClass} name="testimonial_role_fa" placeholder="سمت / شرکت کارفرما" defaultValue={item?.testimonial_role_fa || ""} />
+            </div>
             <input className={inputClass} name="link" type="url" placeholder="https://project.example" defaultValue={item?.link || ""} dir="ltr" />
           </> : <>
-            <div className="sm:col-span-2"><p className="text-xs font-black text-emerald-700">پروفایل دوزبانه</p><p className="mt-1 text-xs leading-5 text-slate-400">برای نام و سمت، تکمیل حداقل یکی از زبان‌های فارسی یا انگلیسی کافی است.</p></div>
-            <input className={inputClass} name="name_en" placeholder="Full name (English)" defaultValue={item?.name_en || item?.name || ""} dir="ltr" /><input className={inputClass} name="name_fa" placeholder="نام کامل فارسی" defaultValue={item?.name_fa || ""} />
-            <input className={inputClass} name="position_en" placeholder="Position (English)" defaultValue={item?.position_en || item?.position || ""} dir="ltr" /><input className={inputClass} name="position_fa" placeholder="سمت فارسی" defaultValue={item?.position_fa || ""} />
-            <textarea className={`${inputClass} min-h-28 sm:col-span-2`} name="bio_en" placeholder="Biography (English)" defaultValue={item?.bio_en || item?.bio || ""} dir="ltr" /><textarea className={`${inputClass} min-h-28 sm:col-span-2`} name="bio_fa" placeholder="بیوگرافی فارسی" defaultValue={item?.bio_fa || ""} />
+            <div className={`${contentLanguage === "en" ? "grid" : "hidden"} gap-4 sm:col-span-2 sm:grid-cols-2`} dir="ltr">
+              <input className={inputClass} name="name_en" placeholder="Full name (English)" defaultValue={item?.name_en || item?.name || ""} dir="ltr" /><input className={inputClass} name="position_en" placeholder="Position (English)" defaultValue={item?.position_en || item?.position || ""} dir="ltr" />
+              <textarea className={`${inputClass} min-h-28 sm:col-span-2`} name="bio_en" placeholder="Biography (English)" defaultValue={item?.bio_en || item?.bio || ""} dir="ltr" />
+            </div>
+            <div className={`${contentLanguage === "fa" ? "grid" : "hidden"} gap-4 sm:col-span-2 sm:grid-cols-2`} dir="rtl">
+              <input className={inputClass} name="name_fa" placeholder="نام کامل فارسی" defaultValue={item?.name_fa || ""} /><input className={inputClass} name="position_fa" placeholder="سمت فارسی" defaultValue={item?.position_fa || ""} />
+              <textarea className={`${inputClass} min-h-28 sm:col-span-2`} name="bio_fa" placeholder="بیوگرافی فارسی" defaultValue={item?.bio_fa || ""} />
+            </div>
             <input className={inputClass} name="github" type="text" inputMode="url" placeholder="github.com/username" defaultValue={item?.github || ""} dir="ltr" /><input className={inputClass} name="linkedin" type="text" inputMode="url" placeholder="linkedin.com/in/username" defaultValue={item?.linkedin || ""} dir="ltr" /><input className={inputClass} name="twitter" type="text" inputMode="url" placeholder="x.com/username" defaultValue={item?.twitter || ""} dir="ltr" /><input className={inputClass} name="sort_order" type="number" min="0" defaultValue={item?.sort_order ?? 0} placeholder="ترتیب" />
           </>}
           {isEditing && currentImage && <div className="flex items-center gap-4 rounded-2xl border border-slate-100 bg-slate-50 p-3 sm:col-span-2"><div className="h-20 w-24 shrink-0 rounded-xl bg-slate-200 bg-cover bg-center" style={{ backgroundImage: `url("${mediaUrl(currentImage)}")` }} /><div><p className="text-sm font-black text-slate-800">تصویر فعلی</p><p className="mt-1 text-xs leading-5 text-slate-500">اگر تصویر جدید انتخاب نکنید، همین تصویر حفظ می‌شود.</p></div></div>}
@@ -437,6 +465,7 @@ function CreatePanel({ type, item, apiKey, onClose, onCreated }) {
 
 function ProjectGalleryPanel({ project, apiKey, onClose, onChanged }) {
   const [images, setImages] = useState([]);
+  const [captions, setCaptions] = useState({});
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
@@ -444,7 +473,9 @@ function ProjectGalleryPanel({ project, apiKey, onClose, onChanged }) {
   const loadImages = useCallback(async () => {
     setLoading(true);
     try {
-      setImages(await apiRequest(`/admin/projects/${project.id}/images`, apiKey));
+      const loaded = await apiRequest(`/admin/projects/${project.id}/images`, apiKey);
+      setImages(loaded);
+      setCaptions(Object.fromEntries(loaded.map((image) => [image.id, { en: image.alt_text_en || image.alt_text || "", fa: image.alt_text_fa || "" }])));
     } catch (loadError) {
       setError(loadError.message);
     } finally {
@@ -463,13 +494,31 @@ function ProjectGalleryPanel({ project, apiKey, onClose, onChanged }) {
       const uploaded = await Promise.all(files.map((file) => uploadImage(file, apiKey)));
       await Promise.all(uploaded.map((image, index) => apiRequest(`/admin/projects/${project.id}/images`, apiKey, {
         method: "POST",
-        body: JSON.stringify({ path: image.path, alt_text: `${project.title} – project image ${images.length + index + 1}`, sort_order: images.length + index }),
+        body: JSON.stringify({ path: image.path, alt_text: `${project.title_en || project.title} - project image ${images.length + index + 1}`, alt_text_en: `${project.title_en || project.title} - project image ${images.length + index + 1}`, alt_text_fa: `${project.title_fa || project.title} - تصویر پروژه ${images.length + index + 1}`, sort_order: images.length + index }),
       })));
       event.target.value = "";
       await loadImages();
       await onChanged();
     } catch (uploadError) {
       setError(uploadError.message);
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function saveCaption(image) {
+    setBusy(true);
+    setError("");
+    try {
+      const values = captions[image.id] || { en: "", fa: "" };
+      await apiRequest(`/admin/projects/${project.id}/images/${image.id}`, apiKey, {
+        method: "PATCH",
+        body: JSON.stringify({ alt_text: values.en || values.fa, alt_text_en: values.en, alt_text_fa: values.fa, sort_order: image.sort_order }),
+      });
+      await loadImages();
+      await onChanged();
+    } catch (captionError) {
+      setError(captionError.message);
     } finally {
       setBusy(false);
     }
@@ -500,7 +549,7 @@ function ProjectGalleryPanel({ project, apiKey, onClose, onChanged }) {
         <div className="p-5 sm:p-7">
           <label className={`flex cursor-pointer items-center justify-center gap-3 rounded-[1.4rem] border-2 border-dashed border-emerald-200 bg-emerald-50/70 p-6 text-sm font-black text-emerald-800 transition hover:border-emerald-400 ${busy ? "pointer-events-none opacity-60" : ""}`}><CloudUpload size={22} /><span>{busy ? "در حال آپلود تصاویر..." : "افزودن چند تصویر به گالری"}</span><input className="hidden" type="file" accept="image/jpeg,image/png,image/webp,image/gif" multiple onChange={addImages} disabled={busy} /></label>
           {error && <p className="mt-4 rounded-2xl bg-rose-50 p-4 text-sm text-rose-700">{error}</p>}
-          {loading ? <div className="grid min-h-64 place-items-center text-sm text-slate-400"><RefreshCw className="animate-spin text-emerald-600" /></div> : <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{images.map((image, index) => <article key={image.id} className="group overflow-hidden rounded-[1.4rem] border border-slate-100 bg-slate-50"><div className="relative aspect-[4/3] overflow-hidden bg-slate-200"><Image src={mediaUrl(image.path)} alt={image.alt_text || `${project.title} – project image ${index + 1}`} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-cover transition duration-500 group-hover:scale-105" /><div className="absolute left-3 top-3 rounded-full bg-slate-950/65 px-2.5 py-1 text-[10px] font-black text-white backdrop-blur">تصویر {formatNumber(index + 1)}</div></div><div className="flex items-center justify-between gap-3 p-3"><p className="truncate text-xs text-slate-500">{image.alt_text || "بدون متن جایگزین"}</p><button type="button" disabled={busy} onClick={() => removeImage(image)} className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-rose-50 text-rose-600 transition hover:bg-rose-600 hover:text-white disabled:opacity-50" aria-label="حذف تصویر"><Trash2 size={16} /></button></div></article>)}{!images.length && <div className="col-span-full rounded-[1.5rem] border border-dashed border-slate-200 py-16 text-center text-sm text-slate-400">هنوز تصویر تکمیلی برای این پروژه ثبت نشده است.</div>}</div>}
+          {loading ? <div className="grid min-h-64 place-items-center text-sm text-slate-400"><RefreshCw className="animate-spin text-emerald-600" /></div> : <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{images.map((image, index) => <article key={image.id} className="group overflow-hidden rounded-[1.4rem] border border-slate-100 bg-slate-50"><div className="relative aspect-[4/3] overflow-hidden bg-slate-200"><Image src={mediaUrl(image.path)} alt={image.alt_text || `${project.title} - project image ${index + 1}`} fill unoptimized sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-cover transition duration-500 group-hover:scale-105" /><div className="absolute left-3 top-3 rounded-full bg-slate-950/65 px-2.5 py-1 text-[10px] font-black text-white backdrop-blur">تصویر {formatNumber(index + 1)}</div></div><div className="space-y-2 p-3"><input value={captions[image.id]?.fa || ""} onChange={(event) => setCaptions((items) => ({ ...items, [image.id]: { ...(items[image.id] || {}), fa: event.target.value } }))} className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs outline-none focus:border-emerald-500" placeholder="متن جایگزین فارسی" /><input value={captions[image.id]?.en || ""} onChange={(event) => setCaptions((items) => ({ ...items, [image.id]: { ...(items[image.id] || {}), en: event.target.value } }))} className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs outline-none focus:border-emerald-500" placeholder="English alt text" dir="ltr" /><div className="flex items-center justify-between gap-2 pt-1"><button type="button" disabled={busy} onClick={() => saveCaption(image)} className="rounded-xl bg-emerald-100 px-3 py-2 text-xs font-black text-emerald-800 disabled:opacity-50">ذخیره متن‌ها</button><button type="button" disabled={busy} onClick={() => removeImage(image)} className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-rose-50 text-rose-600 transition hover:bg-rose-600 hover:text-white disabled:opacity-50" aria-label="حذف تصویر"><Trash2 size={16} /></button></div></div></article>)}{!images.length && <div className="col-span-full rounded-[1.5rem] border border-dashed border-slate-200 py-16 text-center text-sm text-slate-400">هنوز تصویر تکمیلی برای این پروژه ثبت نشده است.</div>}</div>}
         </div>
       </section>
     </div>
@@ -546,8 +595,8 @@ export default function AdminDashboard() {
     if (saved) loadData(saved);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const filteredProjects = useMemo(() => projects.filter((item) => `${item.title} ${item.category_name}`.toLowerCase().includes(query.toLowerCase())), [projects, query]);
-  const filteredTeam = useMemo(() => team.filter((item) => `${item.name} ${item.position}`.toLowerCase().includes(query.toLowerCase())), [team, query]);
+  const filteredProjects = useMemo(() => projects.filter((item) => `${item.title} ${item.title_en} ${item.title_fa} ${item.category_name} ${item.category_name_en} ${item.category_name_fa}`.toLowerCase().includes(query.toLowerCase())), [projects, query]);
+  const filteredTeam = useMemo(() => team.filter((item) => `${item.name} ${item.name_en} ${item.name_fa} ${item.position} ${item.position_en} ${item.position_fa}`.toLowerCase().includes(query.toLowerCase())), [team, query]);
   const filteredMessages = useMemo(() => messages.filter((item) => `${item.full_name} ${item.email} ${item.inquiry}`.toLowerCase().includes(query.toLowerCase())), [messages, query]);
   const unreadMessages = useMemo(() => messages.filter((item) => item.status === "new"), [messages]);
 
@@ -622,7 +671,8 @@ export default function AdminDashboard() {
             <div className="flex items-center justify-between"><div><h2 className="text-2xl font-black">پروژه‌ها</h2><p className="mt-1 text-sm text-slate-400">نمونه‌کارهای منتشرشده، پیش‌نویس‌ها و گالری تصویر هر پروژه</p></div><button onClick={() => openEditor("project")} className="flex items-center gap-2 rounded-2xl bg-emerald-700 px-4 py-3 text-sm font-bold text-white shadow-lg"><Plus size={18} />افزودن پروژه</button></div>
             <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">{filteredProjects.map((project) => <article key={project.id} className="overflow-hidden rounded-[1.7rem] bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
               <div className="h-48 bg-slate-200 bg-cover bg-center" style={{ backgroundImage: `url("${mediaUrl(project.banner)}")` }} />
-              <div className="p-5"><div className="flex items-center justify-between"><span className="rounded-lg bg-emerald-50 px-2.5 py-1 text-[11px] font-bold text-emerald-700">{project.category_name}</span><span className={`rounded-full px-2.5 py-1 text-[10px] font-black ${project.is_published ? "bg-emerald-50 text-emerald-700" : "bg-slate-100 text-slate-500"}`}>{project.is_published ? "منتشرشده" : "پیش‌نویس"}</span></div><h3 className="mt-4 text-lg font-black">{project.title}</h3><p className="mt-2 line-clamp-2 text-sm leading-6 text-slate-500">{project.intro}</p>
+              <div className="p-5"><div className="flex items-center justify-between"><span className="rounded-lg bg-emerald-50 px-2.5 py-1 text-[11px] font-bold text-emerald-700">{project.category_name_fa || project.category_name_en || project.category_name}</span><span className={`rounded-full px-2.5 py-1 text-[10px] font-black ${project.is_published ? "bg-emerald-50 text-emerald-700" : "bg-slate-100 text-slate-500"}`}>{project.is_published ? "منتشرشده" : "پیش‌نویس"}</span></div><h3 className="mt-4 text-lg font-black">{project.title_fa || project.title_en || project.title}</h3><p className="mt-2 line-clamp-2 text-sm leading-6 text-slate-500">{project.intro_fa || project.intro_en || project.intro}</p>
+                <div className="mt-3 flex flex-wrap gap-2"><span className={`rounded-full px-2.5 py-1 text-[10px] font-black ${project.title_fa && project.category_name_fa && project.intro_fa ? "bg-emerald-50 text-emerald-700" : "bg-amber-50 text-amber-700"}`}>FA {project.title_fa && project.category_name_fa && project.intro_fa ? "کامل" : "ناقص"}</span><span className={`rounded-full px-2.5 py-1 text-[10px] font-black ${project.title_en && project.category_name_en && project.intro_en ? "bg-blue-50 text-blue-700" : "bg-amber-50 text-amber-700"}`}>EN {project.title_en && project.category_name_en && project.intro_en ? "کامل" : "ناقص"}</span></div>
                 <div className="mt-5 flex items-center justify-between gap-3 border-t border-slate-100 pt-4"><button type="button" onClick={() => setGalleryProject(project)} className="flex items-center gap-2 rounded-xl bg-emerald-50 px-3 py-2 text-xs font-black text-emerald-700 transition hover:bg-emerald-100"><ImageIcon size={15} />گالری {formatNumber(project.gallery_count || 0)}</button><div className="flex items-center gap-2"><button type="button" aria-label={`ویرایش ${project.title}`} onClick={() => openEditor("project", project)} className="grid h-9 w-9 place-items-center rounded-xl bg-blue-50 text-blue-600 transition hover:bg-blue-600 hover:text-white"><Pencil size={16} /></button><button type="button" aria-label={`حذف ${project.title}`} onClick={() => remove(`/admin/projects/${project.id}`, project.title)} className="grid h-9 w-9 place-items-center rounded-xl bg-rose-50 text-rose-600 transition hover:bg-rose-600 hover:text-white"><Trash2 size={16} /></button></div></div>
               </div>
             </article>)}</div>
@@ -632,8 +682,8 @@ export default function AdminDashboard() {
           {active === "team" && <section className="space-y-5">
             <div className="flex items-center justify-between"><div><p className="text-xs font-black text-emerald-700">تیم Trustence</p><h2 className="mt-1 text-2xl font-black">اعضای تیم</h2><p className="mt-1 text-sm text-slate-400">اطلاعات، تصاویر، لینک‌ها و ترتیب نمایش اعضای تیم</p></div><button onClick={() => openEditor("team")} className="flex items-center gap-2 rounded-2xl bg-gradient-to-l from-emerald-600 to-emerald-800 px-4 py-3 text-sm font-bold text-white shadow-lg shadow-emerald-800/20"><Plus size={18} />عضو جدید</button></div>
             <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">{filteredTeam.map((member) => <article key={member.id} className="group overflow-hidden rounded-[1.8rem] border border-white bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-emerald-950/10">
-              <div className="relative h-56 overflow-hidden bg-slate-200"><div className="absolute inset-0 bg-cover bg-center transition duration-500 group-hover:scale-105" style={{ backgroundImage: `url("${mediaUrl(member.profile)}")` }} /><div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" /><div className="absolute bottom-4 right-4 text-white"><h3 className="text-xl font-black">{member.name}</h3><p className="mt-1 text-sm text-emerald-200">{member.position}</p></div><span className={`absolute left-4 top-4 rounded-full px-3 py-1 text-[10px] font-black backdrop-blur ${member.is_published ? "bg-white/90 text-emerald-800" : "bg-slate-950/70 text-white"}`}>{member.is_published ? "فعال" : "مخفی"}</span></div>
-              <div className="p-5"><p className="line-clamp-3 min-h-[4.5rem] text-sm leading-6 text-slate-500">{member.bio || "بیوگرافی ثبت نشده است."}</p><div className="mt-4 flex items-center justify-between border-t border-slate-100 pt-4"><span className="text-xs text-slate-400">ترتیب نمایش: {formatNumber(member.sort_order)}</span><div className="flex items-center gap-2"><button type="button" aria-label={`ویرایش ${member.name}`} onClick={() => openEditor("team", member)} className="grid h-10 w-10 place-items-center rounded-xl bg-blue-50 text-blue-600 transition hover:bg-blue-600 hover:text-white"><Pencil size={16} /></button><button type="button" aria-label={`حذف ${member.name}`} onClick={() => remove(`/admin/team/${member.id}`, member.name)} className="grid h-10 w-10 place-items-center rounded-xl bg-rose-50 text-rose-600 transition hover:bg-rose-600 hover:text-white"><Trash2 size={16} /></button></div></div></div>
+              <div className="relative h-56 overflow-hidden bg-slate-200"><div className="absolute inset-0 bg-cover bg-center transition duration-500 group-hover:scale-105" style={{ backgroundImage: `url("${mediaUrl(member.profile)}")` }} /><div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" /><div className="absolute bottom-4 right-4 text-white"><h3 className="text-xl font-black">{member.name_fa || member.name_en || member.name}</h3><p className="mt-1 text-sm text-emerald-200">{member.position_fa || member.position_en || member.position}</p></div><span className={`absolute left-4 top-4 rounded-full px-3 py-1 text-[10px] font-black backdrop-blur ${member.is_published ? "bg-white/90 text-emerald-800" : "bg-slate-950/70 text-white"}`}>{member.is_published ? "فعال" : "مخفی"}</span></div>
+              <div className="p-5"><p className="line-clamp-3 min-h-[4.5rem] text-sm leading-6 text-slate-500">{member.bio_fa || member.bio_en || member.bio || "بیوگرافی ثبت نشده است."}</p><div className="mt-3 flex flex-wrap gap-2"><span className={`rounded-full px-2.5 py-1 text-[10px] font-black ${member.name_fa && member.position_fa ? "bg-emerald-50 text-emerald-700" : "bg-amber-50 text-amber-700"}`}>FA {member.name_fa && member.position_fa ? "کامل" : "ناقص"}</span><span className={`rounded-full px-2.5 py-1 text-[10px] font-black ${member.name_en && member.position_en ? "bg-blue-50 text-blue-700" : "bg-amber-50 text-amber-700"}`}>EN {member.name_en && member.position_en ? "کامل" : "ناقص"}</span></div><div className="mt-4 flex items-center justify-between border-t border-slate-100 pt-4"><span className="text-xs text-slate-400">ترتیب نمایش: {formatNumber(member.sort_order)}</span><div className="flex items-center gap-2"><button type="button" aria-label={`ویرایش ${member.name}`} onClick={() => openEditor("team", member)} className="grid h-10 w-10 place-items-center rounded-xl bg-blue-50 text-blue-600 transition hover:bg-blue-600 hover:text-white"><Pencil size={16} /></button><button type="button" aria-label={`حذف ${member.name}`} onClick={() => remove(`/admin/team/${member.id}`, member.name)} className="grid h-10 w-10 place-items-center rounded-xl bg-rose-50 text-rose-600 transition hover:bg-rose-600 hover:text-white"><Trash2 size={16} /></button></div></div></div>
             </article>)}</div>
             {!filteredTeam.length && <div className="rounded-3xl bg-white py-24 text-center text-slate-400">عضوی پیدا نشد.</div>}
           </section>}
